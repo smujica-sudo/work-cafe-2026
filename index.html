@@ -35,7 +35,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER (GRANO DE CAFÉ) --- */
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
@@ -99,7 +99,7 @@
 
         /* GRÁFICOS */
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
-        .pie-box { height: 240px; }
+        .pie-box { height: 210px; } /* Altura reajustada para dar espacio al campo Defectos */
 
         /* UI INDICADORES */
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
@@ -118,7 +118,7 @@
             .logo-box { max-width: 120px; margin: 0 auto; }
             .main-content { display: flex; flex-direction: column; gap: 50px; }
             .chart-box { height: 380px; width: 100%; }
-            .pie-box { height: 300px; width: 100%; }
+            .pie-box { height: 280px; width: 100%; }
             .data-list .item { padding: 14px 5px; }
         }
 
@@ -151,7 +151,7 @@
             gap: 60px !important; 
         }
         body.pdf-export-mode .chart-box { height: 420px !important; }
-        body.pdf-export-mode .pie-box { height: 320px !important; }
+        body.pdf-export-mode .pie-box { height: 280px !important; } /* Reajuste específico para exportación con Defectos */
         /* Oculta los botones interactivos al imprimir */
         body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
     </style>
@@ -215,6 +215,7 @@
                 <div class="item"><div class="label">Humedad</div><div class="value" id="ui-humedad">--%</div></div>
                 <div class="item"><div class="label">Densidad</div><div class="value" id="ui-densidad">-.-- g/ml</div></div>
                 <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-agtron">--</div></div>
+                <div class="item"><div class="label">Defectos</div><div class="value" id="ui-defectos">--</div></div>
             </div>
         </section>
     </main>
@@ -272,13 +273,16 @@
         document.getElementById('ui-humedad').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('ui-agtron').innerText = data.fisico.agtron;
+        
+        // Mapeo del nuevo campo "Defectos" (con fallback si la API aún no lo devuelve)
+        document.getElementById('ui-defectos').innerText = data.fisico.defectos !== undefined ? data.fisico.defectos : "—";
 
         pieChart.data.datasets[0].data = [parseFloat(data.fisico.malla17)||0, parseFloat(data.fisico.malla16)||0, parseFloat(data.fisico.malla15)||0];
         pieChart.update();
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_headerbtn');
+        const cache = localStorage.getItem('santander_cafe_pwa_defects');
         if(cache) {
             render(JSON.parse(cache));
             document.getElementById('preloader').style.display = 'none';
@@ -288,7 +292,7 @@
             const res = await fetch(API_URL);
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_headerbtn', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_pwa_defects', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             document.getElementById('preloader').style.opacity = '0';
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
