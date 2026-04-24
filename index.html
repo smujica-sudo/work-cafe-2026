@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#141414">
-    <title>Work Café Santander | Ficha Técnica de Especialidad</title>
+    <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -15,9 +15,9 @@
         @font-face { font-family: 'SantanderHeadline'; src: url('SantanderHeadline-Bold.woff2') format('woff2'); font-weight: 600; }
 
         :root {
-            --s-red: #EC0000;      --s-dark: #141414;     
+            --s-red: #EC0000; --s-dark: #141414;     
             --s-grey-border: #333333; --s-grey-text: #CCCCCC;   
-            --s-white: #FFFFFF;    --led-green: #248a3d;
+            --s-white: #FFFFFF; --led-green: #248a3d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -31,7 +31,7 @@
             z-index: 9999; transition: opacity 0.5s ease;
         }
         .coffee-bean-loader {
-            width: 80px; height: 80px; fill: var(--s-red);
+            width: 70px; height: 70px; fill: var(--s-red);
             animation: bean-spin 2s infinite ease-in-out;
         }
         @keyframes bean-spin {
@@ -41,42 +41,54 @@
         }
         #preloader p { margin-top: 20px; color: var(--s-white); font-family: 'SantanderHeadline'; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; opacity: 0.7; }
 
-        /* --- DASHBOARD --- */
-        .dashboard-container { width: 95%; max-width: 1600px; margin: 0 auto; padding: 40px 10px; display: flex; flex-direction: column; gap: 40px; position: relative; }
-        .hero-section { display: flex; flex-direction: column; gap: 25px; text-align: center; border-bottom: 1px solid var(--s-grey-border); padding-bottom: 30px; }
-        .logo-container { margin: 0 auto; max-width: 140px; }
-        .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-text); font-style: italic; max-width: 850px; }
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .score-box .val { font-family: 'SantanderHeadline'; font-size: 3.2rem; font-weight: 600; color: var(--s-red); line-height: 1; }
-        .score-box .lbl { font-size: 0.8rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
+        /* --- DASHBOARD REFINADO --- */
+        .dashboard-container { 
+            width: 90%; 
+            max-width: 1300px; /* Reducción para mejor visualización en Desktop */
+            margin: 0 auto; 
+            padding: 40px 0; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 40px; 
+            position: relative; 
+        }
 
-        .section-container h2 { font-family: 'SantanderHeadline'; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--s-grey-border); }
-        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--s-red); }
+        .hero-section { display: flex; flex-direction: column; gap: 20px; text-align: center; border-bottom: 1px solid var(--s-grey-border); padding-bottom: 30px; }
+        .logo-container { margin: 0 auto; max-width: 130px; }
+        .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .review-text { font-size: 1rem; line-height: 1.7; color: var(--s-grey-text); font-style: italic; max-width: 750px; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
         
-        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .data-table .label { color: var(--s-grey-text); font-size: 1rem; }
-        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; }
+        .score-box .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 600; color: var(--s-red); line-height: 1; }
+        .score-box .lbl { font-size: 0.75rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
+
+        .section-container h2 { font-family: 'SantanderHeadline'; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--s-grey-border); }
+        .section-container h2::before { content: ''; width: 3px; height: 16px; background: var(--s-red); }
+        
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .data-table .label { color: var(--s-grey-text); font-size: 0.9rem; }
+        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1rem; }
 
         /* GRÁFICOS */
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; height: 500px; }
-        .pie-wrapper { height: 320px; }
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 20px; height: 400px; }
+        .pie-wrapper { height: 260px; }
 
         /* UI INDICADORES */
         .sync-led { position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-pulse 3s infinite; }
         @keyframes led-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
-        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
+        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
         .fab-pdf:hover { background: var(--s-red); transform: scale(1.1); }
 
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(15px); transition: 0.6s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
-            .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
-            .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 40px; }
+            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 60px 0; gap: 50px; }
+            .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 40px; }
+            .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 30px; }
         }
     </style>
 </head>
@@ -85,10 +97,10 @@
 <div id="preloader">
     <svg class="coffee-bean-loader" viewBox="0 0 100 100">
         <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z" fill-opacity="0.1"/>
-        <path d="M50,10 C42,25 42,75 50,90" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-        <path d="M30,50 Q50,40 70,50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <path d="M50,10 C42,25 42,75 50,90" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M30,50 Q50,40 70,50" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
     </svg>
-    <p>Sincronizando Lote</p>
+    <p>Actualizando</p>
 </div>
 
 <div id="sync-led" class="sync-led"></div>
@@ -149,14 +161,14 @@
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
         data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#EC0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#141414' }] },
-        options: { animation:false, responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:18, weight:700}, padding:25}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
+        options: { animation:false, responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:14, weight:600}, padding:20}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
     });
 
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
         data: { labels:['Malla 17','Malla 16','Malla 15'], datasets:[{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#141414', borderWidth:4 }] },
-        options: { animation:false, responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#888', font:{size:14}}} } }
+        options: { animation:false, responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:15, color:'#888', font:{size:12}}} } }
     });
 
     function updateUI(data) {
@@ -187,61 +199,39 @@
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_final_cache');
-        if (cached) { updateUI(JSON.parse(cached)); setTimeout(() => { document.getElementById('preloader').style.display='none'; }, 500); }
+        const cached = localStorage.getItem('cafe_v_final_cache');
+        if (cached) { updateUI(JSON.parse(cached)); document.getElementById('preloader').style.opacity='0'; setTimeout(()=>document.getElementById('preloader').style.display='none', 500); }
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            updateUI(data); localStorage.setItem('cafe_final_cache', JSON.stringify(data));
+            updateUI(data); localStorage.setItem('cafe_v_final_cache', JSON.stringify(data));
             document.getElementById('sync-led').style.backgroundColor = '#248a3d';
             document.getElementById('preloader').style.display='none';
         } catch (e) { document.getElementById('sync-led').style.backgroundColor = '#EC0000'; document.getElementById('preloader').style.display='none'; }
     }
 
-    // --- FUNCIÓN DE DESCARGA PDF REPARADA (SISTEMA DE CLONACIÓN DIRECTA) ---
+    // --- FUNCIÓN DE EXPORTACIÓN (Sigue siendo de 1600px para calidad PDF) ---
     async function exportPDF() {
         const preloader = document.getElementById('preloader');
         preloader.style.display = 'flex';
         preloader.querySelector('p').innerText = "Generando PDF...";
 
         const originalArea = document.getElementById('export-area');
-        
-        // Crear un contenedor de renderizado real para el PDF
         const pdfContainer = document.createElement('div');
         pdfContainer.style.cssText = "position:fixed; top:0; left:0; width:1600px; height:1100px; background:#141414; z-index:-1; padding:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:40px; color:white; overflow:hidden;";
         
-        // Clonar el contenido
         pdfContainer.innerHTML = originalArea.innerHTML;
         document.body.appendChild(pdfContainer);
 
-        // Convertir Canvases a imágenes estáticas de alta resolución
         const radarCanvas = pdfContainer.querySelector('#radarChart');
         const pieCanvas = pdfContainer.querySelector('#pieChart');
-        
-        const radarImg = document.createElement('img');
-        radarImg.src = radarChart.toDataURL('image/png', 1.0);
-        radarImg.style.width = "100%";
-        radarCanvas.replaceWith(radarImg);
+        const radarImg = document.createElement('img'); radarImg.src = radarChart.toDataURL('image/png', 1.0); radarImg.style.width = "100%"; radarCanvas.replaceWith(radarImg);
+        const pieImg = document.createElement('img'); pieImg.src = pieChart.toDataURL('image/png', 1.0); pieImg.style.width = "100%"; pieCanvas.replaceWith(pieImg);
 
-        const pieImg = document.createElement('img');
-        pieImg.src = pieChart.toDataURL('image/png', 1.0);
-        pieImg.style.width = "100%";
-        pieCanvas.replaceWith(pieImg);
+        const opt = { margin: 0, filename: 'Ficha_WorkCafe_Santander.pdf', image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 1, backgroundColor: '#141414', useCORS: true }, jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } };
 
-        const opt = {
-            margin: 0,
-            filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
-            image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 1, backgroundColor: '#141414', useCORS: true, logging: false },
-            jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
-        };
-
-        try {
-            await html2pdf().set(opt).from(pdfContainer).save();
-        } finally {
-            document.body.removeChild(pdfContainer);
-            preloader.style.display = 'none';
-        }
+        try { await html2pdf().set(opt).from(pdfContainer).save(); } 
+        finally { document.body.removeChild(pdfContainer); preloader.style.display = 'none'; }
     }
 
     const observer = new IntersectionObserver((entries) => {
