@@ -207,7 +207,6 @@
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
-            // Etiquetas multilínea de marcador de posición (se actualizarán en render)
             labels: [['0', 'Fragancia'], ['0', 'Sabor'], ['0', 'Residual'], ['0', 'Acidez'], ['0', 'Cuerpo'], ['0', 'Balance'], ['0', 'Dulzor']],
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
@@ -233,25 +232,25 @@
     });
 
     const pieChart = new Chart(document.getElementById('pieChart'), {
-        type: 'doughnut',
+        type: 'pie', // Convertido a gráfico de torta rellenado
         data: {
             labels: ['Malla 17', 'Malla 16', 'Malla 15'],
-            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:4 }]
+            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:2 }]
         },
         options: { 
             animation: false, 
             responsive: true, 
             maintainAspectRatio: false, 
-            cutout: '60%', 
             plugins: { 
                 legend: {display:false}, 
                 datalabels: {
                     color: '#ffffff', 
-                    font: { size: 10, weight: 600 },
+                    font: { size: 12, weight: 600 }, // Fuente un poco más grande
                     textAlign: 'center',
                     formatter: function(value, context) {
                         if (value <= 0) return null;
-                        return context.chart.data.labels[context.dataIndex] + '\n' + value + '%';
+                        // Solo retorna el porcentaje sin el nombre de la malla
+                        return value + '%';
                     }
                 }
             } 
@@ -283,7 +282,6 @@
             });
         }
 
-        // Actualización dinámica de etiquetas multilínea para el gráfico de radar
         const s = data.sensorial || [0,0,0,0,0,0,0];
         radarChart.data.labels = [
             [s[0], 'Fragancia'],
@@ -326,7 +324,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v21');
+        const cache = localStorage.getItem('santander_cafe_light_v22');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -340,7 +338,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v21', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v22', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
