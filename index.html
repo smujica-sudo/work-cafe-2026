@@ -267,4 +267,51 @@
             document.getElementById('ui-roast-perfil').innerText = data.roasting.perfil || "—"; 
         }
         
-        let humValue = "
+        let humValue = "—"; if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") { let humNum = cleanPercentage(data.fisico.humedad); humValue = Number.isInteger(humNum) ? humNum + '%' : humNum.toFixed(1).replace('.', ',') + '%'; }
+        document.getElementById('ui-humedad').innerText = humValue;
+        document.getElementById('ui-densidad').innerText = String(data.fisico.densidad || "—").replace('g/ml','').trim() + ' g/ml';
+        document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
+        document.getElementById('ui-grado').innerText = (data.fisico.grado !== undefined && data.fisico.grado !== "") ? data.fisico.grado : "—";
+        document.getElementById('ui-malla-desc').innerText = data.fisico.malla_desc || "—";
+        
+        pieChart.data.datasets[0].data = [cleanPercentage(data.fisico.malla17), cleanPercentage(data.fisico.malla16), cleanPercentage(data.fisico.malla15)]; pieChart.update();
+    }
+
+    async function bootstrap() {
+        const cache = localStorage.getItem('santander_cafe_light_v27');
+        const preloader = document.getElementById('preloader');
+        if(cache) { render(JSON.parse(cache)); preloader.style.display = 'none'; }
+        try {
+            const res = await fetch(API_URL);
+            const fresh = await res.json(); render(fresh);
+            localStorage.setItem('santander_cafe_light_v27', JSON.stringify(fresh));
+            document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
+            preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500);
+        } catch (e) { document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)'; }
+    }
+
+    async function downloadPDF() {
+        const loader = document.getElementById('preloader');
+        const targetElement = document.getElementById('export-area');
+        try {
+            document.getElementById('status-text').innerText = "Generando PDF...";
+            loader.style.display = 'flex'; loader.style.opacity = '1';
+            await new Promise(r => setTimeout(r, 200));
+            document.body.classList.add('pdf-export-mode');
+            radarChart.resize(); pieChart.resize();
+            await new Promise(r => setTimeout(r, 500));
+            const radarCanvas = document.getElementById('radarChart'); const pieCanvas = document.getElementById('pieChart');
+            const radarImg = document.createElement('img'); radarImg.src = radarChart.toBase64Image(); radarImg.style.width = '100%'; radarImg.id = 'temp-radar';
+            const pieImg = document.createElement('img'); pieImg.src = pieChart.toBase64Image(); pieImg.style.width = '100%'; pieImg.id = 'temp-pie';
+            radarCanvas.style.display = 'none'; pieCanvas.style.display = 'none';
+            radarCanvas.parentNode.appendChild(radarImg); pieCanvas.parentNode.appendChild(pieImg);
+            const opt = { margin: 0, filename: 'WorkCafe_Santander_Ficha.pdf', image: { type: 'jpeg', quality: 1.0 }, html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 }, jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } };
+            await html2pdf().set(opt).from(targetElement).save();
+            document.getElementById('temp-radar').remove(); document.getElementById('temp-pie').remove();
+            radarCanvas.style.display = 'block'; pieCanvas.style.display = 'block';
+        } finally { document.body.classList.remove('pdf-export-mode'); radarChart.resize(); pieChart.resize(); loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+    }
+    window.onload = bootstrap;
+</script>
+</body>
+</html>
