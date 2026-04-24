@@ -20,25 +20,37 @@
             --border-color: #2A2A2A;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        /* Reset estricto para evitar desbordes en Android */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body, html {
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden; /* CRÍTICO: Previene el scroll horizontal en Android */
+        }
 
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-matte);
             color: var(--text-light);
             line-height: 1.5;
-            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%; /* Evita que Android agrande las fuentes */
         }
 
-        /* --- DIAGRAMACIÓN BASE (MOBILE FIRST) --- */
+        /* --- DIAGRAMACIÓN BASE (ULTRA-MOBILE FIRST) --- */
         .dashboard-container {
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 15px;
+            padding: 12px; /* Padding reducido para ganar espacio en móvil */
             display: grid;
-            gap: 15px;
+            gap: 12px; /* Espaciado entre tarjetas reducido */
             grid-template-columns: 1fr; 
         }
 
@@ -46,17 +58,24 @@
             background-color: var(--card-matte);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px; /* Menos padding interno en móvil */
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            width: 100%;
         }
 
         .card h2 { 
-            font-size: 1.05rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 1px; margin-bottom: 15px; color: var(--text-light); 
-            display: flex; align-items: center; gap: 10px; 
-            border-bottom: 1px solid var(--border-color); padding-bottom: 10px;
+            font-size: 1rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            margin-bottom: 12px; 
+            color: var(--text-light); 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 10px;
         }
         .card h2::before { content: ''; width: 4px; height: 16px; background: var(--santander-red); }
 
@@ -65,59 +84,76 @@
             text-align: center;
             background-color: #161616;
             border-top: 5px solid var(--santander-red);
-            padding: 25px 15px;
+            padding: 20px 15px;
         }
-        .logo-text { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .logo-text { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.5px; margin-bottom: 6px; }
         .logo-text span { color: var(--santander-red); }
-        .hero-title h1 { font-size: 1.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 5px; text-transform: uppercase; }
-        .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 1px; font-size: 0.75rem; }
+        .hero-title h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; }
+        .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 1px; font-size: 0.7rem; }
 
-        .score-box { text-align: center; margin: 15px 0 0 0; }
-        .score-box .val { font-size: 3.2rem; font-weight: 800; color: var(--santander-red); line-height: 1; }
-        .score-box .lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px;}
+        .score-box { text-align: center; margin: 12px 0 0 0; }
+        .score-box .val { font-size: 3rem; font-weight: 800; color: var(--santander-red); line-height: 1; }
+        .score-box .lbl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;}
 
-        /* --- TABLAS Y DATOS --- */
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table tr { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
-        .data-table td { padding: 0; border: none; text-align: left !important; }
-        .data-table td:first-child { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-        .data-table td:last-child { font-weight: 600; color: var(--text-light); font-size: 0.95rem; line-height: 1.3; }
+        /* --- TABLAS: Convertidas a Flexbox para Android --- */
+        .data-table { 
+            width: 100%; 
+            display: flex;
+            flex-direction: column;
+        }
+        .data-table .row { 
+            display: flex; 
+            justify-content: space-between; /* Izquierda y Derecha */
+            align-items: center;
+            padding: 10px 0; 
+            border-bottom: 1px solid var(--border-color); 
+            gap: 10px;
+        }
+        .data-table .row:last-child { border-bottom: none; }
+        
+        .data-table .label { 
+            color: var(--text-muted); 
+            font-size: 0.75rem; 
+            flex: 1;
+        }
+        .data-table .value { 
+            font-weight: 600; 
+            color: var(--text-light); 
+            font-size: 0.85rem; 
+            text-align: right; 
+            flex: 1;
+            word-break: break-word; /* Evita que textos largos rompan la pantalla */
+        }
 
-        /* --- WRAPPERS DE GRÁFICOS DIFERENCIADOS --- */
+        /* --- WRAPPERS DE GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; }
-        .radar-wrapper { height: 280px; } /* Gráfico de araña MÁS GRANDE en móvil */
-        .pie-wrapper { height: 180px; } /* Dona compacta */
+        .radar-wrapper { height: 260px; } /* Adaptado para no salirse en Android */
+        .pie-wrapper { height: 180px; }
 
         /* --- NOTAS DE SABOR --- */
-        .review-text { font-size: 0.95rem; line-height: 1.6; color: #CCC; font-style: italic; text-align: center; margin: 15px 0; font-weight: 400; }
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+        .review-text { font-size: 0.9rem; line-height: 1.5; color: #CCC; font-style: italic; text-align: center; margin: 10px 0; font-weight: 400; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px; }
         .tag { 
             border: 1px solid var(--santander-red); 
             color: var(--santander-red); 
-            background: transparent;
-            padding: 6px 15px; 
-            border-radius: 30px; 
-            font-size: 0.75rem; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.7rem; 
             font-weight: 700; 
             text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
         }
 
         /* --- BOTÓN FLOTANTE --- */
         .fab-pdf {
             position: fixed; bottom: 20px; right: 20px; 
             background: var(--santander-red); color: white;
-            width: 55px; height: 55px; border-radius: 50%;
+            width: 50px; height: 50px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6); border: none; z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8); border: none; z-index: 1000;
         }
 
-        .animate-up { opacity: 0; transform: translateY(15px); transition: opacity 0.5s ease-out, transform 0.5s ease-out; }
-        .animate-up.in-view { opacity: 1; transform: translateY(0); }
-
         /* =========================================
-           MEDIA QUERIES (DESKTOP)
+           MEDIA QUERIES (TABLET Y DESKTOP)
            ========================================= */
         @media (min-width: 768px) {
             .dashboard-container { padding: 30px; gap: 20px; grid-template-columns: 1fr 1fr; }
@@ -125,20 +161,12 @@
             .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding: 30px 40px; }
             .hero-title h1 { font-size: 2.3rem; }
             .score-box .val { font-size: 3.8rem; }
-            
-            .data-table tr { display: table-row; padding: 0; border-bottom: none; }
-            .data-table td { display: table-cell; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
-            .data-table td:first-child { font-size: 0.85rem; text-transform: none; letter-spacing: normal; margin-bottom: 0; width: 45%; }
-            .data-table td:last-child { font-size: 0.85rem; text-align: right !important; width: 55%; }
-            
             .review-card { grid-column: 1 / -1; }
-            
-            /* Aumentamos dramáticamente el radar en Desktop */
             .radar-wrapper { height: 340px; margin-bottom: 25px; } 
             .pie-wrapper { height: 220px; }
-
             .fab-pdf { bottom: 30px; right: 30px; width: 60px; height: 60px; cursor: pointer; }
-            .card:hover { transform: translateY(-5px); border-color: var(--santander-red); }
+            .data-table .label { font-size: 0.85rem; }
+            .data-table .value { font-size: 0.9rem; }
         }
 
         @media (min-width: 1024px) {
@@ -154,7 +182,7 @@
         }
 
         /* =========================================
-           MODO EXPORTACIÓN "ONE-PAGER" (TAMAÑO FIJO ESTRICTO)
+           MODO EXPORTACIÓN "ONE-PAGER"
            ========================================= */
         .pdf-export-mode {
             width: 1400px !important; 
@@ -168,29 +196,26 @@
             overflow: hidden !important; 
         }
         
-        .pdf-export-mode .card { padding: 20px !important; box-shadow: none !important; transform: none !important; }
+        .pdf-export-mode .card { padding: 20px !important; }
         .pdf-export-mode .hero-card { grid-column: 1 / 4 !important; flex-direction: row !important; text-align: left !important; padding: 25px 40px !important;}
         .pdf-export-mode .sensory-card { grid-column: 1 / 2 !important; }
         .pdf-export-mode .trace-card { grid-column: 2 / 3 !important; }
         .pdf-export-mode .physic-card { grid-column: 3 / 4 !important; }
         .pdf-export-mode .review-card { grid-column: 1 / 4 !important; flex-direction: row !important; align-items: center !important; padding: 20px 40px !important; }
         
-        /* Ajustes de gráficos para que encajen en el PDF manteniendo el radar grande */
         .pdf-export-mode .radar-wrapper { height: 260px !important; margin-bottom: 15px !important; }
         .pdf-export-mode .pie-wrapper { height: 160px !important; margin-bottom: 10px !important; }
         
-        .pdf-export-mode .data-table tr { display: table-row !important; }
-        .pdf-export-mode .data-table td { display: table-cell !important; padding: 8px 0 !important; border-bottom: 1px solid var(--border-color) !important; }
-        .pdf-export-mode .data-table td:first-child { font-size: 0.8rem !important; text-transform: none !important; margin-bottom: 0 !important; width: 45%; }
-        .pdf-export-mode .data-table td:last-child { font-size: 0.85rem !important; text-align: right !important; }
+        .pdf-export-mode .data-table .row { padding: 8px 0 !important; }
+        .pdf-export-mode .data-table .label { font-size: 0.8rem !important; }
+        .pdf-export-mode .data-table .value { font-size: 0.85rem !important; }
         .pdf-export-mode .score-box .val { font-size: 3rem !important; }
-        .pdf-export-mode .review-text { font-size: 0.9rem !important; }
     </style>
 </head>
 <body>
 
 <div id="export-area" class="dashboard-container">
-    <div class="card hero-card animate-up">
+    <div class="card hero-card">
         <div>
             <div class="logo-text">WORK <span>CAFÉ</span> SANTANDER</div>
             <div class="hero-title">
@@ -204,54 +229,54 @@
         </div>
     </div>
 
-    <div class="card sensory-card animate-up">
+    <div class="card sensory-card">
         <h2>Evaluación Sensorial</h2>
         <div class="chart-wrapper radar-wrapper">
             <canvas id="radarChart"></canvas>
         </div>
-        <table class="data-table">
-            <tr><td>Fragancia / Aroma</td><td>7.5</td></tr>
-            <tr><td>Sabor</td><td>8.0</td></tr>
-            <tr><td>Sabor Residual</td><td>7.75</td></tr>
-            <tr><td>Acidez</td><td>7.5</td></tr>
-            <tr><td>Cuerpo</td><td>8.25</td></tr>
-            <tr><td>Balance</td><td>8.0</td></tr>
-            <tr><td>Dulzor</td><td>7.75</td></tr>
-        </table>
+        <div class="data-table">
+            <div class="row"><div class="label">Fragancia / Aroma</div><div class="value">7.5</div></div>
+            <div class="row"><div class="label">Sabor</div><div class="value">8.0</div></div>
+            <div class="row"><div class="label">Sabor Residual</div><div class="value">7.75</div></div>
+            <div class="row"><div class="label">Acidez</div><div class="value">7.5</div></div>
+            <div class="row"><div class="label">Cuerpo</div><div class="value">8.25</div></div>
+            <div class="row"><div class="label">Balance</div><div class="value">8.0</div></div>
+            <div class="row"><div class="label">Dulzor</div><div class="value">7.75</div></div>
+        </div>
     </div>
 
-    <div class="card trace-card animate-up">
+    <div class="card trace-card">
         <h2>Trazabilidad</h2>
-        <table class="data-table" style="margin-bottom: auto;">
-            <tr><td>Origen</td><td>Perú - Brasil</td></tr>
-            <tr><td>Región</td><td>Pangoa - Carmo de Minas</td></tr>
-            <tr><td>Productor</td><td>Productores Regionales</td></tr>
-            <tr><td>Altitud</td><td>900 - 1800 MSNM</td></tr>
-            <tr><td>Varietales</td><td>Caturra, Catuai, Bourbon, Mundo Novo</td></tr>
-            <tr><td>Proceso</td><td>Lavado & Natural</td></tr>
-            <tr><td>Certificaciones</td><td style="color: var(--santander-red);">RFA / Fair Trade</td></tr>
-        </table>
+        <div class="data-table">
+            <div class="row"><div class="label">Origen</div><div class="value">Perú - Brasil</div></div>
+            <div class="row"><div class="label">Región</div><div class="value">Pangoa - Carmo de Minas</div></div>
+            <div class="row"><div class="label">Productor</div><div class="value">Productores Regionales</div></div>
+            <div class="row"><div class="label">Altitud</div><div class="value">900 - 1800 MSNM</div></div>
+            <div class="row"><div class="label">Varietales</div><div class="value">Caturra, Catuai, Bourbon</div></div>
+            <div class="row"><div class="label">Proceso</div><div class="value">Lavado & Natural</div></div>
+            <div class="row"><div class="label">Certificaciones</div><div class="value" style="color: var(--santander-red);">RFA / Fair Trade</div></div>
+        </div>
     </div>
 
-    <div class="card physic-card animate-up">
+    <div class="card physic-card">
         <h2>Criba / Análisis Físico</h2>
         <div class="chart-wrapper pie-wrapper">
             <canvas id="pieChart"></canvas>
         </div>
-        <table class="data-table">
-            <tr><td>Humedad</td><td>10.1%</td></tr>
-            <tr><td>Densidad</td><td>0.78 g/ml</td></tr>
-            <tr><td>Defectos Totales</td><td>7 pts</td></tr>
-            <tr><td>Tueste</td><td>Agtron 50</td></tr>
-        </table>
+        <div class="data-table">
+            <div class="row"><div class="label">Humedad</div><div class="value">10.1%</div></div>
+            <div class="row"><div class="label">Densidad</div><div class="value">0.78 g/ml</div></div>
+            <div class="row"><div class="label">Defectos</div><div class="value">7 pts</div></div>
+            <div class="row"><div class="label">Tueste</div><div class="value">Agtron 50</div></div>
+        </div>
     </div>
 
-    <div class="card review-card animate-up">
+    <div class="card review-card">
         <div>
             <h2>Perfil de Taza</h2>
         </div>
         <p class="review-text">
-            "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida, cremosa y reconfortante."
+            "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida y reconfortante."
         </p>
         <div class="tags">
             <span class="tag">Chocolate</span>
@@ -262,20 +287,11 @@
     </div>
 </div>
 
-<button class="fab-pdf animate-up" onclick="exportPDF()" aria-label="Descargar PDF">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+<button class="fab-pdf" onclick="exportPDF()" aria-label="Descargar PDF">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
 <script>
-    // --- ANIMACIONES ON SCROLL ---
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('in-view');
-        });
-    }, { threshold: 0.05 }); 
-    document.querySelectorAll('.animate-up').forEach((el) => observer.observe(el));
-
-    // --- CONFIGURACIÓN GRÁFICOS (MATTE THEME) ---
     Chart.defaults.color = '#888888';
     Chart.defaults.font.family = 'Montserrat';
 
@@ -292,19 +308,17 @@
                 borderWidth: 2,
                 pointBackgroundColor: '#121212',
                 pointBorderColor: '#B30000',
-                pointRadius: 4,  // Puntos ligeramente más grandes
-                pointHoverRadius: 6
+                pointRadius: 3
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            animation: { duration: 0 }, 
             scales: {
                 r: {
                     angleLines: { color: '#2A2A2A' },
                     grid: { color: '#2A2A2A' },
-                    pointLabels: { font: { size: 10, weight: 600 } }, // Etiquetas un poco más grandes
+                    pointLabels: { font: { size: 9, weight: 600 } }, 
                     ticks: { display: false },
                     min: 6, max: 9
                 }
@@ -323,15 +337,13 @@
                 data: [58.6, 34.3, 7.1],
                 backgroundColor: ['#B30000', '#404040', '#222222'],
                 borderColor: '#1C1C1C',
-                borderWidth: 2,
-                hoverOffset: 0
+                borderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '70%',
-            animation: { duration: 0 },
             plugins: { 
                 legend: { position: 'bottom', labels: { color: '#888', font: {size: 10, family: 'Montserrat'} } }
             }
