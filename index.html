@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0F0F0F">
-    <title>Work Café Santander | Ficha Técnica Especialidad</title>
+    <title>Work Café Santander | Ficha Técnica</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,112 +20,62 @@
             --border-color: rgba(255, 255, 255, 0.08);
         }
 
-        /* --- RESET ESTRICTO Y SMOOTH SCROLLING --- */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-
-        html {
-            scroll-behavior: smooth; 
-            width: 100%; 
-            height: 100%; 
-            overflow-x: hidden;
-        }
+        /* --- RESET Y CONFIGURACIÓN BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
 
         body {
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-dark); 
-            color: var(--text-light); 
-            line-height: 1.5; 
-            -webkit-font-smoothing: antialiased; 
-            -webkit-text-size-adjust: 100%; 
-            position: relative; 
-            overflow-x: hidden;
+            background-color: var(--bg-dark); color: var(--text-light); 
+            line-height: 1.5; -webkit-font-smoothing: antialiased; 
+            -webkit-text-size-adjust: 100%; position: relative; overflow-x: hidden;
         }
 
         /* --- FONDO PARALLAX --- */
         .parallax-bg {
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: 
                 radial-gradient(circle at 15% 15%, rgba(179, 0, 0, 0.04) 0%, transparent 35%),
                 radial-gradient(circle at 85% 85%, rgba(179, 0, 0, 0.02) 0%, transparent 35%);
-            z-index: -1; 
-            transform: translateZ(0); 
+            z-index: -1; transform: translateZ(0); 
         }
 
-        /* --- DIAGRAMACIÓN BASE (FLAT LAYOUT - MOBILE FIRST) --- */
+        /* --- DIAGRAMACIÓN PLANA (FLAT LAYOUT) --- */
         .dashboard-container {
-            width: 100%; 
-            max-width: 1400px; 
-            margin: 0 auto;
-            padding: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
+            width: 100%; max-width: 1400px; margin: 0 auto;
+            padding: 20px; display: flex; flex-direction: column; gap: 30px; 
         }
 
-        .section-container { 
-            width: 100%; 
-            min-width: 0; 
-            padding: 10px 0; 
-        }
-
+        .section-container { width: 100%; min-width: 0; padding: 10px 0; }
+        
         .section-container h2 { 
-            font-size: 0.95rem; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            margin-bottom: 15px; 
-            color: var(--text-light); 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            padding-bottom: 12px;
+            font-size: 1rem; font-weight: 700; text-transform: uppercase; 
+            letter-spacing: 1px; margin-bottom: 20px; color: var(--text-light); 
+            display: flex; align-items: center; gap: 10px; padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
         }
-
         .section-container h2::before { 
-            content: ''; 
-            width: 4px; height: 18px; 
-            background: var(--santander-red); 
-            flex-shrink: 0; 
-            box-shadow: 0 0 12px var(--santander-red-glow);
+            content: ''; width: 4px; height: 18px; background: var(--santander-red); 
+            flex-shrink: 0; box-shadow: 0 0 12px var(--santander-red-glow);
         }
 
-        /* --- HEADER INTEGRADO (Logo + Reseña + Score) --- */
+        /* --- HEADER INTEGRADO --- */
         .hero-section { 
-            padding: 15px 5px; 
+            padding: 20px 5px; 
             border-bottom: 1px solid var(--border-color);
             display: grid;
             grid-template-columns: 1fr auto;
-            grid-template-areas: 
-                "logo score"
-                "review review";
+            grid-template-areas: "logo score" "review review";
             gap: 20px;
             align-items: center;
         }
         
-        .logo-container { 
-            grid-area: logo; 
-            max-width: 120px; 
-            display: flex; 
-            align-items: center; 
-        }
+        .logo-container { grid-area: logo; max-width: 110px; display: flex; align-items: center; }
         .logo-img { width: 100%; height: auto; display: block; filter: brightness(1.1); }
-        .logo-text { font-weight: 800; font-size: 1rem; color: var(--text-light); letter-spacing: -0.5px; }
-        .logo-text span { color: var(--santander-red); }
+        .logo-text { font-weight: 800; font-size: 1rem; color: var(--text-light); }
 
-        .header-review { 
-            grid-area: review; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-        }
+        .header-review { grid-area: review; display: flex; flex-direction: column; gap: 12px; }
         .review-text { 
             font-size: 0.95rem; line-height: 1.7; color: #CCC; 
             font-style: italic; font-weight: 400; text-align: left; max-width: 800px;
@@ -139,31 +89,21 @@
         }
 
         .score-box { grid-area: score; text-align: right; }
-        .score-box .val { 
-            font-size: 3.5rem; font-weight: 800; color: var(--santander-red); 
-            line-height: 1; text-shadow: 0 0 20px var(--santander-red-glow); 
-        }
-        .score-box .lbl { 
-            font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; 
-            letter-spacing: 1px; margin-top: 5px; 
-        }
-        .sync-indicator { font-size: 0.65rem; color: #555; text-align: right; margin-top: 6px; }
+        .score-box .val { font-size: 3.5rem; font-weight: 800; color: var(--santander-red); line-height: 1; text-shadow: 0 0 20px var(--santander-red-glow); }
+        .score-box .lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        .sync-indicator { font-size: 0.65rem; color: #444; text-align: right; margin-top: 6px; }
 
-        /* --- TABLAS PLANAS ANTI-DESBORDE --- */
+        /* --- TABLAS PLANAS --- */
         .data-table { width: 100%; display: flex; flex-direction: column; }
-        .data-table .row { 
-            display: flex; flex-wrap: wrap; justify-content: space-between; 
-            align-items: center; padding: 14px 0; 
-            border-bottom: 1px solid var(--border-color); gap: 10px; 
-        }
+        .data-table .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); gap: 10px; }
         .data-table .row:last-child { border-bottom: none; }
-        .data-table .label { color: var(--text-muted); font-size: 0.85rem; flex: 1 1 40%; min-width: 100px; }
-        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.95rem; text-align: right; flex: 1 1 50%; word-wrap: break-word; }
+        .data-table .label { color: var(--text-muted); font-size: 0.85rem; flex: 1 1 40%; }
+        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.95rem; text-align: right; flex: 1 1 50%; }
 
         /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; }
-        .radar-wrapper { height: 320px; max-width: 100%; } 
-        .pie-wrapper { height: 220px; max-width: 100%; }
+        .radar-wrapper { height: 350px; } 
+        .pie-wrapper { height: 220px; }
 
         /* --- BOTÓN FLOTANTE --- */
         .fab-pdf { 
@@ -180,99 +120,50 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* =========================================
-           MEDIA QUERIES (DESKTOP DASHBOARD)
+           MEDIA QUERIES (DESKTOP)
            ========================================= */
         @media (min-width: 768px) {
             .dashboard-container { 
-                padding: 40px; 
-                gap: 40px; 
-                display: grid; 
-                grid-template-columns: 1fr 1fr; 
-                grid-template-areas: 
-                    "hero hero" 
-                    "sensory trace" 
-                    "physic physic";
+                padding: 40px; gap: 40px; display: grid; grid-template-columns: 1fr 1fr; 
+                grid-template-areas: "hero hero" "sensory trace" "physic physic";
             }
-            .section-container { padding: 0; }
-            
             .hero-section { 
-                grid-area: hero; 
-                display: grid;
-                grid-template-columns: auto 1fr auto; 
-                grid-template-areas: "logo review score"; 
-                gap: 50px; 
-                padding: 20px 10px; 
+                grid-area: hero; grid-template-columns: auto 1fr auto; 
+                grid-template-areas: "logo review score"; gap: 50px; padding: 30px 10px; 
             }
-            .logo-container { max-width: 150px; }
+            .logo-container { max-width: 140px; }
             .score-box { border-left: 1px solid var(--border-color); padding-left: 40px; }
             .score-box .val { font-size: 4.5rem; }
-            
-            .sensory-section { grid-area: sensory; }
-            .trace-section { grid-area: trace; }
-            .physic-section { grid-area: physic; }
-            
-            .radar-wrapper { height: 380px; } 
-            .pie-wrapper { height: 240px; }
+            .radar-wrapper { height: 420px; } 
         }
 
         @media (min-width: 1024px) {
             .dashboard-container { 
-                grid-template-columns: repeat(3, 1fr); 
-                padding: 60px; 
-                gap: 50px;
-                grid-template-areas: 
-                    "hero hero hero" 
-                    "sensory trace physic";
+                grid-template-columns: repeat(3, 1fr); padding: 60px; gap: 50px;
+                grid-template-areas: "hero hero hero" "sensory trace physic";
             }
             .hero-section { padding: 30px 0; }
-            .radar-wrapper { height: 400px; }
         }
 
         /* =========================================
-           MODO EXPORTACIÓN "ONE-PAGER" (PDF)
+           MODO EXPORTACIÓN PDF
            ========================================= */
         .pdf-export-mode {
-            width: 1400px !important; 
-            height: 990px !important; 
-            padding: 40px 60px !important; 
-            gap: 30px !important;
-            background: var(--bg-dark) !important; 
-            display: grid !important; 
+            width: 1400px !important; height: 990px !important; padding: 40px 60px !important; gap: 30px !important;
+            background: var(--bg-dark) !important; display: grid !important; 
             grid-template-columns: repeat(3, 1fr) !important;
-            grid-template-areas: 
-                "hero hero hero" 
-                "sensory trace physic" !important;
-            grid-template-rows: max-content 1fr !important; 
-            box-sizing: border-box !important; 
-            overflow: hidden !important; 
+            grid-template-areas: "hero hero hero" "sensory trace physic" !important;
+            grid-template-rows: max-content 1fr !important; box-sizing: border-box !important; overflow: hidden !important; 
         }
-        .pdf-export-mode .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .pdf-export-mode .reveal { opacity: 1 !important; transform: none !important; }
         .pdf-export-mode .parallax-bg { display: none !important; }
-        
-        .pdf-export-mode .section-container { padding: 10px 0 !important; }
-        
         .pdf-export-mode .hero-section { 
-            grid-area: hero !important; 
-            display: grid !important; 
+            grid-area: hero !important; display: grid !important; 
             grid-template-columns: auto 1fr auto !important; 
             grid-template-areas: "logo review score" !important;
-            gap: 50px !important; 
-            padding: 20px 0 !important;
+            gap: 50px !important; padding: 20px 0 !important;
         }
-        .pdf-export-mode .logo-container { max-width: 150px !important; }
-        .pdf-export-mode .score-box { border-left: 1px solid var(--border-color) !important; padding-left: 40px !important;}
-        
-        .pdf-export-mode .sensory-section { grid-area: sensory !important; }
-        .pdf-export-mode .trace-section { grid-area: trace !important; }
-        .pdf-export-mode .physic-section { grid-area: physic !important; }
-        
         .pdf-export-mode .radar-wrapper { height: 320px !important; }
-        .pdf-export-mode .pie-wrapper { height: 180px !important; }
-        
-        .pdf-export-mode .data-table .row { padding: 8px 0 !important; }
-        .pdf-export-mode .data-table .label { font-size: 0.8rem !important; }
-        .pdf-export-mode .data-table .value { font-size: 0.85rem !important; }
-        .pdf-export-mode .score-box .val { font-size: 4rem !important; }
     </style>
 </head>
 <body>
@@ -284,7 +175,7 @@
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
             <img src="logo-workcafe.png" alt="Work Café Santander" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="logo-text" style="display: none;">WORK <span>CAFÉ</span> SANTANDER</div>
+            <div class="logo-text" style="display: none;">WORK CAFÉ</div>
         </div>
 
         <div class="header-review">
@@ -301,8 +192,8 @@
 
         <div class="score-box">
             <div class="lbl">Puntaje SCA</div>
-            <div class="val" id="ui-sca">—</div>
-            <div id="sync-status" class="sync-indicator">Sincronizando...</div>
+            <div class="val" id="ui-sca">83.5</div>
+            <div id="sync-status" class="sync-indicator">Sincronizando con Sheets...</div>
         </div>
     </header>
 
@@ -312,27 +203,27 @@
             <canvas id="radarChart"></canvas>
         </div>
         <div class="data-table">
-            <div class="row"><div class="label">Fragancia / Aroma</div><div class="value" id="val-fra">—</div></div>
-            <div class="row"><div class="label">Sabor</div><div class="value" id="val-sab">—</div></div>
-            <div class="row"><div class="label">Sabor Residual</div><div class="value" id="val-res">—</div></div>
-            <div class="row"><div class="label">Acidez</div><div class="value" id="val-aci">—</div></div>
-            <div class="row"><div class="label">Cuerpo</div><div class="value" id="val-cue">—</div></div>
-            <div class="row"><div class="label">Balance</div><div class="value" id="val-bal">—</div></div>
-            <div class="row"><div class="label">Dulzor</div><div class="value" id="val-dul">—</div></div>
+            <div class="row"><div class="label">Fragancia / Aroma</div><div class="value" id="val-fra">7.5</div></div>
+            <div class="row"><div class="label">Sabor</div><div class="value" id="val-sab">8.0</div></div>
+            <div class="row"><div class="label">Sabor Residual</div><div class="value" id="val-res">7.75</div></div>
+            <div class="row"><div class="label">Acidez</div><div class="value" id="val-aci">7.5</div></div>
+            <div class="row"><div class="label">Cuerpo</div><div class="value" id="val-cue">8.25</div></div>
+            <div class="row"><div class="label">Balance</div><div class="value" id="val-bal">8.5</div></div>
+            <div class="row"><div class="label">Dulzor</div><div class="value" id="val-dul">7.75</div></div>
         </div>
     </section>
 
     <section class="section-container trace-section reveal">
         <h2>Trazabilidad</h2>
         <div class="data-table">
-            <div class="row"><div class="label">Origen</div><div class="value" id="val-ori">—</div></div>
-            <div class="row"><div class="label">Región</div><div class="value" id="val-reg">—</div></div>
-            <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">—</div></div>
-            <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">—</div></div>
-            <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">—</div></div>
-            <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">—</div></div>
-            <div class="row"><div class="label">Proceso</div><div class="value" id="val-proc">—</div></div>
-            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color: var(--santander-red); font-weight:700;">—</div></div>
+            <div class="row"><div class="label">Origen</div><div class="value" id="val-ori">Perú - Brasil</div></div>
+            <div class="row"><div class="label">Región</div><div class="value" id="val-reg">Pangoa - Carmo</div></div>
+            <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">SANT-ABR-26</div></div>
+            <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">Regionales</div></div>
+            <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">900 - 1800 MSNM</div></div>
+            <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">Caturra, Bourbon</div></div>
+            <div class="row"><div class="label">Proceso</div><div class="value" id="val-proc">Lavado & Natural</div></div>
+            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color: var(--santander-red); font-weight:700;">RFA / Fair Trade</div></div>
         </div>
     </section>
 
@@ -342,9 +233,9 @@
             <canvas id="pieChart"></canvas>
         </div>
         <div class="data-table">
-            <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">—</div></div>
-            <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">—</div></div>
-            <div class="row"><div class="label">Malla 17+ (Zaranda)</div><div class="value" id="val-mal">—</div></div>
+            <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">10.1%</div></div>
+            <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">0.78 g/ml</div></div>
+            <div class="row"><div class="label">Malla 17+ (Zaranda)</div><div class="value" id="val-mal">72.6%</div></div>
             <div class="row"><div class="label">Tueste</div><div class="value">Agtron 50</div></div>
         </div>
     </section>
@@ -356,141 +247,152 @@
 
 <script>
     // ==========================================
-    // URL DEL GOOGLE APPS SCRIPT
+    // URL API (Google Sheets)
     // ==========================================
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
     Chart.defaults.color = '#AAAAAA';
     Chart.defaults.font.family = 'Montserrat';
 
-    // Gráfico Radar (Araña)
+    // Gráfico Radar (Inicia lleno con valores Placeholder para evitar que se quede pegado)
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ 
-                data: [0,0,0,0,0,0,0], 
-                backgroundColor: 'rgba(179, 0, 0, 0.1)', borderColor: '#B30000', borderWidth: 2, 
-                pointBackgroundColor: '#FFF', pointBorderColor: '#B30000', pointRadius: 3 
+            datasets: [{
+                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.5, 7.75], // Placeholder data
+                backgroundColor: 'rgba(179, 0, 0, 0.1)', borderColor: '#B30000', borderWidth: 2,
+                pointBackgroundColor: '#FFF', pointBorderColor: '#B30000', pointRadius: 3
             }]
         },
-        options: { 
-            responsive: true, maintainAspectRatio: false, 
-            scales: { 
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            animation: { duration: 1000, easing: 'easeOutQuart' }, // Animación suave al actualizar
+            scales: {
                 r: { 
                     angleLines: { color: '#333' }, grid: { color: '#333' }, 
                     pointLabels: { color: '#FFF', font: { size: 11, weight: 700, family: 'Montserrat' }, padding: 12 }, 
                     ticks: { display: false }, min: 6, max: 10 
-                } 
-            }, 
-            plugins: { legend: { display: false } } 
+                }
+            },
+            plugins: { legend: { display: false } }
         }
     });
 
-    // Gráfico Pie (Criba)
+    // Gráfico Dona (Inicia lleno)
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { 
-            labels: ['Malla 17', 'Otros'], 
-            datasets: [{ 
-                data: [0, 100], 
-                backgroundColor: ['#B30000', '#222'], borderColor: '#0F0F0F', borderWidth: 3 
-            }] 
+        data: {
+            labels: ['Malla 17', 'Otros'],
+            datasets: [{
+                data: [72.6, 27.4], // Placeholder data
+                backgroundColor: ['#B30000', '#222'], borderColor: '#0F0F0F', borderWidth: 3
+            }]
         },
-        options: { 
-            responsive: true, maintainAspectRatio: false, cutout: '75%', 
-            plugins: { legend: { position: 'bottom', labels: { color: '#AAA', font: {size: 11, family: 'Montserrat'} } } } 
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '75%',
+            animation: { duration: 1000, easing: 'easeOutCirc' },
+            plugins: { legend: { position: 'bottom', labels: { color: '#AAA', font: {size: 11} } } }
         }
     });
 
-    // Sincronización de Datos con Google Sheets
+    // Sync Data Function: Trae los datos de Google Sheets
     async function syncData() {
         try {
             const response = await fetch(SHEET_API_URL);
-            if (!response.ok) throw new Error('Error de red');
+            if (!response.ok) throw new Error('Network Error');
             const data = await response.json();
             
-            // Inyectar UI
+            // Actualización UI Textos
             document.getElementById('ui-sca').innerText = data.sca_total;
+            if(data.lote && data.lote !== "—") document.getElementById('val-lote').innerText = data.lote;
             
-            // Inyectar Trazabilidad
-            document.getElementById('val-ori').innerText = data.trazabilidad.origen;
-            document.getElementById('val-reg').innerText = data.trazabilidad.region;
-            document.getElementById('val-lote').innerText = data.lote;
-            document.getElementById('val-pro').innerText = data.trazabilidad.productor;
-            document.getElementById('val-alt').innerText = data.trazabilidad.altitud;
-            document.getElementById('val-var').innerText = data.trazabilidad.varietales;
-            document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
-            document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
-            
-            // Inyectar Sensorial
-            const idsSens = ['val-fra','val-sab','val-res','val-aci','val-cue','val-bal','val-dul'];
-            idsSens.forEach((id, i) => document.getElementById(id).innerText = data.sensorial[i]);
+            // Actualización Trazabilidad (Solo si existen los datos en el Sheets)
+            if(data.trazabilidad.origen !== "—") document.getElementById('val-ori').innerText = data.trazabilidad.origen;
+            if(data.trazabilidad.region !== "—") document.getElementById('val-reg').innerText = data.trazabilidad.region;
+            if(data.trazabilidad.productor !== "—") document.getElementById('val-pro').innerText = data.trazabilidad.productor;
+            if(data.trazabilidad.altitud !== "—") document.getElementById('val-alt').innerText = data.trazabilidad.altitud;
+            if(data.trazabilidad.varietales !== "—") document.getElementById('val-var').innerText = data.trazabilidad.varietales;
+            if(data.trazabilidad.proceso !== "—") document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
+            if(data.trazabilidad.certificaciones !== "—") document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
+
+            // Actualización Tabla Sensorial
+            document.getElementById('val-fra').innerText = data.sensorial[0];
+            document.getElementById('val-sab').innerText = data.sensorial[1];
+            document.getElementById('val-res').innerText = data.sensorial[2];
+            document.getElementById('val-aci').innerText = data.sensorial[3];
+            document.getElementById('val-cue').innerText = data.sensorial[4];
+            document.getElementById('val-bal').innerText = data.sensorial[5];
+            document.getElementById('val-dul').innerText = data.sensorial[6];
+
+            // Actualización Gráfico Araña (Transición Morphing Automática)
             radarChart.data.datasets[0].data = data.sensorial;
             radarChart.update();
 
-            // Inyectar Físico
-            document.getElementById('val-hum').innerText = data.fisico.humedad;
-            document.getElementById('val-den').innerText = data.fisico.densidad;
-            const m17 = parseFloat(data.fisico.malla17) * 100 || 0;
+            // Análisis Físico Lógica robusta para porcentajes
+            let rawHum = String(data.fisico.humedad).replace('%', '');
+            document.getElementById('val-hum').innerText = rawHum + '%';
+            
+            let rawDen = String(data.fisico.densidad).replace('g/ml', '').trim();
+            document.getElementById('val-den').innerText = rawDen + ' g/ml';
+            
+            // Cálculo a prueba de fallos para Malla 17 (0.726 o "72.6%")
+            let rawM17 = String(data.fisico.malla17).replace(',', '.').replace('%', '');
+            let m17 = parseFloat(rawM17) || 0;
+            if (m17 > 0 && m17 <= 1) m17 = m17 * 100; // Convierte 0.726 a 72.6
+            
             document.getElementById('val-mal').innerText = m17.toFixed(1) + '%';
             pieChart.data.datasets[0].data = [m17, 100 - m17];
             pieChart.update();
 
-            document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● Sincronizado</span>';
-        } catch (e) { 
-            document.getElementById('sync-status').innerText = '○ Offline (Sin datos)'; 
+            // Notificación visual de éxito
+            document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● BD Actualizada</span>';
+        } catch (error) {
+            document.getElementById('sync-status').innerHTML = '○ Servidor Offline';
         }
     }
 
-    // Intersection Observer para animaciones "Reveal"
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { 
-            if (entry.isIntersecting) entry.target.classList.add('active'); 
+    // Scroll Animations
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
         });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    // Efecto Parallax
+    // Parallax Effect
     window.addEventListener('scroll', () => {
         document.getElementById('parallax-bg').style.transform = `translateY(${window.pageYOffset * 0.25}px) translateZ(0)`;
     });
 
-    // Exportación ONE-PAGER PDF
+    // PDF Export Tool
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
         fab.style.display = 'none';
-        
         const element = document.getElementById('export-area');
         element.classList.add('pdf-export-mode');
-        
-        radarChart.resize(); 
-        pieChart.resize();
+        radarChart.resize(); pieChart.resize();
 
         setTimeout(() => {
             const opt = {
-                margin: 0, 
-                filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf', 
-                image: { type: 'jpeg', quality: 1 }, 
-                html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true, logging: false }, 
-                jsPDF: { unit: 'px', format: [1400, 990], orientation: 'landscape' } 
+                margin: 0, filename: 'Ficha_Tecnica_Santander.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true },
+                jsPDF: { unit: 'px', format: [1400, 990], orientation: 'landscape' }
             };
-            
             html2pdf().set(opt).from(element).save().then(() => {
                 element.classList.remove('pdf-export-mode');
-                radarChart.resize(); 
-                pieChart.resize();
+                radarChart.resize(); pieChart.resize();
                 fab.style.display = 'flex'; 
             });
         }, 300);
     }
 
-    window.onload = () => {
-        syncData();
-        document.querySelector('.hero-section').classList.add('active'); // Forzar render del hero
-    };
+    // Inicializar al cargar la ventana
+    window.onload = syncData;
 </script>
+
 </body>
 </html>
