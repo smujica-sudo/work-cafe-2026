@@ -11,12 +11,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA SANTANDER --- */
+        /* --- IDENTIDAD CORPORATIVA --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
         :root {
-            --s-red: #ec0000;      /* Rojo Oficial Matte */
+            --s-red: #ec0000;      /* Rojo Oficial */
             --s-dark: #141414;     /* Negro Plano */
             --s-white: #ffffff;    /* Blanco Puro */
             --s-accent: #deedf2;   /* Celeste Acento */
@@ -31,29 +31,26 @@
             color: var(--s-white); 
             font-family: 'SantanderText', Arial, sans-serif;
             width: 100%; height: 100vh;
-            overflow: hidden; /* Evita scroll en escritorio */
+            overflow: hidden; 
         }
 
-        /* --- PRELOADER (ÍCONO INICIAL RESTAURADO) --- */
+        /* --- PRELOADER (GRANO DE CAFÉ) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
+            z-index: 9999; transition: opacity 0.5s ease;
         }
-        .coffee-loader {
-            width: 80px; height: 80px; margin-bottom: 20px;
-            fill: var(--s-red);
-            animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        .bean-icon {
+            width: 80px; height: 80px; fill: var(--s-red);
+            animation: spin-bean 2s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
         }
-        @keyframes spin { 
-            100% { transform: rotate(360deg); } 
+        @keyframes spin-bean {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
         }
-        #preloader p { 
-            font-family: 'SantanderHeadline'; font-size: 0.8rem; 
-            letter-spacing: 3px; text-transform: uppercase; 
-            color: var(--s-white); opacity: 0.8; 
-        }
+        #status-text { margin-top: 20px; font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-white); opacity: 0.8; }
 
         /* --- DASHBOARD COMPACTO --- */
         .dashboard-container { 
@@ -93,7 +90,7 @@
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
         .pie-box { height: 240px; }
 
-        /* UI INDICADORES Y BOTONES */
+        /* UI INDICADORES */
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
         
@@ -109,13 +106,32 @@
             .score-box { text-align: center; order: -1; }
             .chart-box { height: 400px; }
         }
+
+        /* --- CLASE ACTIVA DURANTE LA GENERACIÓN DEL PDF --- */
+        body.pdf-export-mode { overflow: visible !important; }
+        body.pdf-export-mode .dashboard-container {
+            width: 1600px !important; max-width: 1600px !important;
+            height: 1100px !important;
+            padding: 60px !important;
+            background-color: var(--s-dark);
+            justify-content: flex-start;
+            gap: 50px;
+        }
+        body.pdf-export-mode .header-section { grid-template-columns: 140px 1fr 140px; text-align: left; }
+        body.pdf-export-mode .score-box { text-align: right; order: unset; }
+        body.pdf-export-mode .main-content { grid-template-columns: repeat(3, 1fr); gap: 60px; }
+        body.pdf-export-mode .chart-box { height: 420px; }
+        body.pdf-export-mode .pie-box { height: 320px; }
+        body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
     </style>
 </head>
 <body>
 
 <div id="preloader">
-    <svg class="coffee-loader" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
+    <svg class="bean-icon" viewBox="0 0 100 100">
+        <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z" fill-opacity="0.1"/>
+        <path d="M50,12 C44,25 44,75 50,88" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <path d="M35,50 Q50,42 65,50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
     </svg>
     <p id="status-text">Sincronizando</p>
 </div>
@@ -160,13 +176,13 @@
             <div class="data-list">
                 <div class="item"><div class="label">Humedad</div><div class="value" id="ui-humedad">--%</div></div>
                 <div class="item"><div class="label">Densidad</div><div class="value" id="ui-densidad">-.-- g/ml</div></div>
-                <div class="item"><div class="label">Tueste (Agtron)</div><div class="value" id="ui-agtron">--</div></div>
+                <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-agtron">--</div></div>
             </div>
         </section>
     </main>
 </div>
 
-<button class="btn-pdf" onclick="downloadPDF()" title="Descargar Ficha Imprimible">
+<button class="btn-pdf" onclick="downloadPDF()" title="Descargar Ficha">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
@@ -176,7 +192,6 @@
     Chart.defaults.color = '#888';
     Chart.defaults.font.family = 'SantanderText, Arial';
 
-    // --- INICIALIZACIÓN DE GRÁFICOS ---
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
@@ -199,12 +214,11 @@
         options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#888', font:{size:11}}} } }
     });
 
-    // --- LÓGICA DE DATOS (PWA EXPERT) ---
     function render(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('ui-lote').innerText = data.lote;
-        document.getElementById('ui-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
+        document.getElementById('ui-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando...";
         
         const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
         if(data.review.notas !== "—") {
@@ -230,7 +244,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_cache');
+        const cache = localStorage.getItem('santander_cafe_cache_stable');
         if(cache) {
             render(JSON.parse(cache));
             document.getElementById('preloader').style.display = 'none';
@@ -240,7 +254,7 @@
             const res = await fetch(API_URL);
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_cache', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_cache_stable', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             document.getElementById('preloader').style.display = 'none';
         } catch (e) {
@@ -249,37 +263,82 @@
         }
     }
 
-    // --- EXPORTACIÓN PDF PROFESIONAL ---
+    // --- DESCARGA PDF 100% FUNCIONAL ---
     async function downloadPDF() {
         const loader = document.getElementById('preloader');
-        const original = document.getElementById('export-area');
-        
+        const statusText = document.getElementById('status-text');
+        const targetElement = document.getElementById('export-area');
+
+        // 1. Mostrar pantalla de carga
+        statusText.innerText = "Generando PDF Alta Calidad...";
         loader.style.display = 'flex';
-        loader.style.opacity = '1';
-        document.getElementById('status-text').innerText = "Generando PDF Alta Calidad";
+        
+        // Pequeña pausa para asegurar que el navegador pinta la pantalla de carga
+        await new Promise(resolve => setTimeout(resolve, 300));
 
-        // Clonador para forzar dimensiones de escritorio en el PDF
-        const worker = document.createElement('div');
-        worker.style.cssText = "position:absolute; left:-9999px; top:0; width:1600px; height:1100px; background:#141414; padding:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:50px; color:white; align-content: start;";
-        worker.innerHTML = original.innerHTML;
-        document.body.appendChild(worker);
+        // 2. Aplicar estilos de PDF al DOM real temporalmente
+        document.body.classList.add('pdf-export-mode');
 
-        // Convertir Canvases a imágenes para evitar errores de renderizado en PDF
-        const rImg = document.createElement('img'); rImg.src = radarChart.toDataURL('image/png', 1.0); rImg.style.width = "100%"; worker.querySelector('#radarChart').replaceWith(rImg);
-        const pImg = document.createElement('img'); pImg.src = pieChart.toDataURL('image/png', 1.0); pImg.style.width = "100%"; worker.querySelector('#pieChart').replaceWith(pImg);
+        // Redimensionar gráficos al nuevo tamaño del contenedor (1600px)
+        radarChart.resize();
+        pieChart.resize();
+        
+        // Esperar a que Chart.js aplique el resize visualmente
+        await new Promise(resolve => setTimeout(resolve, 500));
 
+        // 3. Convertir gráficos Canvas a etiquetas Img temporalmente 
+        // (html2canvas a veces omite Canvas en algunas resoluciones)
+        const radarCanvas = document.getElementById('radarChart');
+        const pieCanvas = document.getElementById('pieChart');
+        
+        const radarImg = document.createElement('img');
+        radarImg.src = radarChart.toDataURL('image/png', 1.0);
+        radarImg.style.width = '100%';
+        
+        const pieImg = document.createElement('img');
+        pieImg.src = pieChart.toDataURL('image/png', 1.0);
+        pieImg.style.width = '100%';
+
+        radarCanvas.style.display = 'none';
+        pieCanvas.style.display = 'none';
+        
+        radarCanvas.parentNode.appendChild(radarImg);
+        pieCanvas.parentNode.appendChild(pieImg);
+
+        // 4. Configuración del PDF
         const opt = {
             margin: 0,
             filename: 'WorkCafe_Santander_Ficha.pdf',
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { scale: 1, backgroundColor: '#141414', useCORS: true, width: 1600 },
+            html2canvas: { 
+                scale: 1, 
+                backgroundColor: '#141414', 
+                useCORS: true,
+                width: 1600,
+                height: 1100,
+                windowWidth: 1600, // Fuerza la resolución de escritorio en html2canvas
+                windowHeight: 1100
+            },
             jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
         };
 
         try {
-            await html2pdf().set(opt).from(worker).save();
+            // 5. Generar PDF
+            await html2pdf().set(opt).from(targetElement).save();
+        } catch (error) {
+            console.error("Error generando PDF:", error);
         } finally {
-            document.body.removeChild(worker);
+            // 6. Restaurar el DOM a la normalidad
+            radarImg.remove();
+            pieImg.remove();
+            radarCanvas.style.display = 'block';
+            pieCanvas.style.display = 'block';
+            
+            document.body.classList.remove('pdf-export-mode');
+            radarChart.resize();
+            pieChart.resize();
+
+            // Ocultar Preloader
             loader.style.display = 'none';
         }
     }
