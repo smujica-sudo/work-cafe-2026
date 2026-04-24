@@ -219,7 +219,7 @@
 
 <script>
     // ==========================================
-    // 1. URL DEL GOOGLE APPS SCRIPT (CÁMBIALA POR LA TUYA)
+    // URL DEL GOOGLE APPS SCRIPT
     // ==========================================
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbz_i-w_GMJZEmHufQfgQ_E37h8e6jSPQm7KJFOLAiFjdbekXLlkHNtKposNH0IG1cTypQ/exec";
 
@@ -265,7 +265,7 @@
     });
 
     // ==========================================
-    // 2. FUNCIÓN DE CONEXIÓN CON GOOGLE SHEETS
+    // FUNCIÓN DE CONEXIÓN CON GOOGLE SHEETS
     // ==========================================
     async function syncData() {
         try {
@@ -293,7 +293,7 @@
             radarChart.data.datasets[0].data = data.sensorial;
             radarChart.update();
 
-            // Si envías datos de Malla desde Apps Script, actualiza la dona:
+            // Actualizar Dona (si envías datos de Malla)
             if(data.fisico.malla17) {
                 pieChart.data.datasets[0].data = [data.fisico.malla17, 100 - data.fisico.malla17 - 7.1, 7.1];
                 pieChart.update();
@@ -301,7 +301,7 @@
 
             document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● Sincronizado</span>';
         } catch (error) {
-            console.warn("Usando datos locales estáticos. Verifica la URL de Apps Script.");
+            console.warn("Usando datos locales estáticos. No se pudo conectar al servidor.");
             document.getElementById('sync-status').innerHTML = '○ Modo Offline';
         }
     }
