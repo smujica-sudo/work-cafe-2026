@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD VISUAL SANTANDER (FUENTES OFICIALES) --- */
+        /* --- IDENTIDAD VISUAL SANTANDER --- */
         @font-face {
             font-family: 'SantanderText';
             src: url('SantanderText-Regular.woff2') format('woff2');
@@ -23,135 +23,86 @@
         }
 
         :root {
-            --s-red: #EC0000;      /* Rojo Santander Oficial */
-            --s-dark: #141414;     /* Negro Plano (Matte) */
+            --s-red: #EC0000;      
+            --s-dark: #141414;     
             --s-grey-border: #333333; 
             --s-grey-text: #CCCCCC;   
             --s-white: #FFFFFF;    
             --led-green: #248a3d;
+            --led-red: #EC0000;
         }
 
-        /* --- CONFIGURACIÓN BASE FLAT --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
             background-color: var(--s-dark); 
             color: var(--s-white); 
             font-family: 'SantanderText', Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
             width: 100%;
-            height: 100%;
         }
 
-        /* Contenedor Principal */
         .dashboard-container {
-            width: 95%; max-width: 1600px; margin: 0 auto;
-            padding: 50px 10px; display: flex; flex-direction: column; gap: 50px; 
+            width: 95%; max-width: 1500px; margin: 0 auto;
+            padding: 40px 10px; display: flex; flex-direction: column; gap: 40px; 
             position: relative;
         }
 
         /* --- HEADER --- */
         .hero-section {
-            display: flex; flex-direction: column; gap: 30px; 
+            display: flex; flex-direction: column; gap: 25px; 
             text-align: center; border-bottom: 1px solid var(--s-grey-border); 
-            padding-bottom: 40px;
+            padding-bottom: 30px;
         }
         .logo-container { margin: 0 auto; max-width: 140px; }
         .logo-img { width: 100%; height: auto; }
-
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { 
-            font-size: 1.15rem; line-height: 1.8; color: var(--s-grey-text); 
-            font-style: italic; max-width: 850px; text-wrap: balance; 
-        }
-        
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-        .tag { 
-            border: 1px solid var(--s-red); color: var(--s-white); 
-            padding: 6px 16px; border-radius: 2px; font-size: 0.8rem; 
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-text); font-style: italic; max-width: 850px; text-wrap: balance; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
-        /* --- SCORE SCA (SIN GLOW) --- */
+        /* --- SCORE --- */
         .score-box { text-align: center; }
-        .score-box .val { 
-            font-family: 'SantanderHeadline', sans-serif; 
-            font-size: 3.2rem; font-weight: 600; color: var(--s-red); 
-            line-height: 1; letter-spacing: -1px;
-        }
-        .score-box .lbl { font-size: 0.85rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
+        .score-box .val { font-family: 'SantanderHeadline', sans-serif; font-size: 3.2rem; font-weight: 600; color: var(--s-red); line-height: 1; letter-spacing: -1px; }
+        .score-box .lbl { font-size: 0.8rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
 
         /* --- SECCIONES --- */
-        .section-container h2 { 
-            font-family: 'SantanderHeadline', sans-serif;
-            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); 
-            display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
-            border-bottom: 1px solid var(--s-grey-border);
-        }
+        .section-container h2 { font-family: 'SantanderHeadline', sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--s-grey-border); }
         .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--s-red); }
-
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table .row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: background 0.2s ease;
-        }
-        .data-table .row:hover { background: rgba(236, 0, 0, 0.03); }
+        
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.2s; }
+        .data-table .row:hover { background: rgba(255, 255, 255, 0.03); }
         .data-table .label { color: var(--s-grey-text); font-size: 1rem; }
         .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; text-align: right; }
 
-        /* --- GRÁFICOS INTERACTIVOS --- */
+        /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
-        .radar-wrapper { height: 480px; } 
-        .pie-wrapper { height: 320px; }
+        .radar-wrapper { height: 450px; } 
+        .pie-wrapper { height: 300px; }
 
-        /* --- UI ELEMENTS (LED Y FAB) --- */
-        .sync-led {
-            position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px;
-            border-radius: 50%; background-color: var(--led-green); z-index: 1000;
-            animation: pulse-simple 3s infinite;
-        }
-        @keyframes pulse-simple { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        /* --- UI --- */
+        .sync-led { position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: pulse 3s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
+        .fab-pdf:hover { background: var(--s-red); transform: scale(1.1); }
 
-        .fab-pdf { 
-            position: fixed; bottom: 30px; right: 30px; background: #222; 
-            color: #FFF; width: 60px; height: 60px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4); border: 1px solid var(--s-grey-border); 
-            z-index: 1000; cursor: pointer; transition: 0.3s;
-        }
-        .fab-pdf:hover { background: var(--s-red); transform: translateY(-3px); }
-
-        /* --- ANIMACIÓN REVEAL --- */
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP --- */
+        /* --- DESKTOP GRID --- */
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 70px; }
+            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
             .logo-container { margin: 0; } .header-review { align-items: flex-start; } .tags { justify-content: flex-start; }
             .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 40px; }
-            .sensory-section { grid-column: 1 / 2; } .trace-section { grid-column: 2 / 3; } .physic-section { grid-column: 3 / 4; }
         }
 
-        /* --- MODO EXPORTACIÓN PDF (SIN ESPACIOS BLANCOS) --- */
-        .pdf-export-mode {
-            width: 1600px !important;
-            height: 1100px !important;
-            padding: 60px !important;
-            margin: 0 !important;
-            background-color: #141414 !important;
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important;
-            grid-template-rows: max-content 1fr !important;
-            align-content: start !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
+        /* --- ESTILO FORZADO PARA EXPORTACIÓN (INVISIBLE EN PANTALLA) --- */
+        #pdf-render-box {
+            position: absolute; left: -9999px; top: -9999px;
+            width: 1600px; height: 1100px;
+            background-color: #141414;
         }
-        .pdf-export-mode .sync-led, .pdf-export-mode .fab-pdf { display: none !important; }
     </style>
 </head>
 <body>
@@ -159,18 +110,14 @@
 <div id="sync-led" class="sync-led"></div>
 
 <div id="export-area" class="dashboard-container">
-    
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
-            <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display:none; font-weight:700;">WORK CAFÉ</div>
+            <img src="logo-workcafe.png" alt="Work Café" class="logo-img">
         </div>
-
         <div class="header-review">
-            <p class="review-text" id="val-review-text">Iniciando análisis de lote...</p>
+            <p class="review-text" id="val-review-text">Sincronizando ficha técnica...</p>
             <div class="tags" id="val-tags"></div>
         </div>
-
         <div class="score-box">
             <div class="lbl">SCA SCORE</div>
             <div class="val" id="ui-sca">--.-</div>
@@ -179,9 +126,7 @@
 
     <section class="section-container sensory-section reveal">
         <h2>Evaluación Sensorial</h2>
-        <div class="chart-wrapper radar-wrapper">
-            <canvas id="radarChart"></canvas>
-        </div>
+        <div class="chart-wrapper radar-wrapper"><canvas id="radarChart"></canvas></div>
     </section>
 
     <section class="section-container trace-section reveal">
@@ -200,19 +145,16 @@
 
     <section class="section-container physic-section reveal">
         <h2>Análisis Físico</h2>
-        <div class="chart-wrapper pie-wrapper">
-            <canvas id="pieChart"></canvas>
-        </div>
+        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
         <div class="data-table">
             <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">--%</div></div>
             <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">-.-- g/ml</div></div>
             <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">--</div></div>
         </div>
     </section>
-
 </div>
 
-<button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar PDF">
+<button class="fab-pdf reveal" onclick="exportPDF()">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
@@ -220,30 +162,20 @@
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
     Chart.defaults.color = '#777777';
-    Chart.defaults.font.family = 'SantanderText, sans-serif';
+    Chart.defaults.font.family = 'SantanderText, Arial';
 
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
-        data: {
-            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ 
-                data: [0,0,0,0,0,0,0],
-                backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#141414'
-            }]
-        },
-        options: { 
-            responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#CCC', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
-            plugins: { legend: { display: false } }
-        }
+        data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data: [0,0,0,0,0,0,0], backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#141414' }] },
+        options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } }, plugins: { legend: { display: false } } }
     });
 
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
         data: { labels: ['Malla 17', 'Malla 16', 'Malla 15'], datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#333', '#222'], borderColor: '#141414', borderWidth: 4 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888', font: {size: 13} } } } }
+        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888' } } } }
     });
 
     function updateUI(data) {
@@ -276,12 +208,12 @@
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v_flat_final');
+        const cached = localStorage.getItem('cafe_v_final');
         if (cached) updateUI(JSON.parse(cached));
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            updateUI(data); localStorage.setItem('cafe_v_flat_final', JSON.stringify(data));
+            updateUI(data); localStorage.setItem('cafe_v_final', JSON.stringify(data));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
         } catch (e) { document.getElementById('sync-led').style.backgroundColor = 'var(--led-red)'; }
     }
@@ -291,37 +223,61 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    // --- FUNCIÓN DE EXPORTACIÓN REPARADA ---
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
         const led = document.getElementById('sync-led');
+        const originalArea = document.getElementById('export-area');
+        
         fab.style.display = 'none';
         led.style.display = 'none';
+
+        // Creamos un contenedor temporal de alta resolución
+        const tempContainer = document.createElement('div');
+        tempContainer.id = 'pdf-render-box';
+        tempContainer.style.cssText = `
+            position: absolute; left: -9999px; top: -9999px;
+            width: 1600px; height: 1100px;
+            background-color: #141414;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            padding: 60px; gap: 50px; align-content: start;
+        `;
+
+        // Clonamos el contenido original al contenedor temporal
+        tempContainer.innerHTML = originalArea.innerHTML;
+        document.body.appendChild(tempContainer);
+
+        // Ajustamos los canvas del clon (html2canvas necesita redibujar gráficos)
+        const radarCanvas = tempContainer.querySelector('#radarChart');
+        const pieCanvas = tempContainer.querySelector('#pieChart');
         
-        const element = document.getElementById('export-area');
-        element.classList.add('pdf-export-mode');
-        
-        radarChart.resize(); pieChart.resize();
+        // Copiamos la imagen de los canvas actuales a los nuevos para que no aparezcan vacíos
+        const radarImg = document.createElement('img');
+        radarImg.src = radarChart.toBase64Image();
+        radarImg.style.width = '100%';
+        radarCanvas.parentNode.replaceChild(radarImg, radarCanvas);
+
+        const pieImg = document.createElement('img');
+        pieImg.src = pieChart.toBase64Image();
+        pieImg.style.width = '100%';
+        pieCanvas.parentNode.replaceChild(pieImg, pieCanvas);
 
         const opt = {
             margin: 0,
-            filename: 'Ficha_WorkCafe_Santander.pdf',
+            filename: 'Ficha_Tecnica_Santander_Full.pdf',
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { 
                 scale: 2, 
-                backgroundColor: '#141414', 
+                backgroundColor: '#141414',
                 useCORS: true,
                 width: 1600,
-                height: 1100,
-                windowWidth: 1600,
-                windowHeight: 1100,
-                scrollY: 0
+                height: 1100
             },
             jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-            element.classList.remove('pdf-export-mode');
-            radarChart.resize(); pieChart.resize();
+        html2pdf().set(opt).from(tempContainer).save().then(() => {
+            document.body.removeChild(tempContainer);
             fab.style.display = 'flex'; 
             led.style.display = 'block';
         });
