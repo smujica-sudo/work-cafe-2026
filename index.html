@@ -16,58 +16,116 @@
             --santander-red-glow: rgba(179, 0, 0, 0.4);
             --bg-dark: #0F0F0F; 
             --text-light: #F0F0F0;
-            --text-muted: #888888;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --text-muted: #999999;
+            --border-color: rgba(255, 255, 255, 0.15);
         }
 
+        /* --- RESET Y OPTIMIZACIÓN DE ESCALA --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-dark); color: var(--text-light); line-height: 1.5; -webkit-font-smoothing: antialiased; position: relative; overflow-x: hidden; }
+        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; font-size: 16px; }
 
-        .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 10% 10%, rgba(179, 0, 0, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(179, 0, 0, 0.03) 0%, transparent 40%); z-index: -1; transform: translateZ(0); }
+        body {
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-dark); color: var(--text-light); 
+            line-height: 1.6; -webkit-font-smoothing: antialiased; 
+            position: relative; overflow-x: hidden;
+        }
 
-        .dashboard-container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 30px; }
-        .section-container { width: 100%; min-width: 0; padding: 0; }
-        .section-container h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-light); display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
-        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--santander-red); box-shadow: 0 0 10px var(--santander-red-glow); }
+        .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 10% 10%, rgba(179, 0, 0, 0.06) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(179, 0, 0, 0.04) 0%, transparent 40%); z-index: -1; transform: translateZ(0); }
 
-        .hero-section { display: flex; flex-direction: column; gap: 20px; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .logo-container { margin: 0 auto; max-width: 120px; }
+        /* --- DASHBOARD MÁS AMPLIO --- */
+        .dashboard-container {
+            width: 95%; max-width: 1600px; margin: 0 auto;
+            padding: 30px 10px; display: flex; flex-direction: column; gap: 40px; 
+        }
+
+        .section-container { width: 100%; padding: 0; }
+        
+        .section-container h2 { 
+            font-size: 1.2rem; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 1.5px; margin-bottom: 25px; color: var(--text-light); 
+            display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .section-container h2::before { content: ''; width: 6px; height: 22px; background: var(--santander-red); box-shadow: 0 0 15px var(--santander-red-glow); }
+
+        /* --- HEADER AGIGANTADO --- */
+        .hero-section {
+            display: flex; flex-direction: column; gap: 25px; 
+            text-align: center; border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 30px;
+        }
+
+        .logo-container { margin: 0 auto; max-width: 160px; }
         .logo-img { width: 100%; height: auto; filter: brightness(1.2); }
-        .header-review { display: flex; flex-direction: column; gap: 12px; align-items: center; }
-        .review-text { font-size: 0.95rem; line-height: 1.6; color: #DDD; font-style: italic; max-width: 800px; }
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .tag { border: 1px solid var(--santander-red); color: #FFF; background-color: rgba(179, 0, 0, 0.05); padding: 6px 14px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+
+        .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: #EEE; font-style: italic; max-width: 900px; }
+        
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+        .tag { 
+            border: 1px solid var(--santander-red); color: #FFF; 
+            background-color: rgba(179, 0, 0, 0.1); padding: 8px 18px; 
+            border-radius: 4px; font-size: 0.85rem; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
         .score-box { text-align: center; }
-        .score-box .val { font-size: 4rem; font-weight: 800; color: var(--santander-red); text-shadow: 0 0 20px var(--santander-red-glow); }
-        .score-box .lbl { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
+        .score-box .val { font-size: 5rem; font-weight: 900; color: var(--santander-red); line-height: 1; text-shadow: 0 0 30px var(--santander-red-glow); }
+        .score-box .lbl { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 8px; }
+        .sync-indicator { font-size: 0.75rem; color: #666; margin-top: 10px; font-weight: 600; }
 
-        .data-table { width: 100%; display: flex; flex-direction: column; }
-        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+        /* --- TABLAS MÁS LEGIBLES --- */
+        .data-table { width: 100%; }
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .data-table .row:last-child { border-bottom: none; }
-        .data-table .label { color: var(--text-muted); font-size: 0.85rem; }
-        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.95rem; }
+        .data-table .label { color: var(--text-muted); font-size: 1rem; font-weight: 500; }
+        .data-table .value { font-weight: 700; color: var(--text-light); font-size: 1.15rem; text-align: right; }
 
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 20px; }
-        .radar-wrapper { height: 320px; } .pie-wrapper { height: 220px; }
+        /* --- GRÁFICOS MÁS GRANDES --- */
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
+        .radar-wrapper { height: 450px; } 
+        .pie-wrapper { height: 300px; }
 
-        .fab-pdf { position: fixed; bottom: 25px; right: 25px; background: #111; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.8); border: 1px solid #333; z-index: 1000; cursor: pointer; transition: all 0.3s ease; }
-        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.05); }
+        /* --- BOTÓN FLOTANTE --- */
+        .fab-pdf { 
+            position: fixed; bottom: 35px; right: 35px; background: #111; 
+            color: #FFF; width: 70px; height: 70px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8); border: 2px solid #333; 
+            z-index: 1000; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-pdf:hover { background: var(--santander-red); border-color: var(--santander-red); transform: scale(1.15) rotate(5deg); }
 
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* --- DIAGRAMACIÓN DESKTOP --- */
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 50px; gap: 50px; }
-            .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; text-align: left; gap: 30px; }
-            .logo-container { margin: 0; } .header-review { align-items: flex-start; } .tags { justify-content: flex-start; }
-            .score-box { text-align: right; border-left: 1px solid var(--border-color); padding-left: 30px; }
-            .sensory-section { grid-column: 1 / 2; } .trace-section { grid-column: 2 / 3; } .physic-section { grid-column: 3 / 4; }
+            .dashboard-container { 
+                display: grid; grid-template-columns: repeat(3, 1fr); 
+                padding: 60px 40px; gap: 60px; 
+            }
+            .hero-section { 
+                grid-column: 1 / 4; display: grid; grid-template-columns: 1.2fr 2.5fr 1.2fr; 
+                align-items: center; text-align: left; padding-bottom: 40px; gap: 50px;
+            }
+            .logo-container { margin: 0; max-width: 180px; }
+            .header-review { align-items: flex-start; }
+            .tags { justify-content: flex-start; }
+            .score-box { text-align: right; border-left: 2px solid var(--border-color); padding-left: 40px; }
+            .sensory-section { grid-column: 1 / 2; }
+            .trace-section { grid-column: 2 / 3; }
+            .physic-section { grid-column: 3 / 4; }
+            .radar-wrapper { height: 500px; }
         }
 
-        .pdf-export-mode { width: 1400px !important; height: 990px !important; padding: 40px 60px !important; gap: 40px !important; background: var(--bg-dark) !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; overflow: hidden !important; }
-        .pdf-export-mode .reveal { opacity: 1 !important; transform: none !important; }
-        .pdf-export-mode .hero-section { grid-column: 1 / 4 !important; display: grid !important; grid-template-columns: 1fr 2fr 1fr !important; }
+        /* --- EXPORTACIÓN PDF --- */
+        .pdf-export-mode {
+            width: 1600px !important; height: 1100px !important; padding: 60px !important; gap: 50px !important;
+            background: var(--bg-dark) !important; display: grid !important; 
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
     </style>
 </head>
 <body>
@@ -79,87 +137,135 @@
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
             <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display:none; font-weight:800;">WORK CAFÉ</div>
+            <div class="logo-text" style="display: none; font-weight: 900; font-size: 1.5rem;">WORK CAFÉ</div>
         </div>
+
         <div class="header-review">
-            <p class="review-text" id="val-review-text">Cargando...</p>
+            <p class="review-text" id="val-review-text">Cargando perfil...</p>
             <div class="tags" id="val-tags"></div>
         </div>
+
         <div class="score-box">
             <div class="lbl">Puntaje SCA</div>
             <div class="val" id="ui-sca">83.5</div>
-            <div id="sync-status" style="font-size:0.6rem; color:#444;">Conectando...</div>
+            <div id="sync-status" class="sync-indicator">Sincronizando...</div>
         </div>
     </header>
 
     <section class="section-container sensory-section reveal">
         <h2>Evaluación Sensorial</h2>
-        <div class="chart-wrapper radar-wrapper"><canvas id="radarChart"></canvas></div>
+        <div class="chart-wrapper radar-wrapper">
+            <canvas id="radarChart"></canvas>
+        </div>
     </section>
 
     <section class="section-container trace-section reveal">
         <h2>Trazabilidad</h2>
         <div class="data-table">
-            <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">—</div></div>
+            <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">SANT-ABR-26</div></div>
             <div class="row"><div class="label">Origen</div><div class="value" id="val-ori">—</div></div>
             <div class="row"><div class="label">Región</div><div class="value" id="val-reg">—</div></div>
             <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">—</div></div>
             <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">—</div></div>
             <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">—</div></div>
             <div class="row"><div class="label">Proceso</div><div class="value" id="val-proc">—</div></div>
-            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color:var(--santander-red); font-weight:700;">—</div></div>
+            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color: var(--santander-red); font-weight:800;">—</div></div>
         </div>
     </section>
 
     <section class="section-container physic-section reveal">
         <h2>Análisis Físico</h2>
-        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
+        <div class="chart-wrapper pie-wrapper">
+            <canvas id="pieChart"></canvas>
+        </div>
         <div class="data-table">
-            <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">—</div></div>
-            <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">—</div></div>
+            <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">10.1%</div></div>
+            <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">0.78 g/ml</div></div>
             <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">—</div></div>
         </div>
     </section>
+
 </div>
 
-<button class="fab-pdf reveal" onclick="exportPDF()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+<button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar PDF">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+</button>
 
 <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
-    Chart.defaults.color = '#AAAAAA';
+    Chart.defaults.color = '#BBBBBB';
     Chart.defaults.font.family = 'Montserrat';
+    Chart.defaults.font.size = 14;
 
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
-        data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.5, 7.75], backgroundColor: 'rgba(179, 0, 0, 0.1)', borderColor: '#B30000', borderWidth: 2, pointBackgroundColor: '#FFF', pointRadius: 3 }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#222' }, grid: { color: '#222' }, pointLabels: { color: '#FFF', font: { size: 11, weight: 700 }, padding: 15 }, ticks: { display: false }, min: 6, max: 10 } }, plugins: { legend: { display: false } } }
+        data: {
+            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
+            datasets: [{ 
+                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.5, 7.75],
+                backgroundColor: 'rgba(179, 0, 0, 0.15)', borderColor: '#B30000', borderWidth: 3, 
+                pointBackgroundColor: '#FFF', pointRadius: 5 
+            }]
+        },
+        options: { 
+            responsive: true, maintainAspectRatio: false, 
+            scales: { 
+                r: { 
+                    angleLines: { color: '#444' }, grid: { color: '#444' }, 
+                    pointLabels: { color: '#FFF', font: { size: 14, weight: 700 }, padding: 20 }, 
+                    ticks: { display: false }, min: 6, max: 10 
+                } 
+            }, 
+            plugins: { legend: { display: false } } 
+        }
     });
 
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { labels: ['Malla 17', 'Malla 16', 'Malla 15'], datasets: [{ data: [72.6, 22.8, 4.6], backgroundColor: ['#B30000', '#555555', '#222222'], borderColor: '#0F0F0F', borderWidth: 3 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: '#AAA' } } } }
+        data: { 
+            labels: ['Malla 17', 'Malla 16', 'Malla 15'], 
+            datasets: [{ 
+                data: [72.6, 22.8, 4.6],
+                backgroundColor: ['#B30000', '#555', '#222'], borderColor: '#0F0F0F', borderWidth: 4 
+            }] 
+        },
+        options: { 
+            responsive: true, maintainAspectRatio: false, cutout: '70%', 
+            plugins: { legend: { position: 'bottom', labels: { color: '#CCC', font: {size: 14, weight: 600}, padding: 20 } } } 
+        }
     });
 
     async function syncData() {
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            document.getElementById('ui-sca').innerText = data.sca_total;
-            document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil...";
             
-            const tagsCont = document.getElementById('val-tags'); tagsCont.innerHTML = '';
-            if(data.review.notas !== "—") {
-                data.review.notas.split(',').forEach(n => {
-                    const span = document.createElement('span'); span.className = 'tag'; span.innerText = n.trim(); tagsCont.appendChild(span);
+            document.getElementById('ui-sca').innerText = data.sca_total;
+            document.getElementById('val-lote').innerText = data.lote;
+            
+            if(data.review.texto && data.review.texto !== "—") {
+                document.getElementById('val-review-text').innerText = `"${data.review.texto}"`;
+            }
+
+            const tagsContainer = document.getElementById('val-tags');
+            tagsContainer.innerHTML = '';
+            if(data.review.notas && data.review.notas !== "—") {
+                data.review.notas.split(',').forEach(nota => {
+                    const n = nota.trim();
+                    if(n) {
+                        const span = document.createElement('span');
+                        span.className = 'tag'; span.innerText = n;
+                        tagsContainer.appendChild(span);
+                    }
                 });
             }
 
-            radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
-            document.getElementById('val-lote').innerText = data.lote;
+            radarChart.data.datasets[0].data = data.sensorial;
+            radarChart.update();
+
             document.getElementById('val-ori').innerText = data.trazabilidad.origen;
             document.getElementById('val-reg').innerText = data.trazabilidad.region;
             document.getElementById('val-pro').innerText = data.trazabilidad.productor;
@@ -171,14 +277,19 @@
             document.getElementById('val-hum').innerText = String(data.fisico.humedad).replace('%','') + '%';
             document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
             document.getElementById('val-agt').innerText = data.fisico.agtron;
+            
+            let m17 = parseFloat(String(data.fisico.malla17).replace(',', '.').replace('%', '')) || 0;
+            let m16 = parseFloat(String(data.fisico.malla16).replace(',', '.').replace('%', '')) || 0;
+            let m15 = parseFloat(String(data.fisico.malla15).replace(',', '.').replace('%', '')) || 0;
+            if (m17 > 0 && m17 <= 1) m17 *= 100;
+            if (m16 > 0 && m16 <= 1) m16 *= 100;
+            if (m15 > 0 && m15 <= 1) m15 *= 100;
+            
+            pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)];
+            pieChart.update();
 
-            let m17 = parseFloat(data.fisico.malla17) || 0; if (m17 > 0 && m17 <= 1) m17 *= 100;
-            let m16 = parseFloat(data.fisico.malla16) || 0; if (m16 > 0 && m16 <= 1) m16 *= 100;
-            let m15 = parseFloat(data.fisico.malla15) || 0; if (m15 > 0 && m15 <= 1) m15 *= 100;
-            pieChart.data.datasets[0].data = [m17, m16, m15]; pieChart.update();
-
-            document.getElementById('sync-status').innerHTML = '<span style="color:#28a745;">● Sincronizado</span>';
-        } catch (e) { document.getElementById('sync-status').innerText = '○ Offline'; }
+            document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● Sincronizado</span>';
+        } catch (e) { document.getElementById('sync-status').innerText = '○ Servidor Offline'; }
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -186,20 +297,26 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    window.addEventListener('scroll', () => {
-        document.getElementById('parallax-bg').style.transform = `translateY(${window.pageYOffset * 0.25}px) translateZ(0)`;
-    });
-
     function exportPDF() {
-        const fab = document.querySelector('.fab-pdf'); fab.style.display = 'none';
-        const element = document.getElementById('export-area'); element.classList.add('pdf-export-mode');
+        const fab = document.querySelector('.fab-pdf');
+        fab.style.display = 'none';
+        const element = document.getElementById('export-area');
+        element.classList.add('pdf-export-mode');
         radarChart.resize(); pieChart.resize();
         setTimeout(() => {
-            html2pdf().set({ margin:0, filename:'Ficha_Tecnica.pdf', image:{type:'jpeg', quality:1}, html2canvas:{scale:2, backgroundColor:'#0F0F0F', useCORS:true}, jsPDF:{unit:'px', format:[1400, 990], orientation:'landscape'} }).from(element).save().then(() => {
-                element.classList.remove('pdf-export-mode'); radarChart.resize(); pieChart.resize(); fab.style.display = 'flex'; 
+            html2pdf().set({ 
+                margin: 0, filename: 'Ficha_WorkCafe_Full.pdf', 
+                image: { type: 'jpeg', quality: 1 }, 
+                html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true }, 
+                jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } 
+            }).from(element).save().then(() => {
+                element.classList.remove('pdf-export-mode');
+                radarChart.resize(); pieChart.resize();
+                fab.style.display = 'flex'; 
             });
         }, 300);
     }
+
     window.onload = syncData;
 </script>
 </body>
