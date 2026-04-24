@@ -41,7 +41,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER --- */
+        /* --- PANTALLA DE CARGA (PRELOADER) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-white);
@@ -62,18 +62,19 @@
             color: var(--s-dark); opacity: 0.8; 
         }
 
-        /* --- DASHBOARD COMPACTO --- */
+        /* --- CONTENEDOR PRINCIPAL --- */
         .dashboard-container { 
             width: 95%; max-width: 1400px; margin: 0 auto; 
             padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; 
             height: 100vh; justify-content: center;
         }
 
+        /* CABECERA (HEADER) */
         .header-section { 
             display: grid; grid-template-columns: 140px 1fr auto; align-items: center;
             border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px;
         }
-        .logo-box img { width: 100%; height: auto; filter: invert(1); }
+        .logo-box img { width: 100%; height: auto; filter: invert(1); } /* Invierte colores si el logo es blanco */
         
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
@@ -93,7 +94,7 @@
         }
         .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-3px); }
 
-        /* --- CUERPO TÉCNICO --- */
+        /* --- SECCIONES DE DATOS TÉCNICOS --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { 
             font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
@@ -128,7 +129,7 @@
             .data-list .item { padding: 12px 5px; }
         }
 
-        /* --- PDF EXPORT OVERRIDE --- */
+        /* --- MODIFICADORES PARA EXPORTACIÓN PDF --- */
         body.pdf-export-mode { 
             overflow: visible !important; 
             height: 1100px !important;
@@ -225,11 +226,14 @@
 </div>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
+    // URL OFICIAL DE LA API
+    const API_URL = "https://script.google.com/macros/s/AKfycbxO2p5XsPlWcWN6V3IKF8AjDfH-5n-N88i_s9d4DCVgE96fOwxvmZ6-tZ46Qnog1orMkw/exec";
 
+    // CONFIGURACIÓN GLOBAL CHART.JS
     Chart.defaults.color = '#666666'; 
     Chart.defaults.font.family = 'SantanderText, Arial';
 
+    // INICIALIZACIÓN GRÁFICO RADAR
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
@@ -243,6 +247,7 @@
         }
     });
 
+    // INICIALIZACIÓN GRÁFICO DONA (MALLAS)
     const pieChart = new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {
@@ -252,6 +257,7 @@
         options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#666666', font:{size:11}}} } }
     });
 
+    // FUNCIÓN PARA RENDERIZAR DATOS EN LA INTERFAZ
     function render(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
@@ -284,27 +290,45 @@
         pieChart.update();
     }
 
+    // ARRANQUE Y CONSUMO DE API
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v2');
+        const cache = localStorage.getItem('santander_cafe_light_v4');
+        const preloader = document.getElementById('preloader');
+
+        // Carga instántanea desde caché si existe
         if(cache) {
             render(JSON.parse(cache));
-            document.getElementById('preloader').style.display = 'none';
+            preloader.style.display = 'none';
         }
 
         try {
             const res = await fetch(API_URL);
+            if (!res.ok) throw new Error("Error HTTP: " + res.status);
+            
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v2', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v4', JSON.stringify(fresh));
+            
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            document.getElementById('preloader').style.opacity = '0';
-            setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
+            preloader.style.opacity = '0';
+            setTimeout(() => preloader.style.display = 'none', 500);
+            
         } catch (e) {
+            console.error("Error crítico de conexión con la API:", e);
             document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
-            if(!cache) document.getElementById('status-text').innerText = "Modo Offline";
+            
+            // Lógica para que el preloader no se quede pegado si no hay internet/datos
+            if(!cache) {
+                document.getElementById('status-text').innerText = "Modo Offline";
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => preloader.style.display = 'none', 500);
+                }, 3000);
+            }
         }
     }
 
+    // EXPORTACIÓN A PDF
     async function downloadPDF() {
         const loader = document.getElementById('preloader');
         const statusText = document.getElementById('status-text');
@@ -317,12 +341,14 @@
             
             await new Promise(resolve => setTimeout(resolve, 200));
 
+            // Fuerzo el DOM a tomar medidas de escritorio
             document.body.classList.add('pdf-export-mode');
             radarChart.resize();
             pieChart.resize();
             
             await new Promise(resolve => setTimeout(resolve, 500));
 
+            // Convierto gráficos a imágenes estáticas para evitar fallos de html2canvas
             const radarCanvas = document.getElementById('radarChart');
             const pieCanvas = document.getElementById('pieChart');
             
@@ -342,6 +368,7 @@
             radarCanvas.parentNode.appendChild(radarImg);
             pieCanvas.parentNode.appendChild(pieImg);
 
+            // Generación de PDF
             const opt = {
                 margin: 0,
                 filename: 'WorkCafe_Santander_Ficha.pdf',
@@ -360,6 +387,7 @@
 
             await html2pdf().set(opt).from(targetElement).save();
 
+            // Limpieza
             document.getElementById('temp-radar').remove();
             document.getElementById('temp-pie').remove();
             radarCanvas.style.display = 'block';
@@ -369,6 +397,7 @@
             console.error("Fallo crítico en PDF:", error);
             alert("Ocurrió un error al generar el PDF. Verifica tu conexión o intenta recargar la página.");
         } finally {
+            // Restaurar DOM y quitar pantalla de carga
             document.body.classList.remove('pdf-export-mode');
             radarChart.resize();
             pieChart.resize();
@@ -378,6 +407,7 @@
         }
     }
 
+    // Iniciar PWA al cargar
     window.onload = bootstrap;
 </script>
 </body>
