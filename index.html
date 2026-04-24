@@ -61,7 +61,7 @@
 
         /* CABECERA */
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
-        .logo-box img { width: 100%; height: auto; } /* Se eliminó el filtro invert para que respete los colores originales */
+        .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
@@ -151,7 +151,7 @@
 
     <main class="main-content">
         <section class="col">
-            <h2>Evaluación Sensorial: Especialidad</h2>
+            <h2>Evaluación Sensorial</h2>
             <div class="chart-box"><canvas id="radarChart"></canvas></div>
         </section>
 
@@ -195,7 +195,20 @@
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color:'#eaeaea'}, grid: {color:'#eaeaea'}, pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } }, plugins: { legend: {display:false} } }
+        options: { 
+            animation: false, responsive: true, maintainAspectRatio: false, 
+            scales: { 
+                r: { 
+                    angleLines: {color:'#eaeaea'}, 
+                    grid: {color:'#eaeaea'}, 
+                    pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
+                    ticks: {display:false, stepSize: 1}, // stepSize 1 dibuja todos los anillos
+                    min: 0, // Inicia desde 0
+                    max: 10 // Termina en 10
+                } 
+            }, 
+            plugins: { legend: {display:false} } 
+        }
     });
 
     const pieChart = new Chart(document.getElementById('pieChart'), {
@@ -243,7 +256,7 @@
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
 
-        // Formateo de humedad para mostrar correctamente decimales (ej: 10.2%)
+        // Formateo de humedad
         let humValue = "—";
         if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
             let humNum = cleanPercentage(data.fisico.humedad);
@@ -265,7 +278,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v14');
+        const cache = localStorage.getItem('santander_cafe_light_v15');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -279,7 +292,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v14', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v15', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
