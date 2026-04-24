@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#141414">
+    
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    
     <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA --- */
+        /* --- IDENTIDAD CORPORATIVA (DARK MODE) --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -56,18 +62,20 @@
             color: var(--s-white); opacity: 0.8; 
         }
 
-        /* --- DASHBOARD COMPACTO --- */
+        /* --- DASHBOARD --- */
         .dashboard-container { 
             width: 95%; max-width: 1400px; margin: 0 auto; 
             padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; 
             height: 100vh; justify-content: center;
         }
 
+        /* CABECERA */
         .header-section { 
             display: grid; grid-template-columns: 140px 1fr auto; align-items: center;
             border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px;
         }
         .logo-box img { width: 100%; height: auto; }
+        
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-white); font-style: italic; max-width: 800px; margin: 0 auto; }
         .tags-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
@@ -86,7 +94,7 @@
         }
         .btn-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
 
-        /* --- CUERPO TÉCNICO --- */
+        /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { 
             font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
@@ -96,6 +104,7 @@
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
         .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .data-list .item:last-child { border-bottom: none; }
         .data-list .label { color: var(--s-accent); font-size: 0.85rem; }
         .data-list .value { font-weight: 600; color: var(--s-white); font-size: 0.95rem; text-align: right; }
 
@@ -120,11 +129,12 @@
             .data-list .item { padding: 12px 5px; }
         }
 
-        /* --- PDF EXPORT OVERRIDE --- */
+        /* --- MODO EXPORTACIÓN PDF --- */
         body.pdf-export-mode { 
             overflow: visible !important; 
             height: 1100px !important;
             width: 1600px !important;
+            background-color: var(--s-dark) !important;
         }
         body.pdf-export-mode .dashboard-container {
             width: 1600px !important; max-width: 1600px !important;
@@ -216,8 +226,7 @@
 </div>
 
 <script>
-    // NUEVA URL INTEGRADA
-    const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxO2p5XsPlWcWN6V3IKF8AjDfH-5n-N88i_s9d4DCVgE96fOwxvmZ6-tZ46Qnog1orMkw/exec";
 
     Chart.defaults.color = '#888';
     Chart.defaults.font.family = 'SantanderText, Arial';
@@ -277,23 +286,37 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_final_v3');
+        const cache = localStorage.getItem('santander_cafe_dark_v5');
+        const preloader = document.getElementById('preloader');
+
         if(cache) {
             render(JSON.parse(cache));
-            document.getElementById('preloader').style.display = 'none';
+            preloader.style.display = 'none';
         }
 
         try {
             const res = await fetch(API_URL);
+            if (!res.ok) throw new Error("Error HTTP: " + res.status);
+            
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_final_v3', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_dark_v5', JSON.stringify(fresh));
+            
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            document.getElementById('preloader').style.opacity = '0';
-            setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
+            preloader.style.opacity = '0';
+            setTimeout(() => preloader.style.display = 'none', 500);
+            
         } catch (e) {
+            console.error("Error de conexión:", e);
             document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
-            if(!cache) document.getElementById('status-text').innerText = "Modo Offline";
+            
+            if(!cache) {
+                document.getElementById('status-text').innerText = "Revisa tu mapeo de columnas";
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => preloader.style.display = 'none', 500);
+                }, 3000);
+            }
         }
     }
 
