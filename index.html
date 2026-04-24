@@ -102,7 +102,7 @@
 
         /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; }
-        .radar-wrapper { height: 350px; } 
+        .radar-wrapper { height: 350px; margin-top: 10px;} 
         .pie-wrapper { height: 220px; }
 
         /* --- BOTÓN FLOTANTE --- */
@@ -163,7 +163,7 @@
             grid-template-areas: "logo review score" !important;
             gap: 50px !important; padding: 20px 0 !important;
         }
-        .pdf-export-mode .radar-wrapper { height: 320px !important; }
+        .pdf-export-mode .radar-wrapper { height: 350px !important; }
     </style>
 </head>
 <body>
@@ -201,15 +201,6 @@
         <h2>Evaluación Sensorial</h2>
         <div class="chart-wrapper radar-wrapper">
             <canvas id="radarChart"></canvas>
-        </div>
-        <div class="data-table">
-            <div class="row"><div class="label">Fragancia / Aroma</div><div class="value" id="val-fra">7.5</div></div>
-            <div class="row"><div class="label">Sabor</div><div class="value" id="val-sab">8.0</div></div>
-            <div class="row"><div class="label">Sabor Residual</div><div class="value" id="val-res">7.75</div></div>
-            <div class="row"><div class="label">Acidez</div><div class="value" id="val-aci">7.5</div></div>
-            <div class="row"><div class="label">Cuerpo</div><div class="value" id="val-cue">8.25</div></div>
-            <div class="row"><div class="label">Balance</div><div class="value" id="val-bal">8.5</div></div>
-            <div class="row"><div class="label">Dulzor</div><div class="value" id="val-dul">7.75</div></div>
         </div>
     </section>
 
@@ -254,7 +245,7 @@
     Chart.defaults.color = '#AAAAAA';
     Chart.defaults.font.family = 'Montserrat';
 
-    // Gráfico Radar (Inicia lleno con valores Placeholder para evitar que se quede pegado)
+    // Gráfico Radar
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
@@ -268,7 +259,7 @@
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            animation: { duration: 1000, easing: 'easeOutQuart' }, // Animación suave al actualizar
+            animation: { duration: 1000, easing: 'easeOutQuart' },
             scales: {
                 r: { 
                     angleLines: { color: '#333' }, grid: { color: '#333' }, 
@@ -280,7 +271,7 @@
         }
     });
 
-    // Gráfico Dona (Inicia lleno)
+    // Gráfico Dona
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
@@ -309,7 +300,7 @@
             document.getElementById('ui-sca').innerText = data.sca_total;
             if(data.lote && data.lote !== "—") document.getElementById('val-lote').innerText = data.lote;
             
-            // Actualización Trazabilidad (Solo si existen los datos en el Sheets)
+            // Actualización Trazabilidad 
             if(data.trazabilidad.origen !== "—") document.getElementById('val-ori').innerText = data.trazabilidad.origen;
             if(data.trazabilidad.region !== "—") document.getElementById('val-reg').innerText = data.trazabilidad.region;
             if(data.trazabilidad.productor !== "—") document.getElementById('val-pro').innerText = data.trazabilidad.productor;
@@ -318,36 +309,26 @@
             if(data.trazabilidad.proceso !== "—") document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
             if(data.trazabilidad.certificaciones !== "—") document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
 
-            // Actualización Tabla Sensorial
-            document.getElementById('val-fra').innerText = data.sensorial[0];
-            document.getElementById('val-sab').innerText = data.sensorial[1];
-            document.getElementById('val-res').innerText = data.sensorial[2];
-            document.getElementById('val-aci').innerText = data.sensorial[3];
-            document.getElementById('val-cue').innerText = data.sensorial[4];
-            document.getElementById('val-bal').innerText = data.sensorial[5];
-            document.getElementById('val-dul').innerText = data.sensorial[6];
-
-            // Actualización Gráfico Araña (Transición Morphing Automática)
+            // Actualización Gráfico Araña (La tabla fue eliminada)
             radarChart.data.datasets[0].data = data.sensorial;
             radarChart.update();
 
-            // Análisis Físico Lógica robusta para porcentajes
+            // Análisis Físico Lógica robusta
             let rawHum = String(data.fisico.humedad).replace('%', '');
             document.getElementById('val-hum').innerText = rawHum + '%';
             
             let rawDen = String(data.fisico.densidad).replace('g/ml', '').trim();
             document.getElementById('val-den').innerText = rawDen + ' g/ml';
             
-            // Cálculo a prueba de fallos para Malla 17 (0.726 o "72.6%")
             let rawM17 = String(data.fisico.malla17).replace(',', '.').replace('%', '');
             let m17 = parseFloat(rawM17) || 0;
-            if (m17 > 0 && m17 <= 1) m17 = m17 * 100; // Convierte 0.726 a 72.6
+            if (m17 > 0 && m17 <= 1) m17 = m17 * 100;
             
             document.getElementById('val-mal').innerText = m17.toFixed(1) + '%';
             pieChart.data.datasets[0].data = [m17, 100 - m17];
             pieChart.update();
 
-            // Notificación visual de éxito
+            // Notificación visual
             document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● BD Actualizada</span>';
         } catch (error) {
             document.getElementById('sync-status').innerHTML = '○ Servidor Offline';
@@ -390,7 +371,7 @@
         }, 300);
     }
 
-    // Inicializar al cargar la ventana
+    // Inicializar
     window.onload = syncData;
 </script>
 
