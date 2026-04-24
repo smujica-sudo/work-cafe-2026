@@ -11,15 +11,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA --- */
+        /* --- IDENTIDAD CORPORATIVA SANTANDER --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
         :root {
-            --s-red: #ec0000;      /* Rojo Oficial  */
-            --s-dark: #141414;     /* Negro Plano  */
-            --s-white: #ffffff;    /* Blanco Puro  */
-            --s-accent: #deedf2;   /* Celeste Acento  */
+            --s-red: #ec0000;      /* Rojo Oficial Matte */
+            --s-dark: #141414;     /* Negro Plano */
+            --s-white: #ffffff;    /* Blanco Puro */
+            --s-accent: #deedf2;   /* Celeste Acento */
             --s-border: #333333;
             --led-green: #248a3d;
         }
@@ -31,26 +31,29 @@
             color: var(--s-white); 
             font-family: 'SantanderText', Arial, sans-serif;
             width: 100%; height: 100vh;
-            overflow: hidden; /* No scroll en escritorio  */
+            overflow: hidden; /* Evita scroll en escritorio */
         }
 
-        /* --- PRELOADER (GRANO DE CAFÉ REAL) --- */
+        /* --- PRELOADER (ÍCONO INICIAL RESTAURADO) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
         }
-        .bean-icon {
-            width: 80px; height: 80px; fill: var(--s-red);
-            animation: spin-bean 2s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        .coffee-loader {
+            width: 80px; height: 80px; margin-bottom: 20px;
+            fill: var(--s-red);
+            animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
-        @keyframes spin-bean {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
         }
-        #preloader p { margin-top: 20px; font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-white); opacity: 0.8; }
+        #preloader p { 
+            font-family: 'SantanderHeadline'; font-size: 0.8rem; 
+            letter-spacing: 3px; text-transform: uppercase; 
+            color: var(--s-white); opacity: 0.8; 
+        }
 
         /* --- DASHBOARD COMPACTO --- */
         .dashboard-container { 
@@ -90,7 +93,7 @@
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
         .pie-box { height: 240px; }
 
-        /* UI INDICADORES */
+        /* UI INDICADORES Y BOTONES */
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
         
@@ -111,10 +114,8 @@
 <body>
 
 <div id="preloader">
-    <svg class="bean-icon" viewBox="0 0 100 100">
-        <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z" fill-opacity="0.1"/>
-        <path d="M50,12 C44,25 44,75 50,88" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-        <path d="M35,50 Q50,42 65,50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+    <svg class="coffee-loader" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
     </svg>
     <p id="status-text">Sincronizando</p>
 </div>
@@ -123,7 +124,7 @@
 
 <div id="export-area" class="dashboard-container">
     <header class="header-section">
-        <div class="logo-box"><img src="logo-workcafe.png" alt="Santander Work Café"></div>
+        <div class="logo-box"><img src="logo-workcafe.png" alt="Santander Work Café" onerror="this.style.display='none'"></div>
         <div class="profile-box">
             <p class="review-text" id="ui-review-text">---</p>
             <div class="tags-box" id="ui-tags"></div>
