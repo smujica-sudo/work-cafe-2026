@@ -13,13 +13,13 @@
     <style>
         :root {
             --santander-red: #B30000; 
-            --santander-red-glow: rgba(179, 0, 0, 0.4);
             --bg-dark: #0F0F0F; 
             --text-light: #F0F0F0;
             --text-muted: #999999;
             --border-color: rgba(255, 255, 255, 0.15);
         }
 
+        /* --- CONFIGURACIÓN DE ESCALA Y LEGIBILIDAD --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; font-size: 16px; }
 
@@ -45,9 +45,9 @@
             display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
             border-bottom: 2px solid var(--border-color);
         }
-        .section-container h2::before { content: ''; width: 6px; height: 22px; background: var(--santander-red); box-shadow: 0 0 15px var(--santander-red-glow); }
+        .section-container h2::before { content: ''; width: 6px; height: 22px; background: var(--santander-red); }
 
-        /* --- HEADER AGIGANTADO --- */
+        /* --- HEADER --- */
         .hero-section {
             display: flex; flex-direction: column; gap: 25px; 
             text-align: center; border-bottom: 1px solid var(--border-color); 
@@ -68,8 +68,15 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
+        /* --- PUNTAJE SCA AJUSTADO (Sin Glow, Font 800) --- */
         .score-box { text-align: center; }
-        .score-box .val { font-size: 5rem; font-weight: 900; color: var(--santander-red); line-height: 1; text-shadow: 0 0 30px var(--santander-red-glow); }
+        .score-box .val { 
+            font-size: 5rem; 
+            font-weight: 800; 
+            color: var(--santander-red); 
+            line-height: 1; 
+            text-shadow: none; 
+        }
         .score-box .lbl { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 8px; }
         .sync-indicator { font-size: 0.75rem; color: #666; margin-top: 10px; font-weight: 600; }
 
@@ -178,14 +185,12 @@
 </button>
 
 <script>
-    // URL OFICIAL ACTUALIZADA
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
     Chart.defaults.color = '#BBBBBB';
     Chart.defaults.font.family = 'Montserrat';
     Chart.defaults.font.size = 14;
 
-    // --- INICIALIZAR GRÁFICOS ---
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
@@ -206,12 +211,8 @@
         options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: '#CCC', font: {size: 14}, padding: 20 } } } }
     });
 
-    // --- ESTRATEGIA DE CARGA (LOCALSTORAGE + SYNC) ---
-    
     function updateUI(data) {
         if(!data) return;
-        
-        // Header & Perfil
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('val-lote').innerText = data.lote;
         if(data.review.texto && data.review.texto !== "—") {
@@ -231,11 +232,9 @@
             });
         }
 
-        // Gráficos
         radarChart.data.datasets[0].data = data.sensorial;
         radarChart.update();
 
-        // Trazabilidad
         document.getElementById('val-ori').innerText = data.trazabilidad.origen;
         document.getElementById('val-reg').innerText = data.trazabilidad.region;
         document.getElementById('val-pro').innerText = data.trazabilidad.productor;
@@ -244,7 +243,6 @@
         document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
         document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
 
-        // Físico
         document.getElementById('val-hum').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('val-agt').innerText = data.fisico.agtron;
@@ -261,18 +259,12 @@
     }
 
     async function syncData() {
-        // 1. Cargar desde memoria (Instatáneo)
         const cachedData = localStorage.getItem('cafe_data_v3');
-        if (cachedData) {
-            updateUI(JSON.parse(cachedData));
-            document.getElementById('sync-status').innerHTML = '● Memoria lista';
-        }
+        if (cachedData) updateUI(JSON.parse(cachedData));
 
-        // 2. Buscar actualización en Sheets (Segundo plano)
         try {
             const response = await fetch(SHEET_API_URL);
             const freshData = await response.json();
-            
             updateUI(freshData);
             localStorage.setItem('cafe_data_v3', JSON.stringify(freshData));
             document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● BD Actualizada</span>';
@@ -281,7 +273,6 @@
         }
     }
 
-    // --- ANIMACIONES ---
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
     }, { threshold: 0.1 });
