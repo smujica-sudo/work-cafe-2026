@@ -52,8 +52,15 @@
 
         /* --- HEADER & LOGO --- */
         .hero-card { text-align: center; background-color: #161616; border-top: 5px solid var(--santander-red); padding: 20px 10px; }
-        .logo-text { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.5px; margin-bottom: 6px; }
+        
+        /* Contenedor del Logo (Sección Nueva) */
+        .logo-container { margin-bottom: 10px; display: flex; justify-content: center; align-items: center; min-height: 40px; }
+        .logo-img { max-width: 200px; height: auto; display: block; }
+        
+        /* Fallback si no hay imagen */
+        .logo-text { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; color: var(--text-light); }
         .logo-text span { color: var(--santander-red); }
+
         .hero-title h1 { font-size: 1.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; }
         .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 1px; font-size: 0.7rem; }
 
@@ -75,14 +82,13 @@
         .data-table .label { color: var(--text-muted); font-size: 0.75rem; flex: 1 1 40%; min-width: 100px; }
         .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.85rem; text-align: right; flex: 1 1 50%; word-wrap: break-word; }
 
-        /* --- WRAPPERS DE GRÁFICOS (Ajustados para más legibilidad) --- */
+        /* --- WRAPPERS DE GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
-        /* Aumentamos la altura de la araña en móviles de 260px a 300px para evitar apretones */
         .radar-wrapper { height: 300px; max-width: 100%; margin-top: 10px; margin-bottom: 15px; } 
         .pie-wrapper { height: 180px; max-width: 100%; }
 
         /* --- BOTÓN FLOTANTE --- */
-        .fab-pdf { position: fixed; bottom: 20px; right: 20px; background: var(--santander-red); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.8); border: none; z-index: 1000; }
+        .fab-pdf { position: fixed; bottom: 20px; right: 20px; background: var(--santander-red); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.8); border: none; z-index: 1000; cursor: pointer; }
         .sync-indicator { font-size: 0.6rem; color: #888; text-align: center; margin-top: 10px; }
 
         /* =========================================
@@ -92,15 +98,21 @@
             .dashboard-container { padding: 30px; gap: 20px; display: grid; grid-template-columns: 1fr 1fr; }
             .card { padding: 25px; }
             .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding: 30px 40px; }
+            
+            /* Ajuste del Logo para Desktop */
+            .logo-container { justify-content: flex-start; margin-bottom: 5px; }
+            .logo-img { max-width: 250px; }
+            
             .hero-title h1 { font-size: 2.3rem; }
             .score-box .val { font-size: 3.8rem; }
+            
             .review-card { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 30px; }
             .review-card .review-text { text-align: left; font-size: 0.95rem; }
             .review-card .tags { justify-content: flex-end; }
-            /* Radar más amplio en Desktop */
+            
             .radar-wrapper { height: 360px; margin-bottom: 25px; } 
             .pie-wrapper { height: 220px; }
-            .fab-pdf { bottom: 30px; right: 30px; width: 60px; height: 60px; cursor: pointer; }
+            .fab-pdf { bottom: 30px; right: 30px; width: 60px; height: 60px; }
             .data-table .label { font-size: 0.8rem; }
             .data-table .value { font-size: 0.9rem; }
         }
@@ -124,14 +136,18 @@
         }
         .pdf-export-mode .card { padding: 20px !important; }
         .pdf-export-mode .hero-card { grid-column: 1 / 4 !important; flex-direction: row !important; text-align: left !important; padding: 25px 40px !important;}
+        .pdf-export-mode .logo-container { justify-content: flex-start !important; margin-bottom: 5px !important; }
+        
         .pdf-export-mode .review-card { grid-column: 1 / 4 !important; display: grid !important; grid-template-columns: 1fr 2fr 1fr !important; align-items: center !important; gap: 30px !important; padding: 20px 40px !important; }
         .pdf-export-mode .review-card .tags { justify-content: flex-end !important; }
+        
         .pdf-export-mode .sensory-card { grid-column: 1 / 2 !important; }
         .pdf-export-mode .trace-card { grid-column: 2 / 3 !important; }
         .pdf-export-mode .physic-card { grid-column: 3 / 4 !important; }
-        /* Ajuste de altura del radar para asegurar que encaje en el PDF horizontal */
+        
         .pdf-export-mode .radar-wrapper { height: 280px !important; margin-bottom: 15px !important; }
         .pdf-export-mode .pie-wrapper { height: 160px !important; margin-bottom: 10px !important; }
+        
         .pdf-export-mode .data-table .row { padding: 8px 0 !important; }
         .pdf-export-mode .data-table .label { font-size: 0.8rem !important; }
         .pdf-export-mode .data-table .value { font-size: 0.85rem !important; }
@@ -143,7 +159,10 @@
 <div id="export-area" class="dashboard-container">
     <div class="card hero-card">
         <div>
-            <div class="logo-text">WORK <span>CAFÉ</span> SANTANDER</div>
+            <div class="logo-container">
+                <img src="logo-workcafe.png" alt="Work Café Santander" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="logo-text" style="display: none;">WORK <span>CAFÉ</span> SANTANDER</div>
+            </div>
             <div class="hero-title">
                 <h1>ESPRESSO BLEND</h1>
                 <p id="ui-lote">SCA SPECIALTY COFFEE • LOTE ABR-2026</p>
@@ -229,7 +248,7 @@
     Chart.defaults.color = '#888888';
     Chart.defaults.font.family = 'Montserrat';
 
-    // Inicialización Gráfico Radar (MEJORAS DE LEGIBILIDAD APLICADAS)
+    // Inicialización Gráfico Radar
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
@@ -248,9 +267,9 @@
                     angleLines: { color: '#333333' }, 
                     grid: { color: '#333333' }, 
                     pointLabels: { 
-                        color: '#FFFFFF', // Blanco puro
-                        font: { size: 11, weight: 700, family: 'Montserrat' }, // Fuente más grande y gruesa
-                        padding: 12 // Espaciado extra para que no se encimen en la gráfica
+                        color: '#FFFFFF', 
+                        font: { size: 11, weight: 700, family: 'Montserrat' }, 
+                        padding: 12 
                     }, 
                     ticks: { display: false }, 
                     min: 6, max: 9 
