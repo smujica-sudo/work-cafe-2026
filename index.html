@@ -35,7 +35,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER (ÍCONO INICIAL) --- */
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
@@ -95,7 +95,6 @@
         }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
-        /* Se redujo el padding vertical a 8px para permitir 8 filas en Trazabilidad sin desbordar */
         .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
         .data-list .label { color: var(--s-accent); font-size: 0.85rem; }
         .data-list .value { font-weight: 600; color: var(--s-white); font-size: 0.95rem; text-align: right; }
@@ -217,6 +216,7 @@
 </div>
 
 <script>
+    // NUEVA URL INTEGRADA
     const API_URL = "https://script.google.com/macros/s/AKfycbxO2p5XsPlWcWN6V3IKF8AjDfH-5n-N88i_s9d4DCVgE96fOwxvmZ6-tZ46Qnog1orMkw/exec";
 
     Chart.defaults.color = '#888';
@@ -259,10 +259,8 @@
 
         radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
         
-        // Asignación individual para Origen y Región
         document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
         document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
-        
         document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud;
         document.getElementById('ui-productor').innerText = data.trazabilidad.productor;
         document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales;
@@ -272,8 +270,6 @@
         document.getElementById('ui-humedad').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('ui-agtron').innerText = data.fisico.agtron;
-        
-        // Mapeo directo y estricto del valor Defectos que venga de la API
         document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
 
         pieChart.data.datasets[0].data = [parseFloat(data.fisico.malla17)||0, parseFloat(data.fisico.malla16)||0, parseFloat(data.fisico.malla15)||0];
@@ -281,7 +277,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_final_v2');
+        const cache = localStorage.getItem('santander_cafe_final_v3');
         if(cache) {
             render(JSON.parse(cache));
             document.getElementById('preloader').style.display = 'none';
@@ -291,7 +287,7 @@
             const res = await fetch(API_URL);
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_final_v2', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_final_v3', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             document.getElementById('preloader').style.opacity = '0';
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
