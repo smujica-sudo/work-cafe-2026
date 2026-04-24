@@ -17,6 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
+        /* --- IDENTIDAD CORPORATIVA (DARK MODE) --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -40,6 +41,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
@@ -51,12 +53,27 @@
             fill: var(--s-red);
             animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-white); opacity: 0.8; }
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
+        }
+        #status-text { 
+            font-family: 'SantanderHeadline'; font-size: 0.8rem; 
+            letter-spacing: 3px; text-transform: uppercase; 
+            color: var(--s-white); opacity: 0.8; 
+        }
 
-        .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; height: 100vh; justify-content: center; }
+        /* --- DASHBOARD --- */
+        .dashboard-container { 
+            width: 95%; max-width: 1400px; margin: 0 auto; 
+            padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; 
+            height: 100vh; justify-content: center;
+        }
 
-        .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
+        /* CABECERA */
+        .header-section { 
+            display: grid; grid-template-columns: 140px 1fr auto; align-items: center;
+            border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px;
+        }
         .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
@@ -69,11 +86,21 @@
         .score-info .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 700; color: var(--s-red); line-height: 1; }
         .score-info .lbl { font-size: 0.75rem; color: var(--s-accent); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         
-        .btn-pdf { background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--s-border); cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .btn-pdf { 
+            background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--s-border); 
+            cursor: pointer; transition: 0.3s; flex-shrink: 0;
+        }
         .btn-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
 
+        /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
-        .col h2 { font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--s-border); }
+        .col h2 { 
+            font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
+            letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; 
+            padding-bottom: 8px; border-bottom: 1px solid var(--s-border);
+        }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
         .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
@@ -84,235 +111,4 @@
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
         .pie-box { height: 210px; } 
 
-        .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
-        @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
-
-        @media (max-width: 1024px) {
-            html, body { overflow-y: auto; height: auto; -webkit-overflow-scrolling: touch; }
-            .dashboard-container { height: auto; padding: 40px 20px; gap: 40px; }
-            .header-section { grid-template-columns: 1fr; text-align: center; gap: 20px; }
-            .score-box { justify-content: center; order: -1; margin-bottom: 10px; }
-            .score-info { text-align: right; }
-            .score-info .val { font-size: 3.5rem; }
-            .logo-box { max-width: 120px; margin: 0 auto; }
-            .main-content { display: flex; flex-direction: column; gap: 50px; }
-            .chart-box { height: 380px; width: 100%; }
-            .pie-box { height: 280px; width: 100%; }
-            .data-list .item { padding: 12px 5px; }
-        }
-
-        body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-dark) !important; }
-        body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-dark) !important; justify-content: flex-start !important; gap: 50px !important; }
-        body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; }
-        body.pdf-export-mode .score-box { justify-content: flex-end !important; margin: 0 !important; }
-        body.pdf-export-mode .main-content { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 60px !important; }
-        body.pdf-export-mode .chart-box { height: 420px !important; }
-        body.pdf-export-mode .pie-box { height: 280px !important; } 
-        body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
-    </style>
-</head>
-<body>
-
-<div id="preloader">
-    <svg class="coffee-loader" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
-    </svg>
-    <p id="status-text">Sincronizando</p>
-</div>
-
-<div class="sync-led" id="sync-led" title="Estado de API"></div>
-
-<div id="export-area" class="dashboard-container">
-    <header class="header-section">
-        <div class="logo-box"><img src="logo-workcafe.png" alt="Santander Work Café" onerror="this.style.display='none'"></div>
-        
-        <div class="profile-box">
-            <p class="review-text" id="ui-review-text">---</p>
-            <div class="tags-box" id="ui-tags"></div>
-        </div>
-        
-        <div class="score-box">
-            <div class="score-info">
-                <div class="lbl">SCA SCORE</div>
-                <div class="val" id="ui-sca">--.-</div>
-            </div>
-            <button class="btn-pdf" onclick="downloadPDF()" title="Descargar Ficha Imprimible">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            </button>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <section class="col">
-            <h2>Evaluación Sensorial</h2>
-            <div class="chart-box"><canvas id="radarChart"></canvas></div>
-        </section>
-
-        <section class="col">
-            <h2>Trazabilidad</h2>
-            <div class="data-list">
-                <div class="item"><div class="label">Lote</div><div class="value" id="ui-lote">---</div></div>
-                <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
-                <div class="item"><div class="label">Región</div><div class="value" id="ui-region">---</div></div>
-                <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
-                <div class="item"><div class="label">Productor</div><div class="value" id="ui-productor">---</div></div>
-                <div class="item"><div class="label">Varietales</div><div class="value" id="ui-varietales">---</div></div>
-                <div class="item"><div class="label">Proceso</div><div class="value" id="ui-proceso">---</div></div>
-                <div class="item"><div class="label">Certificaciones</div><div class="value" id="ui-cert" style="color:var(--s-red)">---</div></div>
-            </div>
-        </section>
-
-        <section class="col">
-            <h2>Análisis Físico</h2>
-            <div class="chart-box pie-box"><canvas id="pieChart"></canvas></div>
-            <div class="data-list">
-                <div class="item"><div class="label">Humedad</div><div class="value" id="ui-humedad">--%</div></div>
-                <div class="item"><div class="label">Densidad</div><div class="value" id="ui-densidad">-.-- g/ml</div></div>
-                <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-agtron">--</div></div>
-                <div class="item"><div class="label">Defectos</div><div class="value" id="ui-defectos">--</div></div>
-            </div>
-        </section>
-    </main>
-</div>
-
-<script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
-
-    Chart.defaults.color = '#888';
-    Chart.defaults.font.family = 'SantanderText, Arial';
-
-    const radarChart = new Chart(document.getElementById('radarChart'), {
-        type: 'radar',
-        data: {
-            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.12)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#141414' }]
-        },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color:'#333'}, grid: {color:'#333'}, pointLabels: {color:'#FFF', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } }, plugins: { legend: {display:false} } }
-    });
-
-    const pieChart = new Chart(document.getElementById('pieChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Malla 17', 'Malla 16', 'Malla 15'],
-            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#141414', borderWidth:4 }]
-        },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#888', font:{size:11}}} } }
-    });
-
-    function render(data) {
-        if(!data) return;
-        document.getElementById('ui-sca').innerText = data.sca_total;
-        document.getElementById('ui-lote').innerText = data.lote;
-        document.getElementById('ui-review-text').innerText = data.review.texto && data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
-        
-        const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
-        
-        // BLINDAJE: Convertir explícitamente a String para evitar el crash del .split()
-        if(data.review.notas && String(data.review.notas).trim() !== "—") {
-            String(data.review.notas).split(',').forEach(n => {
-                const el = document.createElement('span'); el.className = 'tag'; el.innerText = n.trim(); tagContainer.appendChild(el);
-            });
-        }
-
-        radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
-        
-        document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
-        document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
-        document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud;
-        document.getElementById('ui-productor').innerText = data.trazabilidad.productor;
-        document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales;
-        document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso;
-        document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones;
-
-        document.getElementById('ui-humedad').innerText = String(data.fisico.humedad).replace('%','') + '%';
-        document.getElementById('ui-densidad').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
-        document.getElementById('ui-agtron').innerText = data.fisico.agtron;
-        document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
-
-        pieChart.data.datasets[0].data = [parseFloat(data.fisico.malla17)||0, parseFloat(data.fisico.malla16)||0, parseFloat(data.fisico.malla15)||0];
-        pieChart.update();
-    }
-
-    async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_dark_v6');
-        const preloader = document.getElementById('preloader');
-
-        if(cache) {
-            render(JSON.parse(cache));
-            preloader.style.display = 'none';
-        }
-
-        try {
-            const res = await fetch(API_URL);
-            if (!res.ok) throw new Error("Error HTTP: " + res.status);
-            
-            const fresh = await res.json();
-            render(fresh);
-            localStorage.setItem('santander_cafe_dark_v6', JSON.stringify(fresh));
-            
-            document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.display = 'none', 500);
-            
-        } catch (e) {
-            console.error("Error de conexión:", e);
-            document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
-            
-            if(!cache) {
-                document.getElementById('status-text').innerText = "Revisa tu mapeo de columnas";
-                setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500); }, 3000);
-            }
-        }
-    }
-
-    async function downloadPDF() {
-        const loader = document.getElementById('preloader');
-        const statusText = document.getElementById('status-text');
-        const targetElement = document.getElementById('export-area');
-
-        try {
-            statusText.innerText = "Generando PDF...";
-            loader.style.display = 'flex'; loader.style.opacity = '1';
-            await new Promise(resolve => setTimeout(resolve, 200));
-
-            document.body.classList.add('pdf-export-mode');
-            radarChart.resize(); pieChart.resize();
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            const radarCanvas = document.getElementById('radarChart');
-            const pieCanvas = document.getElementById('pieChart');
-            
-            const radarImg = document.createElement('img');
-            radarImg.src = radarChart.toBase64Image(); radarImg.style.width = '100%'; radarImg.id = 'temp-radar';
-            
-            const pieImg = document.createElement('img');
-            pieImg.src = pieChart.toBase64Image(); pieImg.style.width = '100%'; pieImg.id = 'temp-pie';
-
-            radarCanvas.style.display = 'none'; pieCanvas.style.display = 'none';
-            radarCanvas.parentNode.appendChild(radarImg); pieCanvas.parentNode.appendChild(pieImg);
-
-            const opt = {
-                margin: 0, filename: 'WorkCafe_Santander_Ficha.pdf', image: { type: 'jpeg', quality: 1.0 },
-                html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 },
-                jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
-            };
-
-            await html2pdf().set(opt).from(targetElement).save();
-
-            document.getElementById('temp-radar').remove(); document.getElementById('temp-pie').remove();
-            radarCanvas.style.display = 'block'; pieCanvas.style.display = 'block';
-
-        } catch (error) {
-            console.error("Fallo crítico en PDF:", error);
-            alert("Ocurrió un error al generar el PDF. Verifica tu conexión o intenta recargar la página.");
-        } finally {
-            document.body.classList.remove('pdf-export-mode');
-            radarChart.resize(); pieChart.resize();
-            loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500);
-        }
-    }
-
-    window.onload = bootstrap;
-</script>
-</body>
-</html>
+        .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-
