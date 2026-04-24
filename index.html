@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#141414">
     <title>Work Café Santander | Ficha Técnica</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -21,30 +21,38 @@
             --led-red: #dc3545;
         }
 
-        /* --- RESET Y PARALLAX SETTINGS --- */
+        /* --- FONDO KRAFT NEGRO --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
 
         body {
             font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-dark); color: var(--text-light); 
+            background-color: var(--bg-dark); 
+            color: var(--text-light); 
             line-height: 1.6; -webkit-font-smoothing: antialiased; 
             position: relative; overflow-x: hidden;
         }
 
-        /* Fondo Parallax Mejorado */
+        /* Capa de textura Papel Kraft (Ruido sutil) */
+        .kraft-texture {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-dark);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04; /* Textura muy sutil */
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Parallax sutil en la textura al hacer scroll */
         .parallax-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 120%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(236, 0, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(236, 0, 0, 0.03) 0%, transparent 40%);
-            z-index: -1; transform: translateZ(0);
-            transition: transform 0.1s ease-out;
+            position: fixed; top: -10%; left: 0; width: 100%; height: 120%;
+            z-index: -2;
+            transition: transform 0.1s linear;
         }
 
         .dashboard-container {
             width: 95%; max-width: 1600px; margin: 0 auto;
-            padding: 40px 10px; display: flex; flex-direction: column; gap: 40px; 
+            padding: 60px 10px; display: flex; flex-direction: column; gap: 50px; 
             position: relative; z-index: 1;
         }
 
@@ -55,35 +63,33 @@
             padding-bottom: 40px;
         }
 
-        .logo-container { margin: 0 auto; max-width: 150px; transition: transform 0.3s ease; }
-        .logo-container:hover { transform: scale(1.05); }
+        .logo-container { margin: 0 auto; max-width: 140px; }
         .logo-img { width: 100%; height: auto; filter: brightness(1.1); }
 
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { font-size: 1.1rem; line-height: 1.8; color: #EEE; font-style: italic; max-width: 900px; text-wrap: balance; }
+        .review-text { font-size: 1.15rem; line-height: 1.8; color: #EEE; font-style: italic; max-width: 900px; text-wrap: balance; }
         
         .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
         .tag { 
             border: 1px solid var(--santander-red); color: #FFF; 
-            background-color: transparent; padding: 6px 16px; 
-            border-radius: 4px; font-size: 0.8rem; font-weight: 600; 
+            padding: 6px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; 
             text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s ease; cursor: default;
+            transition: all 0.3s ease;
         }
         .tag:hover { background: var(--santander-red); box-shadow: 0 0 15px var(--santander-red); }
 
-        /* --- SCORE SCA (MÁS PEQUEÑO Y FINO) --- */
+        /* --- SCORE SCA REFINADO --- */
         .score-box { text-align: center; }
         .score-box .val { 
-            font-size: 3.8rem; 
-            font-weight: 600; 
+            font-size: 3.5rem; 
+            font-weight: 600; /* Menos bold */
             color: var(--santander-red); 
             line-height: 1; 
             letter-spacing: -1px;
         }
-        .score-box .lbl { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 5px; letter-spacing: 2px; }
+        .score-box .lbl { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 5px; letter-spacing: 2px; }
 
-        /* --- TABLAS INTERACTIVAS --- */
+        /* --- TABLAS E INTERACTIVIDAD --- */
         .section-container h2 { 
             font-size: 1.1rem; font-weight: 700; text-transform: uppercase; 
             letter-spacing: 2px; margin-bottom: 25px; color: var(--text-light); 
@@ -95,25 +101,20 @@
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table .row { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); 
-            transition: background 0.3s ease, padding-left 0.3s ease;
+            padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); 
+            transition: all 0.3s ease;
             border-radius: 4px;
         }
-        .data-table .row:hover { 
-            background: rgba(236, 0, 0, 0.05); 
-            padding-left: 15px;
-            border-bottom-color: var(--santander-red);
-        }
-        .data-table .label { color: var(--text-muted); font-size: 0.95rem; }
+        .data-table .row:hover { background: rgba(236, 0, 0, 0.05); border-bottom-color: var(--santander-red); }
+        .data-table .label { color: var(--text-muted); font-size: 1rem; }
         .data-table .value { font-weight: 600; color: var(--text-light); font-size: 1.1rem; text-align: right; }
 
         /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; transition: transform 0.4s ease; }
-        .chart-wrapper:hover { transform: scale(1.02); }
-        .radar-wrapper { height: 450px; } 
-        .pie-wrapper { height: 300px; }
+        .radar-wrapper { height: 480px; } 
+        .pie-wrapper { height: 320px; }
 
-        /* --- BOTONES Y LED --- */
+        /* --- LED Y BOTONES --- */
         .fab-pdf { 
             position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; 
             color: #FFF; width: 65px; height: 65px; border-radius: 50%; 
@@ -121,52 +122,47 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.6); border: 1px solid #333; 
             z-index: 1000; cursor: pointer; transition: all 0.3s ease;
         }
-        .fab-pdf:hover { background: var(--santander-red); border-color: var(--santander-red); transform: translateY(-5px); }
+        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); }
 
-        /* LED Pulsatorio abajo izquierda */
         .sync-led {
-            position: fixed; bottom: 25px; left: 25px; width: 14px; height: 14px;
+            position: fixed; bottom: 25px; left: 25px; width: 12px; height: 12px;
             border-radius: 50%; background-color: var(--led-green);
-            box-shadow: 0 0 10px var(--led-green);
             z-index: 1000;
             animation: pulse-green 2s infinite;
         }
-        .sync-led.offline { 
-            background-color: var(--led-red); 
-            box-shadow: 0 0 10px var(--led-red);
-            animation: pulse-red 2s infinite;
-        }
+        .sync-led.offline { background-color: var(--led-red); animation: pulse-red 2s infinite; }
 
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(40, 167, 69, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.8); }
+            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
             100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
         }
         @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(220, 53, 69, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.8); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
             100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
         }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP --- */
+        /* --- DESKTOP 3 COLUMNAS --- */
         @media (min-width: 1024px) {
             .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
             .logo-container { margin: 0; } .header-review { align-items: flex-start; } .tags { justify-content: flex-start; }
-            .score-box { text-align: right; border-left: 2px solid var(--border-color); padding-left: 40px; }
+            .score-box { text-align: right; border-left: 1px solid var(--border-color); padding-left: 40px; }
             .sensory-section { grid-column: 1 / 2; } .trace-section { grid-column: 2 / 3; } .physic-section { grid-column: 3 / 4; }
         }
 
         .pdf-export-mode { width: 1600px !important; background: var(--bg-dark) !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-        .pdf-export-mode .sync-led, .pdf-export-mode .fab-pdf { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="parallax-wrapper" id="parallax-bg"></div>
+<div class="parallax-wrapper" id="parallax-bg">
+    <div class="kraft-texture"></div>
+</div>
 
 <div id="sync-led" class="sync-led" title="Estado de conexión"></div>
 
@@ -175,7 +171,7 @@
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
             <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="logo-text" style="display: none; font-weight: 700; font-size: 1.2rem;">WORK CAFÉ</div>
+            <div style="display: none; font-weight: 700; font-size: 1.2rem;">WORK CAFÉ</div>
         </div>
 
         <div class="header-review">
@@ -231,11 +227,8 @@
 <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
-    // Configuración de Gráficos con Interactividad
     Chart.defaults.color = '#AAAAAA';
     Chart.defaults.font.family = 'Montserrat';
-    Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(20, 20, 20, 0.9)';
-    Chart.defaults.plugins.tooltip.titleFont = { size: 14, weight: 'bold' };
 
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
@@ -243,14 +236,13 @@
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
             datasets: [{ 
-                label: 'Puntaje',
                 data: [0,0,0,0,0,0,0],
                 backgroundColor: 'rgba(236, 0, 0, 0.15)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, hoverPointRadius: 8
             }]
         },
         options: { 
             responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
+            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 13, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
             plugins: { legend: { display: false } }
         }
     });
@@ -260,9 +252,9 @@
         type: 'doughnut',
         data: { 
             labels: ['Malla 17', 'Malla 16', 'Malla 15'], 
-            datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#444', '#222'], borderColor: '#141414', borderWidth: 3 }] 
+            datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#444', '#222'], borderColor: '#141414', borderWidth: 4 }] 
         },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#CCC' } } } }
+        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#CCC', font: {size: 13} } } } }
     });
 
     function updateUI(data) {
@@ -304,24 +296,24 @@
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v4');
+        const cached = localStorage.getItem('cafe_v5');
         if (cached) updateUI(JSON.parse(cached));
 
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
             updateUI(data);
-            localStorage.setItem('cafe_v4', JSON.stringify(data));
+            localStorage.setItem('cafe_v5', JSON.stringify(data));
             document.getElementById('sync-led').classList.remove('offline');
         } catch (e) {
             document.getElementById('sync-led').classList.add('offline');
         }
     }
 
-    // --- EFECTO PARALLAX REAL ---
+    // Parallax suave en el fondo kraft
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        document.getElementById('parallax-bg').style.transform = `translateY(${scrolled * 0.3}px) translateZ(0)`;
+        document.getElementById('parallax-bg').style.transform = `translateY(${scrolled * 0.15}px)`;
     });
 
     const observer = new IntersectionObserver((entries) => {
