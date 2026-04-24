@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#141414">
+    <meta name="theme-color" content="#ffffff">
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
     
@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA (DARK MODE) --- */
+        /* --- IDENTIDAD CORPORATIVA (TEMA CLARO) --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -25,16 +25,16 @@
             --s-red: #ec0000;      
             --s-dark: #141414;     
             --s-white: #ffffff;    
-            --s-accent: #deedf2;   
-            --s-border: #333333;
+            --s-grey-text: #666666;   
+            --s-border: #eaeaea;
             --led-green: #248a3d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
-            background-color: var(--s-dark); 
-            color: var(--s-white); 
+            background-color: var(--s-white); 
+            color: var(--s-dark); 
             font-family: 'SantanderText', Arial, sans-serif;
             width: 100%; height: 100vh;
             overflow: hidden; 
@@ -44,7 +44,7 @@
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--s-dark);
+            background-color: var(--s-white);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
         }
@@ -53,60 +53,38 @@
             fill: var(--s-red);
             animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
-        @keyframes spin { 
-            100% { transform: rotate(360deg); } 
-        }
-        #status-text { 
-            font-family: 'SantanderHeadline'; font-size: 0.8rem; 
-            letter-spacing: 3px; text-transform: uppercase; 
-            color: var(--s-white); opacity: 0.8; 
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; }
 
         /* --- DASHBOARD --- */
-        .dashboard-container { 
-            width: 95%; max-width: 1400px; margin: 0 auto; 
-            padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; 
-            height: 100vh; justify-content: center;
-        }
+        .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; height: 100vh; justify-content: center; }
 
         /* CABECERA */
-        .header-section { 
-            display: grid; grid-template-columns: 140px 1fr auto; align-items: center;
-            border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px;
-        }
+        .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
         .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
-        .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-white); font-style: italic; max-width: 800px; margin: 0 auto; }
+        .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
         .tags-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
         .score-box { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
         .score-info { text-align: right; }
         .score-info .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 700; color: var(--s-red); line-height: 1; }
-        .score-info .lbl { font-size: 0.75rem; color: var(--s-accent); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .score-info .lbl { font-size: 0.75rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         
-        .btn-pdf { 
-            background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--s-border); 
-            cursor: pointer; transition: 0.3s; flex-shrink: 0;
-        }
-        .btn-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
+        .btn-pdf { background: var(--s-white); color: var(--s-red); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--s-red); cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-3px); border-color: transparent; }
 
         /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
-        .col h2 { 
-            font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; 
-            padding-bottom: 8px; border-bottom: 1px solid var(--s-border);
-        }
+        .col h2 { font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--s-border); }
         .data-list .item:last-child { border-bottom: none; }
-        .data-list .label { color: var(--s-accent); font-size: 0.85rem; }
-        .data-list .value { font-weight: 600; color: var(--s-white); font-size: 0.95rem; text-align: right; }
+        .data-list .label { color: var(--s-grey-text); font-size: 0.85rem; }
+        .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.95rem; text-align: right; }
 
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
         .pie-box { height: 210px; } 
@@ -130,32 +108,11 @@
         }
 
         /* --- MODO EXPORTACIÓN PDF --- */
-        body.pdf-export-mode { 
-            overflow: visible !important; 
-            height: 1100px !important;
-            width: 1600px !important;
-            background-color: var(--s-dark) !important;
-        }
-        body.pdf-export-mode .dashboard-container {
-            width: 1600px !important; max-width: 1600px !important;
-            height: 1100px !important;
-            padding: 60px !important;
-            background-color: var(--s-dark) !important;
-            justify-content: flex-start !important;
-            gap: 50px !important;
-        }
-        body.pdf-export-mode .header-section { 
-            display: grid !important; 
-            grid-template-columns: 140px 1fr auto !important; 
-            text-align: left !important; 
-            gap: 30px !important;
-        }
+        body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-white) !important; }
+        body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; }
+        body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; }
         body.pdf-export-mode .score-box { justify-content: flex-end !important; margin: 0 !important; }
-        body.pdf-export-mode .main-content { 
-            display: grid !important; 
-            grid-template-columns: repeat(3, 1fr) !important; 
-            gap: 60px !important; 
-        }
+        body.pdf-export-mode .main-content { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 60px !important; }
         body.pdf-export-mode .chart-box { height: 420px !important; }
         body.pdf-export-mode .pie-box { height: 280px !important; } 
         body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
@@ -174,7 +131,7 @@
 
 <div id="export-area" class="dashboard-container">
     <header class="header-section">
-        <div class="logo-box"><img src="logo-workcafe.png" alt="Santander Work Café" onerror="this.style.display='none'"></div>
+        <div class="logo-box"><img src="logo-WC-blanco.png" alt="Santander Work Café" onerror="this.style.display='none'"></div>
         
         <div class="profile-box">
             <p class="review-text" id="ui-review-text">---</p>
@@ -226,27 +183,28 @@
 </div>
 
 <script>
+    // API ACTUALIZADA
     const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
 
-    Chart.defaults.color = '#888';
+    Chart.defaults.color = '#666666';
     Chart.defaults.font.family = 'SantanderText, Arial';
 
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.12)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#141414' }]
+            datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color:'#333'}, grid: {color:'#333'}, pointLabels: {color:'#FFF', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } }, plugins: { legend: {display:false} } }
+        options: { animation: false, responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: {color:'#eaeaea'}, grid: {color:'#eaeaea'}, pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } }, plugins: { legend: {display:false} } }
     });
 
     const pieChart = new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
         data: {
             labels: ['Malla 17', 'Malla 16', 'Malla 15'],
-            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#141414', borderWidth:4 }]
+            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:4 }]
         },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#888', font:{size:11}}} } }
+        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#666666', font:{size:11}}} } }
     });
 
     function cleanPercentage(val) {
@@ -264,7 +222,6 @@
         
         const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
         
-        // Blindaje contra errores de tipo de dato
         if(data.review.notas && String(data.review.notas).trim() !== "—") {
             String(data.review.notas).split(',').forEach(n => {
                 const el = document.createElement('span'); el.className = 'tag'; el.innerText = n.trim(); tagContainer.appendChild(el);
@@ -296,7 +253,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_dark_v8');
+        const cache = localStorage.getItem('santander_cafe_light_v9');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -310,7 +267,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_dark_v8', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v9', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
@@ -355,7 +312,7 @@
 
             const opt = {
                 margin: 0, filename: 'WorkCafe_Santander_Ficha.pdf', image: { type: 'jpeg', quality: 1.0 },
-                html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 },
+                html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 },
                 jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
             };
 
