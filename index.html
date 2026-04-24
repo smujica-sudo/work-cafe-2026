@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#121212">
     <title>Work Café Santander | Ficha Técnica Especialidad</title>
     
@@ -20,6 +20,7 @@
             --border-color: #2A2A2A;
         }
 
+        /* --- RESET ESTRICTO PARA ANDROID --- */
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -27,10 +28,11 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        body, html {
+        html, body {
             width: 100%;
-            max-width: 100vw;
-            overflow-x: hidden; 
+            height: 100%;
+            position: relative;
+            overflow-x: hidden; /* Bloqueo total de scroll horizontal */
         }
 
         body {
@@ -42,15 +44,15 @@
             -webkit-text-size-adjust: 100%; 
         }
 
-        /* --- DIAGRAMACIÓN BASE (MOBILE FIRST) --- */
+        /* --- DIAGRAMACIÓN BASE (FLEXBOX PARA MOBILE) --- */
         .dashboard-container {
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 12px; 
-            display: grid;
+            padding: 10px; /* Reducido para máximo aprovechamiento en Samsung */
+            display: flex; /* Cambio crítico: Flexbox en lugar de Grid en mobile */
+            flex-direction: column;
             gap: 12px; 
-            grid-template-columns: 1fr; 
         }
 
         .card {
@@ -61,6 +63,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            min-width: 0; /* Cambio crítico: Evita explosión de anchos en Android */
         }
 
         .card h2 { 
@@ -75,34 +78,35 @@
             gap: 8px; 
             border-bottom: 1px solid var(--border-color); 
             padding-bottom: 10px;
+            word-wrap: break-word;
         }
-        .card h2::before { content: ''; width: 4px; height: 16px; background: var(--santander-red); }
+        .card h2::before { content: ''; width: 4px; height: 16px; background: var(--santander-red); flex-shrink: 0; }
 
         /* --- HEADER & LOGO --- */
         .hero-card {
             text-align: center;
             background-color: #161616;
             border-top: 5px solid var(--santander-red);
-            padding: 20px 15px;
+            padding: 20px 10px;
         }
         .logo-text { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.5px; margin-bottom: 6px; }
         .logo-text span { color: var(--santander-red); }
-        .hero-title h1 { font-size: 1.6rem; font-weight: 800; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; }
+        .hero-title h1 { font-size: 1.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 4px; text-transform: uppercase; }
         .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 1px; font-size: 0.7rem; }
 
         .score-box { text-align: center; margin: 12px 0 0 0; }
-        .score-box .val { font-size: 3rem; font-weight: 800; color: var(--santander-red); line-height: 1; }
+        .score-box .val { font-size: 2.8rem; font-weight: 800; color: var(--santander-red); line-height: 1; }
         .score-box .lbl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;}
 
-        /* --- PERFIL DE TAZA (REVIEW CARD) --- */
+        /* --- PERFIL DE TAZA --- */
         .review-card {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
         .review-card h2 { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
-        .review-text { font-size: 0.9rem; line-height: 1.5; color: #CCC; font-style: italic; font-weight: 400; }
-        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .review-text { font-size: 0.9rem; line-height: 1.5; color: #CCC; font-style: italic; font-weight: 400; text-align: center; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
         .tag { 
             border: 1px solid var(--santander-red); 
             color: var(--santander-red); 
@@ -113,20 +117,25 @@
             text-transform: uppercase;
         }
 
-        /* --- TABLAS FLEXBOX --- */
+        /* --- TABLAS ANTI-DESBORDE --- */
         .data-table { width: 100%; display: flex; flex-direction: column; }
         .data-table .row { 
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 0; border-bottom: 1px solid var(--border-color); gap: 10px;
+            display: flex; 
+            flex-wrap: wrap; /* Cambio Crítico: Permite bajar línea en textos largos */
+            justify-content: space-between; 
+            align-items: center;
+            padding: 10px 0; 
+            border-bottom: 1px solid var(--border-color); 
+            gap: 5px;
         }
         .data-table .row:last-child { border-bottom: none; }
-        .data-table .label { color: var(--text-muted); font-size: 0.75rem; flex: 1; }
-        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.85rem; text-align: right; flex: 1; word-break: break-word; }
+        .data-table .label { color: var(--text-muted); font-size: 0.75rem; flex: 1 1 40%; min-width: 100px; }
+        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.85rem; text-align: right; flex: 1 1 50%; word-wrap: break-word; }
 
         /* --- WRAPPERS DE GRÁFICOS --- */
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; }
-        .radar-wrapper { height: 260px; } 
-        .pie-wrapper { height: 180px; }
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
+        .radar-wrapper { height: 260px; max-width: 100%; } 
+        .pie-wrapper { height: 180px; max-width: 100%; }
 
         /* --- BOTÓN FLOTANTE --- */
         .fab-pdf {
@@ -138,20 +147,23 @@
         }
 
         /* =========================================
-           MEDIA QUERIES (TABLET Y DESKTOP)
+           MEDIA QUERIES (TABLET Y DESKTOP - ACTIVAN GRID)
            ========================================= */
         @media (min-width: 768px) {
-            .dashboard-container { padding: 30px; gap: 20px; grid-template-columns: 1fr 1fr; }
+            .dashboard-container { 
+                padding: 30px; gap: 20px; 
+                display: grid; /* Retorna a Grid solo cuando hay espacio seguro */
+                grid-template-columns: 1fr 1fr; 
+            }
             .card { padding: 25px; }
             .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding: 30px 40px; }
             .hero-title h1 { font-size: 2.3rem; }
             .score-box .val { font-size: 3.8rem; }
             
-            /* Perfil de Taza en 3 Columnas */
             .review-card { 
                 grid-column: 1 / -1; 
                 display: grid;
-                grid-template-columns: 1fr 2fr 1fr; /* Diagramación 3 Columnas */
+                grid-template-columns: 1fr 2fr 1fr; 
                 align-items: center;
                 gap: 30px;
             }
@@ -161,12 +173,14 @@
             .radar-wrapper { height: 340px; margin-bottom: 25px; } 
             .pie-wrapper { height: 220px; }
             .fab-pdf { bottom: 30px; right: 30px; width: 60px; height: 60px; cursor: pointer; }
+            .data-table .label { font-size: 0.8rem; }
+            .data-table .value { font-size: 0.9rem; }
         }
 
         @media (min-width: 1024px) {
             .dashboard-container { grid-template-columns: repeat(3, 1fr); padding: 40px; }
             .hero-card { grid-column: 1 / 4; }
-            .review-card { grid-column: 1 / 4; } /* Mantiene las 3 columnas y el ancho completo */
+            .review-card { grid-column: 1 / 4; } 
             .sensory-card { grid-column: 1 / 2; }
             .trace-card { grid-column: 2 / 3; }
             .physic-card { grid-column: 3 / 4; }
@@ -181,8 +195,9 @@
             padding: 30px 40px !important;
             gap: 20px !important;
             background: var(--bg-matte) !important;
+            display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important;
-            grid-template-rows: max-content max-content 1fr !important; /* Ajuste para el nuevo orden */
+            grid-template-rows: max-content max-content 1fr !important; 
             box-sizing: border-box !important;
             overflow: hidden !important; 
         }
@@ -190,7 +205,6 @@
         .pdf-export-mode .card { padding: 20px !important; }
         .pdf-export-mode .hero-card { grid-column: 1 / 4 !important; flex-direction: row !important; text-align: left !important; padding: 25px 40px !important;}
         
-        /* Asegurar 3 columnas en PDF para Perfil de Taza */
         .pdf-export-mode .review-card { 
             grid-column: 1 / 4 !important; 
             display: grid !important; 
@@ -299,7 +313,7 @@
     Chart.defaults.color = '#888888';
     Chart.defaults.font.family = 'Montserrat';
 
-    // Gráfico Radar (Araña)
+    // Gráfico Radar
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
@@ -331,7 +345,7 @@
         }
     });
 
-    // Gráfico Pie (Criba)
+    // Gráfico Dona
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
@@ -354,7 +368,7 @@
         }
     });
 
-    // --- LÓGICA DE EXPORTACIÓN ONE-PAGER ---
+    // LÓGICA DE EXPORTACIÓN ONE-PAGER
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
         fab.style.display = 'none';
