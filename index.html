@@ -21,9 +21,8 @@
             --led-red: #dc3545;
         }
 
-        /* --- FONDO KRAFT NEGRO --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
+        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; font-size: 16px; }
 
         body {
             font-family: 'Montserrat', sans-serif; 
@@ -33,17 +32,18 @@
             position: relative; overflow-x: hidden;
         }
 
-        /* Capa de textura Papel Kraft (Ruido sutil) */
-        .kraft-texture {
+        /* --- TEXTURA KRAFT MICROPOROSA --- */
+        .kraft-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-dark);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.04; /* Textura muy sutil */
+            /* SVG de ruido de alta frecuencia para grano microscópico */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.035; /* Intensidad sutil premium */
             z-index: -1;
             pointer-events: none;
         }
 
-        /* Parallax sutil en la textura al hacer scroll */
+        /* Capa para el efecto Parallax */
         .parallax-wrapper {
             position: fixed; top: -10%; left: 0; width: 100%; height: 120%;
             z-index: -2;
@@ -63,7 +63,7 @@
             padding-bottom: 40px;
         }
 
-        .logo-container { margin: 0 auto; max-width: 140px; }
+        .logo-container { margin: 0 auto; max-width: 140px; transition: transform 0.3s ease; }
         .logo-img { width: 100%; height: auto; filter: brightness(1.1); }
 
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
@@ -73,19 +73,19 @@
         .tag { 
             border: 1px solid var(--santander-red); color: #FFF; 
             padding: 6px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; 
-            text-transform: uppercase; letter-spacing: 1px;
-            transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
         }
         .tag:hover { background: var(--santander-red); box-shadow: 0 0 15px var(--santander-red); }
 
-        /* --- SCORE SCA REFINADO --- */
+        /* --- SCORE SCA (REDUCIDO / PESO 600) --- */
         .score-box { text-align: center; }
         .score-box .val { 
             font-size: 3.5rem; 
-            font-weight: 600; /* Menos bold */
+            font-weight: 600; 
             color: var(--santander-red); 
             line-height: 1; 
             letter-spacing: -1px;
+            text-shadow: none;
         }
         .score-box .lbl { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 5px; letter-spacing: 2px; }
 
@@ -102,8 +102,7 @@
         .data-table .row { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); 
-            transition: all 0.3s ease;
-            border-radius: 4px;
+            transition: all 0.3s ease; border-radius: 4px;
         }
         .data-table .row:hover { background: rgba(236, 0, 0, 0.05); border-bottom-color: var(--santander-red); }
         .data-table .label { color: var(--text-muted); font-size: 1rem; }
@@ -114,23 +113,13 @@
         .radar-wrapper { height: 480px; } 
         .pie-wrapper { height: 320px; }
 
-        /* --- LED Y BOTONES --- */
-        .fab-pdf { 
-            position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; 
-            color: #FFF; width: 65px; height: 65px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6); border: 1px solid #333; 
-            z-index: 1000; cursor: pointer; transition: all 0.3s ease;
-        }
-        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); }
-
+        /* --- LED INDICADOR ABAJO IZQUIERDA --- */
         .sync-led {
             position: fixed; bottom: 25px; left: 25px; width: 12px; height: 12px;
             border-radius: 50%; background-color: var(--led-green);
-            z-index: 1000;
-            animation: pulse-green 2s infinite;
+            z-index: 1000; animation: pulse-green 2.5s infinite;
         }
-        .sync-led.offline { background-color: var(--led-red); animation: pulse-red 2s infinite; }
+        .sync-led.offline { background-color: var(--led-red); animation: pulse-red 2.5s infinite; }
 
         @keyframes pulse-green {
             0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.8); }
@@ -143,10 +132,19 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
         }
 
+        .fab-pdf { 
+            position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; 
+            color: #FFF; width: 65px; height: 65px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6); border: 1px solid #333; 
+            z-index: 1000; cursor: pointer; transition: 0.3s;
+        }
+        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); }
+
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP 3 COLUMNAS --- */
+        /* --- DESKTOP --- */
         @media (min-width: 1024px) {
             .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
@@ -156,22 +154,22 @@
         }
 
         .pdf-export-mode { width: 1600px !important; background: var(--bg-dark) !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
+        .pdf-export-mode .sync-led, .pdf-export-mode .fab-pdf { display: none !important; }
     </style>
 </head>
 <body>
 
-<div class="parallax-wrapper" id="parallax-bg">
-    <div class="kraft-texture"></div>
-</div>
+<div class="kraft-bg"></div>
+<div class="parallax-wrapper" id="parallax-bg"></div>
 
-<div id="sync-led" class="sync-led" title="Estado de conexión"></div>
+<div id="sync-led" class="sync-led" title="Conexión en tiempo real"></div>
 
 <div id="export-area" class="dashboard-container">
     
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
             <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display: none; font-weight: 700; font-size: 1.2rem;">WORK CAFÉ</div>
+            <div style="display: none; font-weight: 700;">WORK CAFÉ</div>
         </div>
 
         <div class="header-review">
@@ -235,26 +233,16 @@
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ 
-                data: [0,0,0,0,0,0,0],
-                backgroundColor: 'rgba(236, 0, 0, 0.15)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, hoverPointRadius: 8
-            }]
+            datasets: [{ label:'Score', data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236,0,0,0.15)', borderColor:'#EC0000', borderWidth:2, pointRadius:4, hoverPointRadius:8 }]
         },
-        options: { 
-            responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 13, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
-            plugins: { legend: { display: false } }
-        }
+        options: { responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:13, weight:600}, padding:20}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
     });
 
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { 
-            labels: ['Malla 17', 'Malla 16', 'Malla 15'], 
-            datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#444', '#222'], borderColor: '#141414', borderWidth: 4 }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#CCC', font: {size: 13} } } } }
+        data: { labels:['Malla 17','Malla 16','Malla 15'], datasets:[{ data:[1,1,1], backgroundColor:['#EC0000','#444','#222'], borderColor:'#141414', borderWidth:4 }] },
+        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#CCC', font:{size:13}}} } }
     });
 
     function updateUI(data) {
@@ -288,32 +276,27 @@
         document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('val-agt').innerText = data.fisico.agtron;
 
-        let m17 = parseFloat(data.fisico.malla17) || 0; if (m17 > 0 && m17 <= 1) m17 *= 100;
-        let m16 = parseFloat(data.fisico.malla16) || 0; if (m16 > 0 && m16 <= 1) m16 *= 100;
-        let m15 = parseFloat(data.fisico.malla15) || 0; if (m15 > 0 && m15 <= 1) m15 *= 100;
+        let m17 = parseFloat(data.fisico.malla17) || 0; if(m17>0 && m17<=1) m17*=100;
+        let m16 = parseFloat(data.fisico.malla16) || 0; if(m16>0 && m16<=1) m16*=100;
+        let m15 = parseFloat(data.fisico.malla15) || 0; if(m15>0 && m15<=1) m15*=100;
         pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)];
         pieChart.update();
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v5');
+        const cached = localStorage.getItem('cafe_v6');
         if (cached) updateUI(JSON.parse(cached));
-
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
             updateUI(data);
-            localStorage.setItem('cafe_v5', JSON.stringify(data));
+            localStorage.setItem('cafe_v6', JSON.stringify(data));
             document.getElementById('sync-led').classList.remove('offline');
-        } catch (e) {
-            document.getElementById('sync-led').classList.add('offline');
-        }
+        } catch (e) { document.getElementById('sync-led').classList.add('offline'); }
     }
 
-    // Parallax suave en el fondo kraft
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        document.getElementById('parallax-bg').style.transform = `translateY(${scrolled * 0.15}px)`;
+        document.getElementById('parallax-bg').style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
     });
 
     const observer = new IntersectionObserver((entries) => {
@@ -328,15 +311,8 @@
         element.classList.add('pdf-export-mode');
         radarChart.resize(); pieChart.resize();
         setTimeout(() => {
-            html2pdf().set({ 
-                margin: 0, filename: 'Ficha_WorkCafe_Santander.pdf', 
-                image: { type: 'jpeg', quality: 1 }, 
-                html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true }, 
-                jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } 
-            }).from(element).save().then(() => {
-                element.classList.remove('pdf-export-mode');
-                radarChart.resize(); pieChart.resize();
-                fab.style.display = 'flex'; 
+            html2pdf().set({ margin:0, filename:'Ficha_Tecnica.pdf', image:{type:'jpeg', quality:1}, html2canvas:{scale:2, backgroundColor:'#141414', useCORS:true}, jsPDF:{unit:'px', format:[1600, 1100], orientation:'landscape'} }).from(element).save().then(() => {
+                element.classList.remove('pdf-export-mode'); radarChart.resize(); pieChart.resize(); fab.style.display='flex'; 
             });
         }, 300);
     }
