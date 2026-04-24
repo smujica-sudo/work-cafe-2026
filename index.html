@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#EC0000">
+    <title>Work Café Santander | Specialty Coffee Blend</title>
+    
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIldvcmsgQ2Fmw6kgQmxlbmQiLAogICJzaG9ydF9uYW1lIjogIldDIEJsZW5kIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjRUMwMDAwIgp9">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --santander-red: #EC0000;
+            --deep-black: #1A1A1A;
+            --soft-grey: #F8F9FA;
+            --border-color: #E9ECEF;
+            --text-main: #333333;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--soft-grey);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .pwa-container {
+            width: 100%; max-width: 480px;
+            background: white; min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.05);
+            padding-bottom: 100px;
+            position: relative;
+        }
+
+        /* Header Estilo Work Café */
+        header {
+            background-color: var(--santander-red);
+            padding: 40px 25px;
+            color: white;
+            text-align: left;
+            border-bottom-right-radius: 40px;
+        }
+
+        header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; }
+        header p { margin: 5px 0 0; font-weight: 300; opacity: 0.9; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+
+        /* Floating Action Button para PDF */
+        .fab-download {
+            position: fixed; bottom: 30px; right: 20px;
+            background: var(--deep-black); color: white;
+            border: none; width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 100; cursor: pointer;
+        }
+
+        /* Secciones */
+        section { padding: 25px; border-bottom: 8px solid var(--soft-grey); }
+        h2 { font-size: 1.1rem; color: var(--deep-black); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        h2::before { content: ''; width: 4px; height: 18px; background: var(--santander-red); border-radius: 2px; }
+
+        /* Reseña */
+        .coffee-intro { font-size: 0.95rem; line-height: 1.6; color: #555; font-style: italic; background: #FFF5F5; padding: 15px; border-radius: 12px; border-left: 3px solid var(--santander-red); }
+
+        /* Chips de Notas */
+        .flavor-grid { display: flex; wrap: wrap; gap: 8px; margin-top: 15px; }
+        .flavor-tag { background: white; border: 1px solid var(--border-color); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+
+        /* Score & Stats */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-card { background: var(--soft-grey); padding: 15px; border-radius: 12px; text-align: center; }
+        .stat-val { display: block; font-size: 1.5rem; font-weight: 700; color: var(--santander-red); }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; color: #888; letter-spacing: 0.5px; }
+
+        /* Tablas */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+        .data-table tr { border-bottom: 1px solid var(--border-color); }
+        .data-table td { padding: 12px 0; }
+        .data-table td:last-child { text-align: right; font-weight: 600; color: var(--deep-black); }
+
+        canvas { margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="pwa-content" class="pwa-container">
+    <header>
+        <p>Santander Work Café</p>
+        <h1>Espresso Blend</h1>
+    </header>
+
+    <section>
+        <h2>Reseña del Coffee Master</h2>
+        <div class="coffee-intro">
+            Café 100% arábica proveniente de reconocidas regiones productoras en Perú y Brasil. Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida, cremosa y reconfortante. Perfecto para preparaciones en espresso con leche.
+        </div>
+        <div class="flavor-grid">
+            <span class="flavor-tag">🍫 Chocolate</span>
+            <span class="flavor-tag">🌰 Frutos Secos</span>
+            <span class="flavor-tag">🍯 Caramelo</span>
+            <span class="flavor-tag">🥜 Cajú</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Puntaje SCA</span>
+                <span class="stat-val">83.0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Tostado</span>
+                <span class="stat-val" style="font-size: 1rem;">Full City / Agtron 50</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Evaluación Sensorial SCA</h2>
+        <canvas id="radarSensorial" width="400" height="400"></canvas>
+    </section>
+
+    <section>
+        <h2>Trazabilidad de Origen</h2>
+        <table class="data-table">
+            <tr><td>País de Origen</td><td>Perú - Brasil</td></tr>
+            <tr><td>Región</td><td>Pangoa - Carmo de Minas</td></tr>
+            <tr><td>Altura</td><td>900 - 1800 Msnm</td></tr>
+            <tr><td>Variedades</td><td>Caturra, Catuai, Bourbon</td></tr>
+            <tr><td>Proceso</td><td>Lavado - Natural</td></tr>
+            <tr><td>Certificación</td><td>RFA / Fair Trade</td></tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Análisis de Grano (Zaranda)</h2>
+        <canvas id="zarandaPie" width="400" height="250"></canvas>
+        <table class="data-table" style="margin-top: 20px;">
+            <tr><td>Humedad</td><td>10.1%</td></tr>
+            <tr><td>Densidad</td><td>0.78 g/ml</td></tr>
+            <tr><td>Defectos Totales</td><td>7 pts</td></tr>
+        </table>
+    </section>
+
+    <footer style="text-align: center; padding: 40px; color: #ccc; font-size: 0.7rem;">
+        &copy; 2026 WORK CAFÉ SANTANDER • FICHA TÉCNICA ABR 2026
+    </footer>
+</div>
+
+<button class="fab-download" onclick="downloadPDF()" title="Descargar Ficha PDF">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+</button>
+
+<script>
+    // Configuración Radar Chart
+    const ctxRadar = document.getElementById('radarSensorial').getContext('2d');
+    new Chart(ctxRadar, {
+        type: 'radar',
+        data: {
+            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
+            datasets: [{
+                label: 'Atributos SCA',
+                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.0, 7.75], // Datos del informe
+                backgroundColor: 'rgba(236, 0, 0, 0.15)',
+                borderColor: '#EC0000',
+                borderWidth: 2,
+                pointBackgroundColor: '#EC0000'
+            }]
+        },
+        options: {
+            scales: { r: { min: 6, max: 9, ticks: { display: false } } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Configuración Pie Chart Zaranda
+    const ctxPie = document.getElementById('zarandaPie').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+            labels: ['Malla 17', 'Malla 16', 'Malla 15', 'Otras'],
+            datasets: [{
+                data: [58.6, 34.3, 5.7, 1.4], // Datos del análisis físico
+                backgroundColor: ['#EC0000', '#1A1A1A', '#B8977E', '#E9ECEF'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: { legend: { position: 'right', labels: { boxWidth: 12
