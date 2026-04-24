@@ -10,9 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* CONFIGURACIÓN DE TIPOGRAFÍA SANTANDER 
-           Nota: Asegúrate de tener los archivos .woff2 en tu servidor 
-        */
+        /* --- IDENTIDAD VISUAL SANTANDER --- */
         @font-face {
             font-family: 'SantanderText';
             src: url('SantanderText-Regular.woff2') format('woff2');
@@ -21,166 +19,111 @@
         @font-face {
             font-family: 'SantanderHeadline';
             src: url('SantanderHeadline-Bold.woff2') format('woff2');
-            font-weight: 700;
+            font-weight: 600;
         }
 
         :root {
-            --s-red: #EC0000;      /* Rojo Santander Oficial */
+            --s-red: #EC0000;      /* Rojo Santander Matte */
             --s-dark: #141414;     /* Fondo Negro Plano */
-            --s-grey-1: #444444;   /* Bordes / Detalles */
-            --s-grey-2: #CCCCCC;   /* Texto secundario */
-            --s-white: #FFFFFF;    /* Texto principal */
-            --led-green: #28a745;
-            --led-red: #EC0000;
+            --s-grey-border: #444444; 
+            --s-grey-text: #CCCCCC;   
+            --s-white: #FFFFFF;    
+            --led-green: #248a3d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
         html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
 
         body {
-            font-family: 'SantanderText', 'Montserrat', Arial, sans-serif; 
-            background-color: var(--s-dark); 
-            color: var(--s-white); 
+            font-family: 'SantanderText', Arial, sans-serif; 
+            background-color: var(--s-dark); color: var(--s-white); 
             line-height: 1.6; -webkit-font-smoothing: antialiased; 
-            position: relative; overflow-x: hidden;
-        }
-
-        /* --- EFECTO PARALLAX --- */
-        .parallax-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 15% 15%, rgba(236, 0, 0, 0.03) 0%, transparent 40%);
-            z-index: -1; transform: translateZ(0);
         }
 
         .dashboard-container {
-            width: 92%; max-width: 1500px; margin: 0 auto;
-            padding: 50px 10px; display: flex; flex-direction: column; gap: 60px; 
+            width: 95%; max-width: 1600px; margin: 0 auto;
+            padding: 40px 10px; display: flex; flex-direction: column; gap: 40px; 
             position: relative; z-index: 1;
         }
 
         /* --- HEADER --- */
         .hero-section {
-            display: flex; flex-direction: column; gap: 30px; 
-            text-align: center; border-bottom: 1px solid var(--s-grey-1); 
-            padding-bottom: 40px;
+            display: flex; flex-direction: column; gap: 25px; 
+            text-align: center; border-bottom: 1px solid var(--s-grey-border); 
+            padding-bottom: 30px;
         }
-
         .logo-container { margin: 0 auto; max-width: 140px; }
         .logo-img { width: 100%; height: auto; }
-
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { 
-            font-family: 'SantanderText', sans-serif;
-            font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-2); 
-            font-style: italic; max-width: 850px; text-wrap: balance; 
-        }
-        
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-text); font-style: italic; max-width: 850px; }
         .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .tag { 
-            border: 1px solid var(--s-red); color: var(--s-white); 
-            padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; 
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
-        /* --- SCA SCORE (MÁS PEQUEÑO Y REFINADO) --- */
+        /* --- SCA SCORE (MATTE / 600) --- */
         .score-box { text-align: center; }
-        .score-box .val { 
-            font-family: 'SantanderHeadline', sans-serif;
-            font-size: 2.8rem; font-weight: 600; color: var(--s-red); 
-            line-height: 1; letter-spacing: -0.5px;
-        }
-        .score-box .lbl { font-size: 0.75rem; color: var(--s-grey-2); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
+        .score-box .val { font-family: 'SantanderHeadline', sans-serif; font-size: 3.2rem; font-weight: 600; color: var(--s-red); line-height: 1; letter-spacing: -1px; }
+        .score-box .lbl { font-size: 0.8rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
 
-        /* --- SECCIONES E INTERACTIVIDAD --- */
-        .section-container h2 { 
-            font-family: 'SantanderHeadline', sans-serif;
-            font-size: 1rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); 
-            display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
-            border-bottom: 1px solid var(--s-grey-1);
-        }
-        .section-container h2::before { content: ''; width: 3px; height: 16px; background: var(--s-red); }
-
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table .row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 14px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: background 0.2s ease;
-        }
-        .data-table .row:hover { background: rgba(236, 0, 0, 0.03); }
-        .data-table .label { color: var(--s-grey-2); font-size: 0.95rem; }
-        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.05rem; text-align: right; }
+        /* --- TABLAS --- */
+        .section-container h2 { font-family: 'SantanderHeadline', sans-serif; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--s-grey-border); }
+        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--s-red); }
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: 0.2s; }
+        .data-table .row:hover { background: rgba(255, 255, 255, 0.03); }
+        .data-table .label { color: var(--s-grey-text); font-size: 1rem; }
+        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; text-align: right; }
 
         /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
-        .radar-wrapper { height: 420px; } 
-        .pie-wrapper { height: 280px; }
+        .radar-wrapper { height: 450px; } 
+        .pie-wrapper { height: 300px; }
 
-        /* --- LED INDICADOR (ABAJO IZQUIERDA) --- */
-        .sync-led {
-            position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px;
-            border-radius: 50%; background-color: var(--led-green);
-            z-index: 1000; animation: pulse-led 3s infinite;
-        }
-        .sync-led.offline { background-color: var(--led-red); animation: pulse-red 2s infinite; }
+        /* --- UI ELEMENTS --- */
+        .sync-led { position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: pulse 3s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
+        .fab-pdf:hover { background: var(--s-red); transform: scale(1.1); }
 
-        @keyframes pulse-led {
-            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4); }
-            50% { opacity: 0.5; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes pulse-red {
-            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(236, 0, 0, 0.4); }
-            50% { opacity: 0.5; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(236, 0, 0, 0); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* --- BOTÓN PDF --- */
-        .fab-pdf { 
-            position: fixed; bottom: 30px; right: 30px; background: #222; 
-            color: #FFF; width: 60px; height: 60px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-1); 
-            z-index: 1000; cursor: pointer; transition: 0.3s;
-        }
-        .fab-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
-
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        /* --- REVEAL --- */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP 3 COLUMNAS --- */
+        /* --- DESKTOP --- */
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 70px; }
+            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
             .logo-container { margin: 0; } .header-review { align-items: flex-start; } .tags { justify-content: flex-start; }
-            .score-box { text-align: right; border-left: 1px solid var(--s-grey-1); padding-left: 40px; }
-            .sensory-section { grid-column: 1 / 2; } .trace-section { grid-column: 2 / 3; } .physic-section { grid-column: 3 / 4; }
+            .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 40px; }
         }
 
-        .pdf-export-mode { width: 1600px !important; background: var(--s-dark) !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-        .pdf-export-mode .sync-led, .pdf-export-mode .fab-pdf { display: none !important; }
+        /* --- MODO EXPORTACIÓN PDF (FIJO PARA LLENAR PÁGINA) --- */
+        .pdf-export-mode {
+            width: 1600px !important;
+            height: 1100px !important; /* Altura fija para evitar espacios en blanco */
+            padding: 60px !important;
+            margin: 0 !important;
+            background-color: #141414 !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            grid-template-rows: max-content 1fr !important;
+            align-content: start !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+        }
     </style>
 </head>
 <body>
 
-<div class="parallax-bg" id="parallax-bg"></div>
-
-<div id="sync-led" class="sync-led" title="Estado de Conexión"></div>
+<div id="sync-led" class="sync-led"></div>
 
 <div id="export-area" class="dashboard-container">
-    
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
-            <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display: none; font-weight: 700; color: #FFF;">WORK CAFÉ</div>
+            <img src="logo-workcafe.png" alt="Work Café" class="logo-img">
         </div>
-
         <div class="header-review">
-            <p class="review-text" id="val-review-text">Iniciando análisis técnico...</p>
+            <p class="review-text" id="val-review-text">Sincronizando ficha técnica...</p>
             <div class="tags" id="val-tags"></div>
         </div>
-
         <div class="score-box">
             <div class="lbl">SCA SCORE</div>
             <div class="val" id="ui-sca">--.-</div>
@@ -189,9 +132,7 @@
 
     <section class="section-container sensory-section reveal">
         <h2>Evaluación Sensorial</h2>
-        <div class="chart-wrapper radar-wrapper">
-            <canvas id="radarChart"></canvas>
-        </div>
+        <div class="chart-wrapper radar-wrapper"><canvas id="radarChart"></canvas></div>
     </section>
 
     <section class="section-container trace-section reveal">
@@ -210,77 +151,52 @@
 
     <section class="section-container physic-section reveal">
         <h2>Análisis Físico</h2>
-        <div class="chart-wrapper pie-wrapper">
-            <canvas id="pieChart"></canvas>
-        </div>
+        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
         <div class="data-table">
             <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">--%</div></div>
             <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">-.-- g/ml</div></div>
             <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">--</div></div>
         </div>
     </section>
-
 </div>
 
-<button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar PDF">
+<button class="fab-pdf reveal" onclick="exportPDF()">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
 <script>
-    // URL API OFICIAL
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
-    Chart.defaults.color = '#888888';
-    Chart.defaults.font.family = 'SantanderText, Arial';
+    Chart.defaults.color = '#777777';
+    Chart.defaults.font.family = 'SantanderText, sans-serif';
 
-    // Gráfico Radar (Interactivo)
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
-        data: {
-            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ 
-                data: [0,0,0,0,0,0,0],
-                backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, hoverPointRadius: 8, pointBackgroundColor: '#141414'
-            }]
-        },
-        options: { 
-            responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
-            plugins: { legend: { display: false } }
-        }
+        data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data: [0,0,0,0,0,0,0], backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#141414' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#CCC', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } }, plugins: { legend: { display: false } } }
     });
 
-    // Gráfico Dona
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { 
-            labels: ['Malla 17', 'Malla 16', 'Malla 15'], 
-            datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#333', '#222'], borderColor: '#141414', borderWidth: 4 }] 
-        },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888', font: {size: 13} } } } }
+        data: { labels: ['Malla 17', 'Malla 16', 'Malla 15'], datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#333', '#222'], borderColor: '#141414', borderWidth: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888' } } } }
     });
 
     function updateUI(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('val-lote').innerText = data.lote;
-        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Perfil técnico no disponible.";
-
+        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         const tagsContainer = document.getElementById('val-tags');
         tagsContainer.innerHTML = '';
         if(data.review.notas !== "—") {
             data.review.notas.split(',').forEach(nota => {
-                const span = document.createElement('span');
-                span.className = 'tag'; span.innerText = nota.trim();
-                tagsContainer.appendChild(span);
+                const span = document.createElement('span'); span.className = 'tag'; span.innerText = nota.trim(); tagsContainer.appendChild(span);
             });
         }
-
-        radarChart.data.datasets[0].data = data.sensorial;
-        radarChart.update();
-
+        radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
         document.getElementById('val-ori').innerText = data.trazabilidad.origen;
         document.getElementById('val-reg').innerText = data.trazabilidad.region;
         document.getElementById('val-pro').innerText = data.trazabilidad.productor;
@@ -288,38 +204,25 @@
         document.getElementById('val-var').innerText = data.trazabilidad.varietales;
         document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
         document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
-
         document.getElementById('val-hum').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('val-agt').innerText = data.fisico.agtron;
-
         let m17 = parseFloat(data.fisico.malla17) || 0; if (m17 > 0 && m17 <= 1) m17 *= 100;
         let m16 = parseFloat(data.fisico.malla16) || 0; if (m16 > 0 && m16 <= 1) m16 *= 100;
         let m15 = parseFloat(data.fisico.malla15) || 0; if (m15 > 0 && m15 <= 1) m15 *= 100;
-        pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)];
-        pieChart.update();
+        pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)]; pieChart.update();
     }
 
     async function syncData() {
         const cached = localStorage.getItem('cafe_v_final');
         if (cached) updateUI(JSON.parse(cached));
-
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            updateUI(data);
-            localStorage.setItem('cafe_v_final', JSON.stringify(data));
-            document.getElementById('sync-led').classList.remove('offline');
-        } catch (e) {
-            document.getElementById('sync-led').classList.add('offline');
-        }
+            updateUI(data); localStorage.setItem('cafe_v_final', JSON.stringify(data));
+            document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
+        } catch (e) { document.getElementById('sync-led').style.backgroundColor = 'var(--led-red)'; }
     }
-
-    // Efecto Parallax
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        document.getElementById('parallax-bg').style.transform = `translateY(${scrolled * 0.1}px)`;
-    });
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
@@ -328,22 +231,38 @@
 
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
+        const led = document.getElementById('sync-led');
         fab.style.display = 'none';
+        led.style.display = 'none';
+        
         const element = document.getElementById('export-area');
         element.classList.add('pdf-export-mode');
+        
         radarChart.resize(); pieChart.resize();
-        setTimeout(() => {
-            html2pdf().set({ 
-                margin: 0, filename: 'Ficha_Tecnica_WorkCafe.pdf', 
-                image: { type: 'jpeg', quality: 1 }, 
-                html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true }, 
-                jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } 
-            }).from(element).save().then(() => {
-                element.classList.remove('pdf-export-mode');
-                radarChart.resize(); pieChart.resize();
-                fab.style.display = 'flex'; 
-            });
-        }, 300);
+
+        const opt = {
+            margin: 0,
+            filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2, 
+                backgroundColor: '#141414', 
+                useCORS: true,
+                width: 1600,
+                height: 1100,
+                windowWidth: 1600,
+                windowHeight: 1100,
+                scrollY: 0
+            },
+            jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.classList.remove('pdf-export-mode');
+            radarChart.resize(); pieChart.resize();
+            fab.style.display = 'flex'; 
+            led.style.display = 'block';
+        });
     }
 
     window.onload = syncData;
