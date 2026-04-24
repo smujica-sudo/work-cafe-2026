@@ -18,7 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA (TEMA CLARO) --- */
+        /* --- IDENTIDAD CORPORATIVA --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -60,12 +60,11 @@
         /* --- DASHBOARD --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; height: 100vh; justify-content: center; }
 
-        /* CABECERA */
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
         .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
-        .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
+        .review-text { font-size: 1rem; line-height: 1.4; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
         .tags-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
         .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
@@ -79,16 +78,18 @@
 
         /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
-        .col h2 { font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
-        .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
+        .col h2 { font-family: 'SantanderHeadline'; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
+        .col h2::before { content: ''; width: 4px; height: 14px; background: var(--s-red); }
         
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 7px 5px; border-bottom: 1px solid var(--s-border); }
+        /* Ajuste de padding para que quepan más secciones */
+        .data-list { margin-bottom: 15px; }
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 6px 5px; border-bottom: 1px solid var(--s-border); }
         .data-list .item:last-child { border-bottom: none; }
-        .data-list .label { color: var(--s-grey-text); font-size: 0.85rem; }
-        .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.95rem; text-align: right; }
+        .data-list .label { color: var(--s-grey-text); font-size: 0.8rem; }
+        .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.9rem; text-align: right; }
 
-        .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
-        .pie-box { height: 190px; } 
+        .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 310px; }
+        .pie-box { height: 180px; } 
 
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
@@ -97,37 +98,28 @@
         @media (max-width: 1024px) {
             html, body { overflow-x: hidden; overflow-y: auto; height: auto; -webkit-overflow-scrolling: touch; }
             .dashboard-container { width: 100%; max-width: 100vw; height: auto; padding: 30px 15px; gap: 30px; box-sizing: border-box; }
-            .header-section { grid-template-columns: 1fr; text-align: center; gap: 20px; border-bottom: none; padding-bottom: 0; }
+            .header-section { grid-template-columns: 1fr; text-align: center; gap: 20px; border-bottom: none; }
             .logo-box { max-width: 140px; margin: 0 auto 10px; }
             .score-box { justify-content: center; flex-direction: column; order: -1; margin-bottom: 10px; gap: 15px; }
-            .score-info { text-align: center; }
             .score-info .val { font-size: 3.5rem; }
             .main-content { display: flex; flex-direction: column; gap: 40px; width: 100%; }
-            .col { width: 100%; overflow: hidden; }
             .col h2 { justify-content: center; padding-left: 0; text-align: center; }
             .col h2::before { display: none; }
-            .chart-box { height: 320px; width: 100%; max-width: 100%; margin: 0 auto; }
-            .pie-box { height: 260px; width: 100%; max-width: 100%; margin: 0 auto; }
-            .data-list { width: 100%; }
-            .data-list .item { flex-direction: column; justify-content: center; align-items: center; padding: 12px 0; gap: 5px; text-align: center; }
-            .data-list .label { width: 100%; text-align: center; font-size: 0.8rem; }
-            .data-list .value { width: 100%; text-align: center; font-size: 1rem; justify-content: center; word-break: break-word; }
+            .data-list .item { flex-direction: column; padding: 10px 0; }
+            .data-list .label { font-size: 0.75rem; margin-bottom: 3px; }
+            .data-list .value { font-size: 0.95rem; }
         }
 
         /* --- MODO EXPORTACIÓN PDF --- */
         body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-white) !important; }
         body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; }
-        body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; padding-bottom: 2vh !important; }
+        body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; }
         body.pdf-export-mode .score-box { flex-direction: row !important; justify-content: flex-end !important; }
         body.pdf-export-mode .score-info { text-align: right !important; }
         body.pdf-export-mode .col h2 { justify-content: flex-start !important; text-align: left !important; }
         body.pdf-export-mode .col h2::before { display: block !important; }
-        body.pdf-export-mode .data-list .item { flex-direction: row !important; justify-content: space-between !important; padding: 7px 5px !important; text-align: left !important; }
-        body.pdf-export-mode .data-list .label { text-align: left !important; width: auto !important; }
-        body.pdf-export-mode .data-list .value { text-align: right !important; width: auto !important; justify-content: flex-end !important; }
+        body.pdf-export-mode .data-list .item { flex-direction: row !important; justify-content: space-between !important; padding: 6px 5px !important; }
         body.pdf-export-mode .main-content { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 60px !important; }
-        body.pdf-export-mode .chart-box { height: 420px !important; }
-        body.pdf-export-mode .pie-box { height: 260px !important; } 
         body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
     </style>
 </head>
@@ -180,6 +172,13 @@
                 <div class="item"><div class="label">Proceso</div><div class="value" id="ui-proceso">---</div></div>
                 <div class="item"><div class="label">Certificaciones</div><div class="value" id="ui-cert" style="color:var(--s-red)">---</div></div>
             </div>
+
+            <h2>Parámetros de tostado</h2>
+            <div class="data-list">
+                <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-roast-agtron">--</div></div>
+                <div class="item"><div class="label">Fecha de tostado</div><div class="value" id="ui-roast-fecha">--/--/--</div></div>
+                <div class="item"><div class="label">Perfil de tueste</div><div class="value" id="ui-roast-perfil">---</div></div>
+            </div>
         </section>
 
         <section class="col">
@@ -188,7 +187,6 @@
             <div class="data-list">
                 <div class="item"><div class="label">Humedad</div><div class="value" id="ui-humedad">--%</div></div>
                 <div class="item"><div class="label">Densidad</div><div class="value" id="ui-densidad">-.-- g/ml</div></div>
-                <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-agtron">--</div></div>
                 <div class="item"><div class="label">Defectos</div><div class="value" id="ui-defectos">--</div></div>
                 <div class="item"><div class="label">Grado</div><div class="value" id="ui-grado">--</div></div>
             </div>
@@ -211,23 +209,9 @@
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
         options: { 
-            animation: false, 
-            responsive: true, 
-            maintainAspectRatio: false, 
-            scales: { 
-                r: { 
-                    angleLines: {color:'#eaeaea'}, 
-                    grid: {color:'#eaeaea'}, 
-                    pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
-                    ticks: {display:false, stepSize: 1}, 
-                    min: 5, 
-                    max: 10 
-                } 
-            }, 
-            plugins: { 
-                legend: {display:false},
-                datalabels: {display: false} 
-            } 
+            animation: false, responsive: true, maintainAspectRatio: false, 
+            scales: { r: { angleLines: {color:'#eaeaea'}, grid: {color:'#eaeaea'}, pointLabels: {color:'#141414', font:{size:12, weight:600}, padding:15}, ticks: {display:false, stepSize: 1}, min: 5, max: 10 } }, 
+            plugins: { legend: {display:false}, datalabels: {display: false} } 
         }
     });
 
@@ -238,18 +222,13 @@
             datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:2 }]
         },
         options: { 
-            animation: false, 
-            responsive: true, 
-            maintainAspectRatio: false, 
+            animation: false, responsive: true, maintainAspectRatio: false, 
             plugins: { 
                 legend: {display:false}, 
                 datalabels: {
-                    color: '#ffffff', 
-                    font: { size: 12, weight: 600 },
-                    textAlign: 'center',
+                    color: '#ffffff', font: { size: 12, weight: 600 }, textAlign: 'center',
                     formatter: function(value) {
                         if (value <= 0) return null;
-                        // Forzamos 1 decimal si no es entero, cambiamos punto por coma para que se vea como 25,6%
                         let formatted = Number.isInteger(value) ? value : value.toFixed(1);
                         return formatted.toString().replace('.', ',') + '%';
                     }
@@ -258,18 +237,13 @@
         }
     });
 
-    // Función optimizada para evitar decimales infinitos
     function cleanPercentage(val) {
         let num = 0;
-        if (typeof val === 'number') {
-            num = val <= 1 && val > 0 ? val * 100 : val;
-        } else if (typeof val === 'string') {
+        if (typeof val === 'number') num = val <= 1 && val > 0 ? val * 100 : val;
+        else if (typeof val === 'string') {
             let parsed = parseFloat(val.replace('%', '').replace(',', '.'));
-            if (!isNaN(parsed)) {
-                num = parsed <= 1 && parsed > 0 ? parsed * 100 : parsed;
-            }
+            if (!isNaN(parsed)) num = parsed <= 1 && parsed > 0 ? parsed * 100 : parsed;
         }
-        // Redondea a un máximo de 1 decimal exacto
         return Math.round(num * 10) / 10;
     }
 
@@ -281,7 +255,6 @@
         document.getElementById('ui-review-text').innerText = data.review.texto && data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         
         const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
-        
         if(data.review.notas && String(data.review.notas).trim() !== "—") {
             String(data.review.notas).split(',').forEach(n => {
                 const el = document.createElement('span'); el.className = 'tag'; el.innerText = n.trim(); tagContainer.appendChild(el);
@@ -289,15 +262,7 @@
         }
 
         const s = data.sensorial || [0,0,0,0,0,0,0];
-        radarChart.data.labels = [
-            [s[0], 'Fragancia'],
-            [s[1], 'Sabor'],
-            [s[2], 'Residual'],
-            [s[3], 'Acidez'],
-            [s[4], 'Cuerpo'],
-            [s[5], 'Balance'],
-            [s[6], 'Dulzor']
-        ];
+        radarChart.data.labels = [[s[0], 'Fragancia'],[s[1], 'Sabor'],[s[2], 'Residual'],[s[3], 'Acidez'],[s[4], 'Cuerpo'],[s[5], 'Balance'],[s[6], 'Dulzor']];
         radarChart.data.datasets[0].data = s;
         radarChart.update();
         
@@ -309,80 +274,61 @@
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
 
+        // Mapeo nueva sección Tostado
+        if(data.roasting) {
+            document.getElementById('ui-roast-agtron').innerText = data.roasting.agtron || "—";
+            document.getElementById('ui-roast-fecha').innerText = data.roasting.fecha || "—";
+            document.getElementById('ui-roast-perfil').innerText = data.roasting.perfil || "—";
+        }
+
         let humValue = "—";
         if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
             let humNum = cleanPercentage(data.fisico.humedad);
             humValue = Number.isInteger(humNum) ? humNum + '%' : humNum.toFixed(1).replace('.', ',') + '%';
         }
         document.getElementById('ui-humedad').innerText = humValue;
-
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad || "—").replace('g/ml','').trim() + ' g/ml';
-        document.getElementById('ui-agtron').innerText = data.fisico.agtron || "—";
         document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
         document.getElementById('ui-grado').innerText = (data.fisico.grado !== undefined && data.fisico.grado !== "") ? data.fisico.grado : "—";
 
-        let m17 = cleanPercentage(data.fisico.malla17);
-        let m16 = cleanPercentage(data.fisico.malla16);
-        let m15 = cleanPercentage(data.fisico.malla15);
-
-        pieChart.data.datasets[0].data = [m17, m16, m15];
+        pieChart.data.datasets[0].data = [cleanPercentage(data.fisico.malla17), cleanPercentage(data.fisico.malla16), cleanPercentage(data.fisico.malla15)];
         pieChart.update();
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v23');
+        const cache = localStorage.getItem('santander_cafe_light_v24');
         const preloader = document.getElementById('preloader');
-
-        if(cache) {
-            render(JSON.parse(cache));
-            preloader.style.display = 'none';
-        }
-
+        if(cache) { render(JSON.parse(cache)); preloader.style.display = 'none'; }
         try {
             const res = await fetch(API_URL);
             if (!res.ok) throw new Error("Error HTTP: " + res.status);
-            
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v23', JSON.stringify(fresh));
-            
+            localStorage.setItem('santander_cafe_light_v24', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.display = 'none', 500);
-            
+            preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500);
         } catch (e) {
-            console.error("Error de conexión:", e);
+            console.error("Error:", e);
             document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
-            
-            if(!cache) {
-                document.getElementById('status-text').innerText = "Revisa tu conexión";
-                setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500); }, 3000);
-            }
+            if(!cache) { document.getElementById('status-text').innerText = "Revisa tu conexión"; setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500); }, 3000); }
         }
     }
 
     async function downloadPDF() {
         const loader = document.getElementById('preloader');
-        const statusText = document.getElementById('status-text');
         const targetElement = document.getElementById('export-area');
-
         try {
-            statusText.innerText = "Generando PDF...";
+            document.getElementById('status-text').innerText = "Generando PDF...";
             loader.style.display = 'flex'; loader.style.opacity = '1';
-            await new Promise(resolve => setTimeout(resolve, 200));
-
+            await new Promise(r => setTimeout(r, 200));
             document.body.classList.add('pdf-export-mode');
             radarChart.resize(); pieChart.resize();
-            await new Promise(resolve => setTimeout(resolve, 500));
-
+            await new Promise(r => setTimeout(r, 500));
+            
             const radarCanvas = document.getElementById('radarChart');
             const pieCanvas = document.getElementById('pieChart');
-            
-            const radarImg = document.createElement('img');
-            radarImg.src = radarChart.toBase64Image(); radarImg.style.width = '100%'; radarImg.id = 'temp-radar';
-            
-            const pieImg = document.createElement('img');
-            pieImg.src = pieChart.toBase64Image(); pieImg.style.width = '100%'; pieImg.id = 'temp-pie';
+            const radarImg = document.createElement('img'); radarImg.src = radarChart.toBase64Image(); radarImg.style.width = '100%'; radarImg.id = 'temp-radar';
+            const pieImg = document.createElement('img'); pieImg.src = pieChart.toBase64Image(); pieImg.style.width = '100%'; pieImg.id = 'temp-pie';
 
             radarCanvas.style.display = 'none'; pieCanvas.style.display = 'none';
             radarCanvas.parentNode.appendChild(radarImg); pieCanvas.parentNode.appendChild(pieImg);
@@ -392,20 +338,11 @@
                 html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 },
                 jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
             };
-
             await html2pdf().set(opt).from(targetElement).save();
-
             document.getElementById('temp-radar').remove(); document.getElementById('temp-pie').remove();
             radarCanvas.style.display = 'block'; pieCanvas.style.display = 'block';
-
-        } catch (error) {
-            console.error("Fallo crítico en PDF:", error);
-            alert("Ocurrió un error al generar el PDF. Verifica tu conexión o intenta recargar la página.");
-        } finally {
-            document.body.classList.remove('pdf-export-mode');
-            radarChart.resize(); pieChart.resize();
-            loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500);
-        }
+        } catch (error) { console.error("Error PDF:", error); } 
+        finally { document.body.classList.remove('pdf-export-mode'); radarChart.resize(); pieChart.resize(); loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
     }
 
     window.onload = bootstrap;
