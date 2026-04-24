@@ -12,44 +12,80 @@
 
     <style>
         :root {
-            /* Rojo institucional ajustado (menos luminoso, más corporativo) */
             --santander-red: #B30000; 
+            --santander-red-glow: rgba(179, 0, 0, 0.4);
             --bg-dark: #0F0F0F;
-            --card-bg: #1A1A1A;
+            --card-bg: rgba(26, 26, 26, 0.85); /* Semi-transparente para ver el parallax */
             --text-light: #E0E0E0;
             --text-muted: #888888;
-            --border-color: #2D2D2D;
+            --border-color: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- FONDO PARALLAX --- */
+        .parallax-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #050505 100%);
+            z-index: -1;
+            transform: scale(1.1); /* Para evitar bordes blancos al mover */
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Decoración de fondo */
+        .parallax-bg::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+            z-index: -1;
+            animation: bgScroll 60s linear infinite;
+        }
+
+        @keyframes bgScroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
         }
 
         /* --- DIAGRAMACIÓN PRINCIPAL (GRID) --- */
         .dashboard-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
             display: grid;
-            gap: 20px;
-            /* Por defecto (Mobile): 1 columna */
+            gap: 25px;
             grid-template-columns: 1fr; 
+            position: relative;
+            z-index: 1;
         }
 
-        /* --- ESTILO DE TARJETAS (CARDS) --- */
+        /* --- ESTILO DE TARJETAS (CARDS) E INTERACCIONES --- */
         .card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 16px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        /* Efecto Hover para Tarjetas */
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 20px var(--santander-red-glow);
+            border-color: rgba(179, 0, 0, 0.3);
         }
 
         .card h2 { 
@@ -57,83 +93,102 @@
             font-weight: 700; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            margin-bottom: 20px; 
+            margin-bottom: 25px; 
             color: var(--text-light); 
             display: flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 12px; 
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 15px;
         }
-        .card h2::before { content: ''; width: 4px; height: 18px; background: var(--santander-red); border-radius: 2px; }
+        .card h2::before { 
+            content: ''; 
+            width: 5px; height: 18px; 
+            background: var(--santander-red); 
+            border-radius: 3px; 
+            box-shadow: 0 0 8px var(--santander-red);
+        }
 
         /* --- HEADER & LOGO --- */
         .hero-card {
             text-align: center;
-            background: linear-gradient(145deg, #1A1A1A 0%, #111111 100%);
+            background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(10,10,10,0.9) 100%);
             border-top: 4px solid var(--santander-red);
         }
-        .logo-text { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; color: var(--text-light); margin-bottom: 15px; }
+        .logo-text { font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; color: var(--text-light); margin-bottom: 15px; }
         .logo-text span { color: var(--santander-red); }
-        .hero-title h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 5px; text-transform: uppercase; }
-        .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 2px; font-size: 0.8rem; }
+        .hero-title h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 5px; text-transform: uppercase; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .hero-title p { color: var(--text-muted); font-weight: 600; letter-spacing: 3px; font-size: 0.85rem; }
 
-        /* --- COMPONENTES INTERNOS --- */
-        .score-box { text-align: center; margin: 15px 0; }
-        .score-box .val { font-size: 3.5rem; font-weight: 800; color: var(--santander-red); line-height: 1; }
-        .score-box .lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .score-box { text-align: center; margin: 20px 0; }
+        .score-box .val { font-size: 4rem; font-weight: 800; color: var(--santander-red); line-height: 1; text-shadow: 0 0 20px var(--santander-red-glow); }
+        .score-box .lbl { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px;}
 
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .data-table td { padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        /* --- TABLAS Y DATOS --- */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table td { padding: 12px 0; border-bottom: 1px solid var(--border-color); transition: color 0.3s ease; }
+        .data-table tr:hover td { color: #fff; }
         .data-table td:first-child { color: var(--text-muted); }
         .data-table td:last-child { text-align: right; font-weight: 600; color: var(--text-light); }
 
-        .chart-wrapper { position: relative; width: 100%; height: 220px; display: flex; justify-content: center; margin-bottom: 15px; }
+        .chart-wrapper { position: relative; width: 100%; height: 240px; display: flex; justify-content: center; margin-bottom: 20px; }
 
-        .review-text { font-size: 0.95rem; line-height: 1.8; color: #BBB; font-style: italic; text-align: center; margin: 15px 0; }
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-        .tag { border: 1px solid var(--border-color); color: var(--text-light); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; background: rgba(255,255,255,0.02); }
+        .review-text { font-size: 1rem; line-height: 1.8; color: #CCC; font-style: italic; text-align: center; margin: 15px 0; font-weight: 300; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .tag { border: 1px solid var(--border-color); color: var(--text-light); padding: 8px 18px; border-radius: 25px; font-size: 0.8rem; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
+        .tag:hover { background: var(--santander-red); border-color: var(--santander-red); transform: translateY(-2px); }
 
         /* --- BOTÓN FLOTANTE --- */
         .fab-pdf {
             position: fixed; bottom: 30px; right: 30px;
             background: var(--santander-red); color: white;
-            width: 60px; height: 60px; border-radius: 50%;
+            width: 65px; height: 65px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: none; cursor: pointer; z-index: 1000;
+            box-shadow: 0 5px 20px rgba(179,0,0,0.5); border: none; cursor: pointer; z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-pdf:hover { transform: scale(1.15) rotate(5deg); }
+
+        /* --- CLASES DE ANIMACIÓN (Intersection Observer) --- */
+        .animate-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .animate-up.in-view {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* =========================================
            MEDIA QUERIES (ADAPTACIÓN DESKTOP/TABLET)
            ========================================= */
-        
-        /* TABLET */
         @media (min-width: 768px) {
             .dashboard-container { grid-template-columns: 1fr 1fr; }
-            .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding: 30px 40px; }
-            .hero-card .logo-text { margin-bottom: 0; }
-            .hero-card .hero-title { display: flex; align-items: center; gap: 20px; }
+            .hero-card { grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; text-align: left; padding: 40px 50px; }
+            .hero-card .logo-text { margin-bottom: 5px; }
+            .hero-card .hero-title { display: flex; flex-direction: column; }
             .review-card { grid-column: 1 / -1; }
         }
 
-        /* DESKTOP AMPLIO */
-        @media (min-width: 1024px) {
-            .dashboard-container { grid-template-columns: repeat(3, 1fr); padding: 40px; }
+        @media (min-width: 1100px) {
+            .dashboard-container { grid-template-columns: repeat(3, 1fr); padding: 50px 40px; }
             .hero-card { grid-column: 1 / 4; }
-            /* Repartimos las 3 tarjetas inferiores en 3 columnas */
             .sensory-card { grid-column: 1 / 2; }
             .trace-card { grid-column: 2 / 3; }
             .physic-card { grid-column: 3 / 4; }
-            .review-card { grid-column: 1 / 4; flex-direction: row; align-items: center; gap: 30px; text-align: left; }
-            .review-card .review-text { text-align: left; flex: 1; margin: 0; }
+            .review-card { grid-column: 1 / 4; flex-direction: row; align-items: center; gap: 40px; text-align: left; }
+            .review-card .review-text { text-align: left; flex: 1; margin: 0; font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
+<div class="parallax-bg" id="parallax-bg"></div>
+
 <div id="export-area" class="dashboard-container">
     
-    <div class="card hero-card">
+    <div class="card hero-card animate-up" style="transition-delay: 0.1s;">
         <div>
             <div class="logo-text">WORK <span>CAFÉ</span> SANTANDER</div>
             <div class="hero-title">
@@ -141,13 +196,13 @@
                 <p>SCA SPECIALTY COFFEE • LOTE ABR-2026</p>
             </div>
         </div>
-        <div class="score-box" style="margin: 0;">
-            <div class="lbl">Puntaje Total</div>
+        <div class="score-box">
+            <div class="lbl">Puntaje SCA</div>
             <div class="val">83.0</div>
         </div>
     </div>
 
-    <div class="card sensory-card">
+    <div class="card sensory-card animate-up" style="transition-delay: 0.2s;">
         <h2>Evaluación Sensorial</h2>
         <div class="chart-wrapper">
             <canvas id="radarChart"></canvas>
@@ -163,7 +218,7 @@
         </table>
     </div>
 
-    <div class="card trace-card">
+    <div class="card trace-card animate-up" style="transition-delay: 0.3s;">
         <h2>Trazabilidad</h2>
         <table class="data-table" style="margin-bottom: auto;">
             <tr><td>Origen</td><td>Perú - Brasil</td></tr>
@@ -176,8 +231,8 @@
         </table>
     </div>
 
-    <div class="card physic-card">
-        <h2>Análisis Físico</h2>
+    <div class="card physic-card animate-up" style="transition-delay: 0.4s;">
+        <h2>Distribución Criba / Zaranda</h2>
         <div class="chart-wrapper" style="height: 180px;">
             <canvas id="pieChart"></canvas>
         </div>
@@ -189,12 +244,12 @@
         </table>
     </div>
 
-    <div class="card review-card">
-        <div style="min-width: 150px;">
+    <div class="card review-card animate-up" style="transition-delay: 0.5s;">
+        <div style="min-width: 160px;">
             <h2 style="border: none; padding: 0; margin: 0;">Perfil de Taza</h2>
         </div>
         <p class="review-text">
-            "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida, cremosa y reconfortante. Perfecto para preparaciones en espresso."
+            "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida, cremosa y reconfortante."
         </p>
         <div class="tags">
             <span class="tag">Chocolate</span>
@@ -206,48 +261,83 @@
 
 </div>
 
-<button class="fab-pdf" onclick="exportPDF()" title="Descargar Ficha PDF">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+<button class="fab-pdf animate-up" style="transition-delay: 0.8s;" onclick="exportPDF()" title="Descargar Ficha PDF">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
 <script>
-    // Configuración Global de Chart.js para Dark Theme
-    Chart.defaults.color = '#888888';
+    // --- EFECTO PARALLAX INTERACTIVO (Mousemove) ---
+    document.addEventListener("mousemove", (e) => {
+        const bg = document.getElementById('parallax-bg');
+        const x = (window.innerWidth - e.pageX * 2) / 90;
+        const y = (window.innerHeight - e.pageY * 2) / 90;
+        bg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+    });
+
+    // --- ANIMACIONES ON SCROLL (Intersection Observer) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-up').forEach((el) => observer.observe(el));
+
+    // --- CONFIGURACIÓN GRÁFICOS INTERACTIVOS ---
+    Chart.defaults.color = '#AAAAAA';
     Chart.defaults.font.family = 'Montserrat';
 
-    // Gráfico Radar Sensorial
+    // Gráfico Radar Sensorial (Animado)
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     new Chart(ctxRadar, {
         type: 'radar',
         data: {
-            labels: ['Frag.', 'Sabor', 'Resid.', 'Acidez', 'Cuerpo', 'Bal.', 'Dulzor'],
+            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
             datasets: [{
-                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.0, 7.75], // Datos Reales
-                backgroundColor: 'rgba(179, 0, 0, 0.25)', // Rojo más oscuro #B30000 con opacidad
+                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.0, 7.75],
+                backgroundColor: 'rgba(179, 0, 0, 0.3)',
                 borderColor: '#B30000',
                 borderWidth: 2,
                 pointBackgroundColor: '#FFFFFF',
                 pointBorderColor: '#B30000',
-                pointRadius: 3
+                pointHoverBackgroundColor: '#B30000',
+                pointHoverBorderColor: '#FFFFFF',
+                pointRadius: 3,
+                pointHoverRadius: 6 // Crece al pasar el mouse
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeOutQuart'
+            },
             scales: {
                 r: {
-                    angleLines: { color: '#2D2D2D' },
-                    grid: { color: '#2D2D2D' },
-                    pointLabels: { font: { size: 10 } },
+                    angleLines: { color: 'rgba(255,255,255,0.05)' },
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    pointLabels: { font: { size: 10, weight: 600 } },
                     ticks: { display: false },
                     min: 6, max: 9
                 }
             },
-            plugins: { legend: { display: false } }
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    titleFont: { size: 13, family: 'Montserrat' },
+                    bodyFont: { size: 14, weight: 'bold' },
+                    padding: 10,
+                    displayColors: false
+                }
+            }
         }
     });
 
-    // Gráfico de Zaranda (Dona)
+    // Gráfico de Criba/Zaranda (Doughnut interactivo)
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     new Chart(ctxPie, {
         type: 'doughnut',
@@ -255,32 +345,55 @@
             labels: ['Malla 17', 'Malla 16', 'Otras'],
             datasets: [{
                 data: [58.6, 34.3, 7.1],
-                backgroundColor: ['#B30000', '#444444', '#222222'],
+                backgroundColor: ['#B30000', '#555555', '#222222'],
                 borderColor: '#1A1A1A',
-                borderWidth: 2
+                borderWidth: 2,
+                hoverOffset: 10 // Explota ligeramente al pasar el mouse
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '75%',
+            cutout: '70%',
+            animation: {
+                animateScale: true,
+                animateRotate: true,
+                duration: 2000,
+                easing: 'easeOutCirc'
+            },
             plugins: { 
-                legend: { position: 'right', labels: { boxWidth: 12 } }
+                legend: { position: 'right', labels: { boxWidth: 12, font: {size: 11} } },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.label + ': ' + context.raw + '%';
+                        }
+                    }
+                }
             }
         }
     });
 
-    // Exportación a PDF responsiva
+    // --- EXPORTACIÓN A PDF ---
     function exportPDF() {
         const element = document.getElementById('export-area');
+        
+        // Quitar momentáneamente los filtros de blur que dan problemas en html2canvas
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(c => c.style.backdropFilter = 'none');
+
         const opt = {
             margin: 10,
             filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' } // Horizontal para que encajen las tarjetas
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
-        html2pdf().set(opt).from(element).save();
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Restaurar el blur
+            cards.forEach(c => c.style.backdropFilter = 'blur(10px)');
+        });
     }
 </script>
 
