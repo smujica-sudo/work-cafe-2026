@@ -12,13 +12,14 @@
 
     <style>
         :root {
+            /* Rojo Oficial Matte (Sin brillos) */
             --santander-red: #EC0000; 
             --bg-dark: #141414; 
             --text-light: #F0F0F0;
-            --text-muted: #999999;
-            --border-color: rgba(255, 255, 255, 0.12);
-            --led-green: #28a745;
-            --led-red: #dc3545;
+            --text-muted: #888888;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --led-green: #248a3d; /* Verde más opaco */
+            --led-red: #a82331;   /* Rojo más opaco */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -32,18 +33,18 @@
             position: relative; overflow-x: hidden;
         }
 
-        /* --- TEXTURA KRAFT MICROPOROSA --- */
+        /* --- FONDO KRAFT NEGRO MICROPOROSO --- */
         .kraft-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--bg-dark);
-            /* SVG de ruido de alta frecuencia para grano microscópico */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.035; /* Intensidad sutil premium */
+            /* Ruido ultra-fino para textura de papel */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.99' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* Capa para el efecto Parallax */
+        /* Efecto Parallax en la textura */
         .parallax-wrapper {
             position: fixed; top: -10%; left: 0; width: 100%; height: 120%;
             z-index: -2;
@@ -63,80 +64,75 @@
             padding-bottom: 40px;
         }
 
-        .logo-container { margin: 0 auto; max-width: 140px; transition: transform 0.3s ease; }
-        .logo-img { width: 100%; height: auto; filter: brightness(1.1); }
+        .logo-container { margin: 0 auto; max-width: 130px; }
+        .logo-img { width: 100%; height: auto; opacity: 0.9; }
 
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { font-size: 1.15rem; line-height: 1.8; color: #EEE; font-style: italic; max-width: 900px; text-wrap: balance; }
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: #CCC; font-style: italic; max-width: 900px; text-wrap: balance; }
         
         .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
         .tag { 
             border: 1px solid var(--santander-red); color: #FFF; 
-            padding: 6px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; 
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+            padding: 5px 15px; border-radius: 3px; font-size: 0.75rem; font-weight: 600; 
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        .tag:hover { background: var(--santander-red); box-shadow: 0 0 15px var(--santander-red); }
 
-        /* --- SCORE SCA (REDUCIDO / PESO 600) --- */
+        /* --- SCA SCORE (MATTE / MENOS BOLD) --- */
         .score-box { text-align: center; }
         .score-box .val { 
-            font-size: 3.5rem; 
+            font-size: 3.2rem; 
             font-weight: 600; 
             color: var(--santander-red); 
             line-height: 1; 
             letter-spacing: -1px;
-            text-shadow: none;
+            /* Eliminado el text-shadow de brillo */
         }
-        .score-box .lbl { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 5px; letter-spacing: 2px; }
+        .score-box .lbl { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
 
         /* --- TABLAS E INTERACTIVIDAD --- */
         .section-container h2 { 
-            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; 
+            font-size: 1rem; font-weight: 700; text-transform: uppercase; 
             letter-spacing: 2px; margin-bottom: 25px; color: var(--text-light); 
             display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
-        .section-container h2::before { content: ''; width: 4px; height: 20px; background: var(--santander-red); }
+        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--santander-red); }
 
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table .row { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); 
-            transition: all 0.3s ease; border-radius: 4px;
+            transition: all 0.2s ease;
         }
-        .data-table .row:hover { background: rgba(236, 0, 0, 0.05); border-bottom-color: var(--santander-red); }
+        .data-table .row:hover { background: rgba(255, 255, 255, 0.03); }
         .data-table .label { color: var(--text-muted); font-size: 1rem; }
         .data-table .value { font-weight: 600; color: var(--text-light); font-size: 1.1rem; text-align: right; }
 
         /* --- GRÁFICOS --- */
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; transition: transform 0.4s ease; }
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
         .radar-wrapper { height: 480px; } 
         .pie-wrapper { height: 320px; }
 
-        /* --- LED INDICADOR ABAJO IZQUIERDA --- */
+        /* --- LED INDICADOR (ABAJO IZQUIERDA) --- */
         .sync-led {
-            position: fixed; bottom: 25px; left: 25px; width: 12px; height: 12px;
+            position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px;
             border-radius: 50%; background-color: var(--led-green);
-            z-index: 1000; animation: pulse-green 2.5s infinite;
+            z-index: 1000;
+            animation: pulse-led 3s infinite;
         }
-        .sync-led.offline { background-color: var(--led-red); animation: pulse-red 2.5s infinite; }
+        .sync-led.offline { background-color: var(--led-red); }
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.8); }
-            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
-        }
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.8); }
-            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        @keyframes pulse-led {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
 
         .fab-pdf { 
-            position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; 
-            color: #FFF; width: 65px; height: 65px; border-radius: 50%; 
+            position: fixed; bottom: 30px; right: 30px; background: #222; 
+            color: #FFF; width: 60px; height: 60px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6); border: 1px solid #333; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid #333; 
             z-index: 1000; cursor: pointer; transition: 0.3s;
         }
         .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); }
@@ -144,7 +140,7 @@
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP --- */
+        /* --- DESKTOP 3 COLUMNAS --- */
         @media (min-width: 1024px) {
             .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
@@ -162,18 +158,18 @@
 <div class="kraft-bg"></div>
 <div class="parallax-wrapper" id="parallax-bg"></div>
 
-<div id="sync-led" class="sync-led" title="Conexión en tiempo real"></div>
+<div id="sync-led" class="sync-led" title="Conectado a la BD"></div>
 
 <div id="export-area" class="dashboard-container">
     
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
             <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display: none; font-weight: 700;">WORK CAFÉ</div>
+            <div style="display: none; font-weight: 700; color: #FFF;">WORK CAFÉ</div>
         </div>
 
         <div class="header-review">
-            <p class="review-text" id="val-review-text">Cargando perfil...</p>
+            <p class="review-text" id="val-review-text">Cargando perfil técnico...</p>
             <div class="tags" id="val-tags"></div>
         </div>
 
@@ -219,13 +215,13 @@
 </div>
 
 <button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar PDF">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
 <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
-    Chart.defaults.color = '#AAAAAA';
+    Chart.defaults.color = '#777777';
     Chart.defaults.font.family = 'Montserrat';
 
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
@@ -233,23 +229,33 @@
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ label:'Score', data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236,0,0,0.15)', borderColor:'#EC0000', borderWidth:2, pointRadius:4, hoverPointRadius:8 }]
+            datasets: [{ 
+                data: [0,0,0,0,0,0,0],
+                backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, hoverPointRadius: 8, pointBackgroundColor: '#141414'
+            }]
         },
-        options: { responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:13, weight:600}, padding:20}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
+        options: { 
+            responsive: true, maintainAspectRatio: false,
+            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#CCC', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#222' } }
+        }
     });
 
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { labels:['Malla 17','Malla 16','Malla 15'], datasets:[{ data:[1,1,1], backgroundColor:['#EC0000','#444','#222'], borderColor:'#141414', borderWidth:4 }] },
-        options: { responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#CCC', font:{size:13}}} } }
+        data: { 
+            labels: ['Malla 17', 'Malla 16', 'Malla 15'], 
+            datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#333', '#222'], borderColor: '#141414', borderWidth: 4 }] 
+        },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888', font: {size: 13} } } } }
     });
 
     function updateUI(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('val-lote').innerText = data.lote;
-        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil...";
+        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Perfil técnico no disponible.";
 
         const tagsContainer = document.getElementById('val-tags');
         tagsContainer.innerHTML = '';
@@ -276,27 +282,31 @@
         document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('val-agt').innerText = data.fisico.agtron;
 
-        let m17 = parseFloat(data.fisico.malla17) || 0; if(m17>0 && m17<=1) m17*=100;
-        let m16 = parseFloat(data.fisico.malla16) || 0; if(m16>0 && m16<=1) m16*=100;
-        let m15 = parseFloat(data.fisico.malla15) || 0; if(m15>0 && m15<=1) m15*=100;
+        let m17 = parseFloat(data.fisico.malla17) || 0; if (m17 > 0 && m17 <= 1) m17 *= 100;
+        let m16 = parseFloat(data.fisico.malla16) || 0; if (m16 > 0 && m16 <= 1) m16 *= 100;
+        let m15 = parseFloat(data.fisico.malla15) || 0; if (m15 > 0 && m15 <= 1) m15 *= 100;
         pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)];
         pieChart.update();
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v6');
+        const cached = localStorage.getItem('cafe_v_matte');
         if (cached) updateUI(JSON.parse(cached));
+
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
             updateUI(data);
-            localStorage.setItem('cafe_v6', JSON.stringify(data));
+            localStorage.setItem('cafe_v_matte', JSON.stringify(data));
             document.getElementById('sync-led').classList.remove('offline');
-        } catch (e) { document.getElementById('sync-led').classList.add('offline'); }
+        } catch (e) {
+            document.getElementById('sync-led').classList.add('offline');
+        }
     }
 
     window.addEventListener('scroll', () => {
-        document.getElementById('parallax-bg').style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
+        const scrolled = window.pageYOffset;
+        document.getElementById('parallax-bg').style.transform = `translateY(${scrolled * 0.1}px)`;
     });
 
     const observer = new IntersectionObserver((entries) => {
@@ -311,8 +321,15 @@
         element.classList.add('pdf-export-mode');
         radarChart.resize(); pieChart.resize();
         setTimeout(() => {
-            html2pdf().set({ margin:0, filename:'Ficha_Tecnica.pdf', image:{type:'jpeg', quality:1}, html2canvas:{scale:2, backgroundColor:'#141414', useCORS:true}, jsPDF:{unit:'px', format:[1600, 1100], orientation:'landscape'} }).from(element).save().then(() => {
-                element.classList.remove('pdf-export-mode'); radarChart.resize(); pieChart.resize(); fab.style.display='flex'; 
+            html2pdf().set({ 
+                margin: 0, filename: 'Ficha_Tecnica_WorkCafe.pdf', 
+                image: { type: 'jpeg', quality: 1 }, 
+                html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true }, 
+                jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' } 
+            }).from(element).save().then(() => {
+                element.classList.remove('pdf-export-mode');
+                radarChart.resize(); pieChart.resize();
+                fab.style.display = 'flex'; 
             });
         }, 300);
     }
