@@ -217,7 +217,7 @@
                     grid: {color:'#eaeaea'}, 
                     pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
                     ticks: {display:false, stepSize: 1}, 
-                    min: 4, // <--- Escala ajustada para arrancar desde el 4
+                    min: 5, // <--- Escala ajustada para arrancar desde el 5
                     max: 10 
                 } 
             }, 
@@ -291,7 +291,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v18');
+        const cache = localStorage.getItem('santander_cafe_light_v19');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -305,7 +305,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v18', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v19', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
