@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#111111">
-    <title>Work Café Santander | Ficha Técnica Especialidad</title>
+    <title>Work Café Santander | Especialidad</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,291 +11,242 @@
 
     <style>
         :root {
-            --santander-red: #EC0000;
-            --bg-dark: #0A0A0A;
-            --card-bg: #161616;
-            --text-light: #F5F5F5;
-            --text-muted: #999999;
-            --border-color: #2A2A2A;
+            /* Rojo institucional más opaco y elegante */
+            --santander-red: #B30000; 
+            --bg-dark: #0F0F0F;
+            --card-bg: #1A1A1A;
+            --text-light: #E0E0E0;
+            --text-muted: #888888;
+            --border: #2D2D2D;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
-            display: flex; justify-content: center;
-            min-height: 100vh;
+            display: flex;
+            justify-content: center;
         }
 
-        /* Contenedor Principal (Desktop & Mobile) */
+        /* Contenedor PWA con diseño responsivo */
         .app-container {
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1100px;
             padding: 20px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
         }
 
-        /* --- ESTILOS COMPARTIDOS --- */
-        .card {
+        /* --- VISUALIZACIÓN MÓVIL (TIPO FICHA PARANTE) --- */
+        .stand-card {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 4px; /* Bordes rectos para look parante */
+            padding: 40px 30px;
             position: relative;
-            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            max-width: 450px;
+            margin: 0 auto;
         }
 
-        h2 { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; color: var(--text-light); display: flex; align-items: center; gap: 10px; }
-        h2::before { content: ''; width: 4px; height: 20px; background: var(--santander-red); border-radius: 2px; }
-
-        /* Header Hero */
-        .header-card {
-            background: linear-gradient(135deg, #1A1A1A 0%, #000000 100%);
-            border-top: 6px solid var(--santander-red);
+        .logo-header {
             text-align: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            margin-bottom: 30px;
         }
-        
-        .header-card .tagline { color: var(--santander-red); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-        .header-card h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
-        .header-card .lote-badge { background: #222; border: 1px solid #444; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Score Principal */
-        .score-display { text-align: center; margin: 20px 0; }
-        .score-display .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
-        .score-display .value { font-size: 4.5rem; font-weight: 800; color: var(--santander-red); line-height: 1; text-shadow: 0 0 20px rgba(236, 0, 0, 0.3); }
-
-        /* Reseña y Notas */
-        .review-text { font-size: 1rem; line-height: 1.8; color: #CCCCCC; font-style: italic; font-weight: 300; text-align: center; margin-bottom: 25px; }
-        .tags-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        .taste-tag { background: transparent; border: 1px solid var(--santander-red); color: var(--text-light); padding: 8px 18px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; }
-
-        /* Tablas de Datos */
-        .data-list { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        .data-list tr { border-bottom: 1px solid var(--border-color); }
-        .data-list td { padding: 16px 0; }
-        .data-list td:first-child { color: var(--text-muted); font-weight: 400; }
-        .data-list td:last-child { text-align: right; font-weight: 600; color: var(--text-light); }
-
-        /* Botón FAB */
-        .fab-pdf {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--santander-red); color: white;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(236, 0, 0, 0.5); border: none; cursor: pointer; z-index: 999;
-            transition: transform 0.3s ease;
+        /* Logo Placeholder - Representación visual del logo Work Cafe */
+        .logo-placeholder {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+            color: var(--text-light);
         }
-        .fab-pdf:hover { transform: scale(1.1); }
+        .logo-placeholder span { color: var(--santander-red); }
 
-        .sync-status { text-align: center; font-size: 0.7rem; color: #555; padding-top: 20px; }
+        .product-title {
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .product-title h1 { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .product-title p { color: var(--santander-red); font-weight: 600; letter-spacing: 2px; font-size: 0.8rem; }
 
-        /* --- DESKTOP MEDIA QUERY (Visualización de Panel) --- */
-        @media (min-width: 992px) {
+        /* Desglose Sensorial Table */
+        .sensory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+        .sensory-table td { padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .sensory-table .score { text-align: right; font-weight: 700; color: var(--santander-red); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-item { text-align: center; border: 1px solid var(--border); padding: 15px; border-radius: 4px; }
+        .stat-item span { display: block; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+        .stat-item strong { font-size: 1.5rem; font-weight: 700; color: var(--text-light); }
+
+        /* Sección Desktop (Panel Lateral) */
+        @media (min-width: 900px) {
             .app-container {
-                grid-template-columns: 350px 1fr 1fr;
-                grid-template-rows: auto auto;
-                align-items: stretch;
-                padding: 40px;
+                grid-template-columns: 450px 1fr;
                 height: 100vh;
-                overflow: hidden;
+                padding: 40px;
             }
-            .header-card { grid-column: 1 / 2; grid-row: 1 / 3; }
-            .sensory-card { grid-column: 2 / 3; grid-row: 1 / 2; }
-            .trace-card { grid-column: 3 / 4; grid-row: 1 / 2; }
-            .physic-card { grid-column: 2 / 3; grid-row: 2 / 3; }
-            .review-card { grid-column: 3 / 4; grid-row: 2 / 3; }
-            
-            /* Ajuste de scroll interno si es necesario */
-            .app-container > div { overflow-y: auto; }
+            .details-panel {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                overflow-y: auto;
+            }
         }
 
-        /* --- MOBILE MEDIA QUERY (Ficha Parante) --- */
-        @media (max-width: 991px) {
-            .app-container { padding-bottom: 100px; }
+        /* Botón de Exportación */
+        .btn-export {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--santander-red);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
         }
+
+        .pdf-page { background-color: var(--bg-dark); }
     </style>
 </head>
 <body>
 
-<div id="export-container" class="app-container">
+<div class="app-container" id="capture-area">
     
-    <div class="card header-card">
-        <div class="tagline">Work Café Santander</div>
-        <h1>ESPRESSO<br>BLEND</h1>
-        <span class="lote-badge">Lote: SANT-ABR-2026</span>
-        
-        <div class="score-display">
-            <div class="label">SCA Score</div>
-            <div id="sca-val" class="value">83.0</div>
-            <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 5px;">Especialidad</div>
+    <div class="stand-card" id="main-stand">
+        <div class="logo-header">
+            <div class="logo-placeholder">WORK <span>CAFÉ</span> SANTANDER</div>
         </div>
-        
-        <div class="sync-status" id="sync-status">● Offline Mode / Datos de archivo</div>
-    </div>
 
-    <div class="card sensory-card">
-        <h2>Perfil Sensorial</h2>
-        <div style="position: relative; height: 250px; width: 100%; display: flex; justify-content: center;">
-            <canvas id="radarChart"></canvas>
+        <div class="product-title">
+            <h1>ESPRESSO BLEND</h1>
+            <p>SCA SPECIALTY COFFEE</p>
         </div>
-    </div>
 
-    <div class="card trace-card">
-        <h2>Trazabilidad</h2>
-        <table class="data-list">
-            <tr><td>Origen</td><td>Perú - Brasil</td></tr>
-            <tr><td>Región</td><td>Pangoa - Carmo de Minas</td></tr>
-            <tr><td>Altitud</td><td>900 - 1800 MSNM</td></tr>
-            <tr><td>Varietales</td><td>Caturra, Catuai, Bourbon</td></tr>
-            <tr><td>Proceso</td><td>Lavado & Natural</td></tr>
-            <tr><td>Certificaciones</td><td style="color: var(--santander-red);">Rainforest Alliance / Fair Trade</td></tr>
+        <div class="review-box" style="font-size: 0.85rem; line-height: 1.6; text-align: center; margin-bottom: 30px; color: #BBB; font-style: italic;">
+            "Café 100% arábica de Perú y Brasil. Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal y cajú." [cite: 33, 82]
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div style="width: 250px; height: 250px;">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+
+        <h3 style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;">Desglose Sensorial</h3>
+        <table class="sensory-table">
+            <tr><td>Fragancia / Aroma</td><td class="score">7.5</td></tr>
+            <tr><td>Sabor</td><td class="score">8.0</td></tr>
+            <tr><td>Sabor Residual</td><td class="score">7.75</td></tr>
+            <tr><td>Acidez</td><td class="score">7.5</td></tr>
+            <tr><td>Cuerpo</td><td class="score">8.25</td></tr>
+            <tr><td>Balance</td><td class="score">8.0</td></tr>
+            <tr><td>Dulzor</td><td class="score">7.75</td></tr>
         </table>
-    </div>
 
-    <div class="card physic-card">
-        <h2>Análisis Físico</h2>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <div style="width: 50%; position: relative; height: 180px;">
-                <canvas id="pieChart"></canvas>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span>Puntaje SCA</span>
+                <strong>83.0</strong>
             </div>
-            <div style="width: 50%;">
-                <table class="data-list">
-                    <tr><td>Humedad</td><td id="hum-val">10.1%</td></tr>
-                    <tr><td>Densidad</td><td id="den-val">0.78 g/ml</td></tr>
-                    <tr><td>Defectos</td><td>7 pts</td></tr>
-                    <tr><td>Tueste</td><td>Agtron 50</td></tr>
-                </table>
+            <div class="stat-item">
+                <span>Altitud (m)</span>
+                <strong>900-1800</strong>
             </div>
         </div>
+
+        <footer style="text-align: center; font-size: 0.6rem; color: #555; margin-top: 20px;">
+            FICHA TÉCNICA ABR 2026 • WORK CAFÉ SANTANDER
+        </footer>
     </div>
 
-    <div class="card review-card" style="display: flex; flex-direction: column; justify-content: center;">
-        <h2>Notas del Catador</h2>
-        <p class="review-text">
-            "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida, cremosa y reconfortante."
-        </p>
-        <div class="tags-wrapper">
-            <span class="taste-tag">Chocolate</span>
-            <span class="taste-tag">Frutos Secos</span>
-            <span class="taste-tag">Caramelo</span>
-            <span class="taste-tag">Cajú</span>
+    <div class="details-panel">
+        <div class="stand-card" style="max-width: 100%; margin: 0;">
+            <h3 style="margin-bottom: 20px;">Análisis de Trazabilidad y Grano</h3>
+            <table class="sensory-table">
+                <tr><td>Orígenes</td><td style="text-align: right;">Perú (Pangoa) - Brasil (Carmo de Minas)</td></tr>
+                <tr><td>Proceso</td><td style="text-align: right;">Lavado & Natural</td></tr>
+                <tr><td>Varietales</td><td style="text-align: right;">Caturra, Catuai, Bourbon, Mundo Novo</td></tr>
+                <tr><td>Malla 17+</td><td style="text-align: right;">58.6% </td></tr>
+                <tr><td>Humedad</td><td style="text-align: right;">10.1% </td></tr>
+                <tr><td>Densidad</td><td style="text-align: right;">0.78 g/ml </td></tr>
+            </table>
         </div>
     </div>
-
 </div>
 
-<button class="fab-pdf" onclick="exportPDF()" title="Descargar Ficha Parante">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-</button>
+<button class="btn-export" onclick="exportPDF()">DESCARGAR FICHA PDF</button>
 
 <script>
-    // URL DE TU GOOGLE APPS SCRIPT (Reemplazar cuando esté activo)
-    const SHEET_API_URL = "https://script.google.com/macros/s/TU_ID_AQUI/exec";
-
-    // --- CONFIGURACIÓN GRÁFICO RADAR (Dark Theme) ---
-    const ctxRadar = document.getElementById('radarChart').getContext('2d');
-    const radarChart = new Chart(ctxRadar, {
+    // Configuración de Gráfico Radar con estilos oscuros
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    const radarChart = new Chart(ctx, {
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
             datasets: [{
-                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.0, 7.75], // Datos Base
-                backgroundColor: 'rgba(236, 0, 0, 0.25)',
-                borderColor: '#EC0000',
+                data: [7.5, 8.0, 7.75, 7.5, 8.25, 8.0, 7.75], // Datos del informe 
+                backgroundColor: 'rgba(179, 0, 0, 0.3)',
+                borderColor: '#B30000',
                 borderWidth: 2,
                 pointBackgroundColor: '#FFFFFF',
-                pointBorderColor: '#EC0000',
-                pointRadius: 4
+                pointRadius: 3
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { 
-                r: { 
-                    min: 6, max: 9, 
+            scales: {
+                r: {
+                    angleLines: { color: '#333' },
+                    grid: { color: '#333' },
+                    pointLabels: { color: '#888', font: { size: 10, family: 'Montserrat' } },
                     ticks: { display: false },
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                    pointLabels: { color: '#999999', font: { family: 'Montserrat', size: 11, weight: 600 } }
-                } 
+                    min: 6,
+                    max: 9
+                }
             },
             plugins: { legend: { display: false } }
         }
     });
 
-    // --- CONFIGURACIÓN GRÁFICO ZARANDA (Dark Theme) ---
-    const ctxPie = document.getElementById('pieChart').getContext('2d');
-    const pieChart = new Chart(ctxPie, {
-        type: 'doughnut',
-        data: {
-            labels: ['Malla 17', 'Malla 16', 'Otras'],
-            datasets: [{
-                data: [58.6, 34.3, 7.1], // Datos Base
-                backgroundColor: ['#EC0000', '#444444', '#1A1A1A'],
-                borderColor: '#161616',
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '70%',
-            plugins: { 
-                legend: { position: 'bottom', labels: { color: '#999', font: { family: 'Montserrat', size: 10 } } }
-            }
-        }
-    });
-
-    // --- LÓGICA DE SINCRONIZACIÓN ---
-    async function syncData() {
-        try {
-            const response = await fetch(SHEET_API_URL);
-            const data = await response.json();
-            
-            document.getElementById('sca-val').innerText = data.sca_total;
-            document.getElementById('hum-val').innerText = data.fisico.humedad;
-            document.getElementById('den-val').innerText = data.fisico.densidad;
-            
-            radarChart.data.datasets[0].data = data.sensorial;
-            radarChart.update();
-            
-            document.getElementById('sync-status').innerHTML = "<span style='color: #EC0000;'>●</span> Sincronizado";
-        } catch (e) {
-            console.log("Manteniendo datos estáticos de respaldo.");
-        }
-    }
-
-    // --- EXPORTAR PDF ---
+    // Función de exportación optimizada para 9x18.5
     function exportPDF() {
-        const element = document.getElementById('export-container');
-        
-        // Ajuste temporal para exportación limpia
-        element.style.height = 'auto'; 
-        element.style.overflow = 'visible';
-
+        const element = document.getElementById('main-stand');
         const opt = {
-            margin: 0,
-            filename: 'Ficha_Parante_Santander_Espresso.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#0A0A0A' },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: 10,
+            filename: 'Ficha_Parante_WorkCafe_Santander.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 3, backgroundColor: '#0F0F0F' },
+            jsPDF: { unit: 'mm', format: [90, 185], orientation: 'portrait' }
         };
-        
-        html2pdf().set(opt).from(element).save().then(() => {
-            // Restaurar estilos
-            element.style.height = ''; 
-            element.style.overflow = '';
-        });
+        html2pdf().set(opt).from(element).save();
     }
-
-    window.onload = syncData;
 </script>
 
 </body>
