@@ -35,25 +35,28 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER --- */
+        /* --- PRELOADER (ÍCONO INICIAL RESTAURADO) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
         }
-        .bean-icon {
-            width: 80px; height: 80px; fill: var(--s-red);
-            animation: spin-bean 2s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        .coffee-loader {
+            width: 80px; height: 80px; margin-bottom: 20px;
+            fill: var(--s-red);
+            animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
-        @keyframes spin-bean {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
+        @keyframes spin { 
+            100% { transform: rotate(360deg); } 
         }
-        #status-text { margin-top: 20px; font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-white); opacity: 0.8; }
+        #status-text { 
+            font-family: 'SantanderHeadline'; font-size: 0.8rem; 
+            letter-spacing: 3px; text-transform: uppercase; 
+            color: var(--s-white); opacity: 0.8; 
+        }
 
-        /* --- DASHBOARD --- */
+        /* --- DASHBOARD COMPACTO --- */
         .dashboard-container { 
             width: 95%; max-width: 1400px; margin: 0 auto; 
             padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; 
@@ -83,7 +86,7 @@
         }
         .btn-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
 
-        /* --- CUERPO --- */
+        /* --- CUERPO TÉCNICO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { 
             font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
@@ -102,7 +105,7 @@
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
 
-        /* --- MÓVIL --- */
+        /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 1024px) {
             html, body { overflow-y: auto; height: auto; -webkit-overflow-scrolling: touch; }
             .dashboard-container { height: auto; padding: 40px 20px; gap: 40px; }
@@ -150,10 +153,8 @@
 <body>
 
 <div id="preloader">
-    <svg class="bean-icon" viewBox="0 0 100 100">
-        <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z" fill-opacity="0.1"/>
-        <path d="M50,12 C44,25 44,75 50,88" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-        <path d="M35,50 Q50,42 65,50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+    <svg class="coffee-loader" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
     </svg>
     <p id="status-text">Sincronizando</p>
 </div>
@@ -264,7 +265,7 @@
         document.getElementById('ui-humedad').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('ui-agtron').innerText = data.fisico.agtron;
-        document.getElementById('ui-defectos').innerText = data.fisico.defectos !== undefined ? data.fisico.defectos : "0";
+        document.getElementById('ui-defectos').innerText = data.fisico.defectos !== undefined ? data.fisico.defectos : "—";
 
         pieChart.data.datasets[0].data = [parseFloat(data.fisico.malla17)||0, parseFloat(data.fisico.malla16)||0, parseFloat(data.fisico.malla15)||0];
         pieChart.update();
@@ -296,7 +297,6 @@
         const statusText = document.getElementById('status-text');
         const targetElement = document.getElementById('export-area');
 
-        // BLOQUE DE SEGURIDAD TOTAL TRY-CATCH
         try {
             statusText.innerText = "Generando PDF...";
             loader.style.display = 'flex';
@@ -304,24 +304,22 @@
             
             await new Promise(resolve => setTimeout(resolve, 200));
 
-            // Aplicar modo PDF
             document.body.classList.add('pdf-export-mode');
             radarChart.resize();
             pieChart.resize();
             
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Reemplazo seguro de Canvas a Img
             const radarCanvas = document.getElementById('radarChart');
             const pieCanvas = document.getElementById('pieChart');
             
             const radarImg = document.createElement('img');
-            radarImg.src = radarChart.toBase64Image(); // <-- SOLUCIÓN DEL CRASH AQUÍ
+            radarImg.src = radarChart.toBase64Image(); 
             radarImg.style.width = '100%';
             radarImg.id = 'temp-radar';
             
             const pieImg = document.createElement('img');
-            pieImg.src = pieChart.toBase64Image();     // <-- SOLUCIÓN DEL CRASH AQUÍ
+            pieImg.src = pieChart.toBase64Image();     
             pieImg.style.width = '100%';
             pieImg.id = 'temp-pie';
 
@@ -349,7 +347,6 @@
 
             await html2pdf().set(opt).from(targetElement).save();
 
-            // Limpieza
             document.getElementById('temp-radar').remove();
             document.getElementById('temp-pie').remove();
             radarCanvas.style.display = 'block';
@@ -359,7 +356,6 @@
             console.error("Fallo crítico en PDF:", error);
             alert("Ocurrió un error al generar el PDF. Verifica tu conexión o intenta recargar la página.");
         } finally {
-            // Restauración garantizada, aunque falle
             document.body.classList.remove('pdf-export-mode');
             radarChart.resize();
             pieChart.resize();
