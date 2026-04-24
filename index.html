@@ -37,7 +37,7 @@
             color: var(--s-dark); 
             font-family: 'SantanderText', Arial, sans-serif;
             width: 100%; height: 100vh;
-            overflow: hidden; /* Sin scroll en escritorio */
+            overflow: hidden; 
             -webkit-font-smoothing: antialiased;
         }
 
@@ -92,55 +92,31 @@
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
 
-        /* =========================================
-           RESPONSIVE MÓVIL: CENTRADO ABSOLUTO
-           ========================================= */
+        /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 1024px) {
-            /* Evita el corte horizontal en Samsung (360px width) */
             html, body { overflow-x: hidden; overflow-y: auto; height: auto; -webkit-overflow-scrolling: touch; }
-            
             .dashboard-container { width: 100%; max-width: 100vw; height: auto; padding: 30px 15px; gap: 30px; box-sizing: border-box; }
             .header-section { grid-template-columns: 1fr; text-align: center; gap: 20px; border-bottom: none; padding-bottom: 0; }
-            
-            /* Centrado de logo y Score */
             .logo-box { max-width: 140px; margin: 0 auto 10px; }
             .score-box { justify-content: center; flex-direction: column; order: -1; margin-bottom: 10px; gap: 15px; }
             .score-info { text-align: center; }
             .score-info .val { font-size: 3.5rem; }
-            
             .main-content { display: flex; flex-direction: column; gap: 40px; width: 100%; }
             .col { width: 100%; overflow: hidden; }
-            
-            /* Centrado de Títulos */
             .col h2 { justify-content: center; padding-left: 0; text-align: center; }
-            .col h2::before { display: none; } /* Quitamos la barra roja para que quede 100% al centro */
-            
-            /* Gráficos seguros */
+            .col h2::before { display: none; }
             .chart-box { height: 320px; width: 100%; max-width: 100%; margin: 0 auto; }
             .pie-box { height: 260px; width: 100%; max-width: 100%; margin: 0 auto; }
-            
-            /* Tablas Apiladas Verticalmente (Solución Corte Samsung) */
             .data-list { width: 100%; }
-            .data-list .item { 
-                flex-direction: column; 
-                justify-content: center; 
-                align-items: center; 
-                padding: 12px 0; 
-                gap: 5px; 
-                text-align: center; 
-            }
+            .data-list .item { flex-direction: column; justify-content: center; align-items: center; padding: 12px 0; gap: 5px; text-align: center; }
             .data-list .label { width: 100%; text-align: center; font-size: 0.8rem; }
             .data-list .value { width: 100%; text-align: center; font-size: 1rem; justify-content: center; word-break: break-word; }
         }
 
-        /* =========================================
-           MODO EXPORTACIÓN PDF (BLINDAJE DE ESCRITORIO)
-           ========================================= */
+        /* --- MODO EXPORTACIÓN PDF --- */
         body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-white) !important; }
         body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; }
         body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; padding-bottom: 2vh !important; }
-        
-        /* Forzamos alineación original para el PDF */
         body.pdf-export-mode .score-box { flex-direction: row !important; justify-content: flex-end !important; }
         body.pdf-export-mode .score-info { text-align: right !important; }
         body.pdf-export-mode .col h2 { justify-content: flex-start !important; text-align: left !important; }
@@ -148,7 +124,6 @@
         body.pdf-export-mode .data-list .item { flex-direction: row !important; justify-content: space-between !important; padding: 7px 5px !important; text-align: left !important; }
         body.pdf-export-mode .data-list .label { text-align: left !important; width: auto !important; }
         body.pdf-export-mode .data-list .value { text-align: right !important; width: auto !important; justify-content: flex-end !important; }
-        
         body.pdf-export-mode .main-content { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 60px !important; }
         body.pdf-export-mode .chart-box { height: 420px !important; }
         body.pdf-export-mode .pie-box { height: 260px !important; } 
@@ -242,7 +217,7 @@
                     grid: {color:'#eaeaea'}, 
                     pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
                     ticks: {display:false, stepSize: 1}, 
-                    min: 3, 
+                    min: 4, // <--- Escala ajustada para arrancar desde el 4
                     max: 10 
                 } 
             }, 
@@ -316,7 +291,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v17');
+        const cache = localStorage.getItem('santander_cafe_light_v18');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -330,7 +305,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v17', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v18', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
