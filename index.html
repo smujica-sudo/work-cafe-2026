@@ -35,7 +35,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER (ÍCONO INICIAL RESTAURADO) --- */
+        /* --- PRELOADER (ÍCONO INICIAL) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
@@ -90,12 +90,13 @@
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { 
             font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 1px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; 
-            padding-bottom: 10px; border-bottom: 1px solid var(--s-border);
+            letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; 
+            padding-bottom: 8px; border-bottom: 1px solid var(--s-border);
         }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        /* Se redujo el padding vertical a 8px para permitir 8 filas en Trazabilidad sin desbordar */
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
         .data-list .label { color: var(--s-accent); font-size: 0.85rem; }
         .data-list .value { font-weight: 600; color: var(--s-white); font-size: 0.95rem; text-align: right; }
 
@@ -117,6 +118,7 @@
             .main-content { display: flex; flex-direction: column; gap: 50px; }
             .chart-box { height: 380px; width: 100%; }
             .pie-box { height: 280px; width: 100%; }
+            .data-list .item { padding: 12px 5px; }
         }
 
         /* --- PDF EXPORT OVERRIDE --- */
@@ -191,7 +193,8 @@
             <h2>Trazabilidad</h2>
             <div class="data-list">
                 <div class="item"><div class="label">Lote</div><div class="value" id="ui-lote">---</div></div>
-                <div class="item"><div class="label">Origen / Región</div><div class="value" id="ui-origen">---</div></div>
+                <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
+                <div class="item"><div class="label">Región</div><div class="value" id="ui-region">---</div></div>
                 <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
                 <div class="item"><div class="label">Productor</div><div class="value" id="ui-productor">---</div></div>
                 <div class="item"><div class="label">Varietales</div><div class="value" id="ui-varietales">---</div></div>
@@ -255,7 +258,11 @@
         }
 
         radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
-        document.getElementById('ui-origen').innerText = `${data.trazabilidad.origen} / ${data.trazabilidad.region}`;
+        
+        // Asignación individual para Origen y Región
+        document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
+        document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
+        
         document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud;
         document.getElementById('ui-productor').innerText = data.trazabilidad.productor;
         document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales;
@@ -265,14 +272,16 @@
         document.getElementById('ui-humedad').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('ui-agtron').innerText = data.fisico.agtron;
-        document.getElementById('ui-defectos').innerText = data.fisico.defectos !== undefined ? data.fisico.defectos : "—";
+        
+        // Mapeo directo y estricto del valor Defectos que venga de la API
+        document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
 
         pieChart.data.datasets[0].data = [parseFloat(data.fisico.malla17)||0, parseFloat(data.fisico.malla16)||0, parseFloat(data.fisico.malla15)||0];
         pieChart.update();
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_final');
+        const cache = localStorage.getItem('santander_cafe_final_v2');
         if(cache) {
             render(JSON.parse(cache));
             document.getElementById('preloader').style.display = 'none';
@@ -282,7 +291,7 @@
             const res = await fetch(API_URL);
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_final', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_final_v2', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             document.getElementById('preloader').style.opacity = '0';
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
