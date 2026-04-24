@@ -14,6 +14,7 @@
     <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -196,6 +197,9 @@
 </div>
 
 <script>
+    // Registrar el Plugin de Etiquetas de Datos globalmente
+    Chart.register(ChartDataLabels);
+
     const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
 
     Chart.defaults.color = '#666666';
@@ -217,11 +221,14 @@
                     grid: {color:'#eaeaea'}, 
                     pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
                     ticks: {display:false, stepSize: 1}, 
-                    min: 5, // <--- Escala ajustada para arrancar desde el 5
+                    min: 5, 
                     max: 10 
                 } 
             }, 
-            plugins: { legend: {display:false} } 
+            plugins: { 
+                legend: {display:false},
+                datalabels: {display: false} // Desactiva las etiquetas de valores numéricos en el radar
+            } 
         }
     });
 
@@ -231,7 +238,26 @@
             labels: ['Malla 17', 'Malla 16', 'Malla 15'],
             datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:4 }]
         },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#666666', font:{size:11}}} } }
+        options: { 
+            animation: false, 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            cutout: '60%', // Engrosado para que quepan bien los textos
+            plugins: { 
+                legend: {display:false}, // Leyenda clásica inferior oculta
+                datalabels: {
+                    color: '#ffffff', // Texto blanco sobre fondo rojo
+                    font: { size: 10, weight: 600 },
+                    textAlign: 'center',
+                    formatter: function(value, context) {
+                        // Oculta los que tienen valor 0 para no encimar textos
+                        if (value <= 0) return null;
+                        // Formato: Malla XX \n 15%
+                        return context.chart.data.labels[context.dataIndex] + '\n' + value + '%';
+                    }
+                }
+            } 
+        }
     });
 
     function cleanPercentage(val) {
@@ -291,7 +317,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v19');
+        const cache = localStorage.getItem('santander_cafe_light_v20');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -305,7 +331,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v19', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v20', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
