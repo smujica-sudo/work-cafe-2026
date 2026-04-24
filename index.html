@@ -81,49 +81,16 @@
         .col h2 { font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--s-border); }
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 7px 5px; border-bottom: 1px solid var(--s-border); }
         .data-list .item:last-child { border-bottom: none; }
         .data-list .label { color: var(--s-grey-text); font-size: 0.85rem; }
         .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.95rem; text-align: right; }
 
-        /* BOTÓN DE MAPA */
-        .btn-map {
-            background: transparent; color: var(--s-red); border: 1px solid var(--s-red);
-            padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; gap: 5px; text-transform: uppercase;
-            transition: 0.2s; margin-left: 10px; font-family: 'SantanderText', sans-serif;
-        }
-        .btn-map:hover { background: var(--s-red); color: var(--s-white); }
-
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
-        .pie-box { height: 210px; } 
+        .pie-box { height: 190px; } 
 
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
-
-        /* --- MODAL MAPA --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(20, 20, 20, 0.85); z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: 0.3s ease; backdrop-filter: blur(3px);
-        }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: var(--s-white); width: 90%; max-width: 800px; height: 70vh;
-            border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); transition: 0.3s ease;
-        }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header {
-            padding: 15px 20px; background: var(--s-dark); color: var(--s-white);
-            display: flex; justify-content: space-between; align-items: center;
-            font-family: 'SantanderHeadline'; font-size: 0.9rem; letter-spacing: 1px;
-        }
-        .modal-close { background: none; border: none; color: var(--s-white); cursor: pointer; transition: 0.2s; display: flex; }
-        .modal-close:hover { color: var(--s-red); transform: scale(1.1); }
-        .modal-body { flex: 1; width: 100%; background: #eaeaea; }
-        .modal-body iframe { width: 100%; height: 100%; border: none; }
 
         /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 1024px) {
@@ -138,7 +105,6 @@
             .chart-box { height: 380px; width: 100%; }
             .pie-box { height: 280px; width: 100%; }
             .data-list .item { padding: 12px 5px; }
-            .modal-content { height: 80vh; width: 95%; }
         }
 
         /* --- MODO EXPORTACIÓN PDF --- */
@@ -148,9 +114,8 @@
         body.pdf-export-mode .score-box { justify-content: flex-end !important; margin: 0 !important; }
         body.pdf-export-mode .main-content { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 60px !important; }
         body.pdf-export-mode .chart-box { height: 420px !important; }
-        body.pdf-export-mode .pie-box { height: 280px !important; } 
-        /* Ocultar botones y overlays al imprimir */
-        body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led, body.pdf-export-mode .btn-map, body.pdf-export-mode .modal-overlay { display: none !important; }
+        body.pdf-export-mode .pie-box { height: 260px !important; } 
+        body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
     </style>
 </head>
 <body>
@@ -195,16 +160,7 @@
             <div class="data-list">
                 <div class="item"><div class="label">Lote</div><div class="value" id="ui-lote">---</div></div>
                 <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
-                <div class="item">
-                    <div class="label">Región</div>
-                    <div class="value" style="display: flex; align-items: center; justify-content: flex-end;">
-                        <span id="ui-region">---</span>
-                        <button class="btn-map" onclick="openMap()" title="Abrir ubicación">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                            Mapa
-                        </button>
-                    </div>
-                </div>
+                <div class="item"><div class="label">Región</div><div class="value" id="ui-region">---</div></div>
                 <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
                 <div class="item"><div class="label">Productor</div><div class="value" id="ui-productor">---</div></div>
                 <div class="item"><div class="label">Varietales</div><div class="value" id="ui-varietales">---</div></div>
@@ -221,23 +177,10 @@
                 <div class="item"><div class="label">Densidad</div><div class="value" id="ui-densidad">-.-- g/ml</div></div>
                 <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-agtron">--</div></div>
                 <div class="item"><div class="label">Defectos</div><div class="value" id="ui-defectos">--</div></div>
+                <div class="item"><div class="label">Grado</div><div class="value" id="ui-grado">--</div></div>
             </div>
         </section>
     </main>
-</div>
-
-<div id="map-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span>UBICACIÓN DEL LOTE</span>
-            <button class="modal-close" onclick="closeMap()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="modal-body">
-            <iframe id="map-iframe" src="" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -265,8 +208,12 @@
     });
 
     function cleanPercentage(val) {
-        if (typeof val === 'number') return val <= 1 ? val * 100 : val;
-        if (typeof val === 'string') return parseFloat(val.replace('%', '').replace(',', '.')) || 0;
+        if (typeof val === 'number') return val <= 1 && val > 0 ? val * 100 : val;
+        if (typeof val === 'string') {
+            let parsed = parseFloat(val.replace('%', '').replace(',', '.'));
+            if (isNaN(parsed)) return 0;
+            return parsed <= 1 && parsed > 0 ? parsed * 100 : parsed;
+        }
         return 0;
     }
 
@@ -296,10 +243,18 @@
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
 
-        document.getElementById('ui-humedad').innerText = String(data.fisico.humedad || "—").replace('%','') + '%';
+        // Formateo especial para la humedad
+        let humValue = "—";
+        if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
+            let humNum = cleanPercentage(data.fisico.humedad);
+            humValue = humNum.toFixed(1).replace('.', ',') + '%';
+        }
+        document.getElementById('ui-humedad').innerText = humValue;
+
         document.getElementById('ui-densidad').innerText = String(data.fisico.densidad || "—").replace('g/ml','').trim() + ' g/ml';
         document.getElementById('ui-agtron').innerText = data.fisico.agtron || "—";
         document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
+        document.getElementById('ui-grado').innerText = (data.fisico.grado !== undefined && data.fisico.grado !== "") ? data.fisico.grado : "—";
 
         let m17 = cleanPercentage(data.fisico.malla17);
         let m16 = cleanPercentage(data.fisico.malla16);
@@ -310,7 +265,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v10');
+        const cache = localStorage.getItem('santander_cafe_light_v13');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -324,7 +279,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v10', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v13', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
@@ -335,47 +290,12 @@
             document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
             
             if(!cache) {
-                document.getElementById('status-text').innerText = "Revisa tu mapeo de columnas";
+                document.getElementById('status-text').innerText = "Revisa tu conexión";
                 setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500); }, 3000);
             }
         }
     }
 
-    // --- LÓGICA DEL MAPA ---
-    function openMap() {
-        const region = document.getElementById('ui-region').innerText;
-        const origen = document.getElementById('ui-origen').innerText;
-        
-        // Si no hay datos cargados, no abre el mapa
-        if(region === "—" && origen === "—") return;
-
-        const modal = document.getElementById('map-modal');
-        const iframe = document.getElementById('map-iframe');
-        
-        // Construimos la URL de búsqueda en Google Maps.
-        // Combinamos región y origen (Ej: "San Martin, Peru") para que el pin sea preciso.
-        const query = encodeURIComponent(`${region}, ${origen}`);
-        iframe.src = `https://maps.google.com/maps?q=${query}&t=&z=7&ie=UTF8&iwloc=&output=embed`;
-        
-        modal.classList.add('active');
-    }
-
-    function closeMap() {
-        const modal = document.getElementById('map-modal');
-        modal.classList.remove('active');
-        // Vaciamos el src para detener la carga en segundo plano si se cierra rápido
-        setTimeout(() => { document.getElementById('map-iframe').src = ""; }, 300);
-    }
-
-    // Cierra el modal si el usuario hace clic afuera de la caja
-    window.onclick = function(event) {
-        const modal = document.getElementById('map-modal');
-        if (event.target === modal) {
-            closeMap();
-        }
-    }
-
-    // --- LÓGICA DEL PDF ---
     async function downloadPDF() {
         const loader = document.getElementById('preloader');
         const statusText = document.getElementById('status-text');
