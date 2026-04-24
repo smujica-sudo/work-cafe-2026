@@ -75,7 +75,7 @@
             align-items: center;
         }
         
-        .logo-container { grid-area: logo; max-width: 120px; display: flex; align-items: center; }
+        .logo-container { grid-area: logo; max-width: 110px; display: flex; align-items: center; }
         .logo-img { width: 100%; height: auto; display: block; }
         .logo-text { font-weight: 800; font-size: 1rem; letter-spacing: -0.5px; color: var(--text-light); }
         .logo-text span { color: var(--santander-red); }
@@ -136,11 +136,11 @@
             
             .hero-section { 
                 grid-area: hero;
-                grid-template-columns: auto 1fr auto; /* 3 Columnas */
+                grid-template-columns: auto 1fr auto; 
                 grid-template-areas: "logo review score";
                 gap: 40px; padding: 20px 10px; 
             }
-            .logo-container { max-width: 150px; }
+            .logo-container { max-width: 140px; }
             .header-review .tags { justify-content: flex-start; }
             
             .score-box { border-left: 1px solid var(--border-color); padding-left: 30px; }
@@ -180,9 +180,6 @@
         .pdf-export-mode .reveal { opacity: 1 !important; transform: none !important; transition: none !important;}
         .pdf-export-mode .parallax-bg { display: none !important; }
         
-        .pdf-export-mode .section-container { padding: 10px 0 !important; }
-        
-        /* Forzar Header en 3 Columnas */
         .pdf-export-mode .hero-section { 
             grid-area: hero !important; display: grid !important; 
             grid-template-columns: auto 1fr auto !important; 
@@ -281,7 +278,7 @@
 
 <script>
     // ==========================================
-    // URL DEL GOOGLE APPS SCRIPT
+    // URL DEL GOOGLE APPS SCRIPT (ACTUALIZADA)
     // ==========================================
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
@@ -302,7 +299,11 @@
         options: {
             responsive: true, maintainAspectRatio: false,
             scales: {
-                r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 10, weight: 600 } }, ticks: { display: false }, min: 6, max: 9 }
+                r: { 
+                    angleLines: { color: '#333' }, grid: { color: '#333' }, 
+                    pointLabels: { color: '#FFF', font: { size: 10, weight: 700, family: 'Montserrat' }, padding: 12 }, 
+                    ticks: { display: false }, min: 6, max: 9 
+                }
             },
             plugins: { legend: { display: false } }
         }
@@ -324,18 +325,13 @@
         }
     });
 
-    // ==========================================
-    // FUNCIÓN DE CONEXIÓN CON GOOGLE SHEETS
-    // ==========================================
     async function syncData() {
         try {
             const response = await fetch(SHEET_API_URL);
             if (!response.ok) throw new Error('Error en red');
-            
             const data = await response.json();
             
             document.getElementById('ui-sca').innerText = data.sca_total;
-            
             document.getElementById('val-fra').innerText = data.sensorial[0];
             document.getElementById('val-sab').innerText = data.sensorial[1];
             document.getElementById('val-res').innerText = data.sensorial[2];
@@ -354,62 +350,41 @@
                 pieChart.data.datasets[0].data = [data.fisico.malla17, 100 - data.fisico.malla17 - 7.1, 7.1];
                 pieChart.update();
             }
-
             document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● Sincronizado</span>';
         } catch (error) {
-            console.warn("Usando datos locales estáticos. No se pudo conectar al servidor.");
             document.getElementById('sync-status').innerHTML = '○ Modo Offline';
         }
     }
 
-    // ==========================================
-    // EFECTOS DE ANIMACIÓN Y PARALLAX
-    // ==========================================
-    const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            } else {
-                entry.target.classList.remove('active'); 
-            }
+            if (entry.isIntersecting) entry.target.classList.add('active');
         });
     }, { threshold: 0.1 });
-
-    revealElements.forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     const parallaxBg = document.getElementById('parallax-bg');
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        parallaxBg.style.transform = `translateY(${scrolled * 0.2}px) translateZ(0)`;
+        parallaxBg.style.transform = `translateY(${window.pageYOffset * 0.2}px) translateZ(0)`;
     });
 
-    // ==========================================
-    // LÓGICA DE EXPORTACIÓN ONE-PAGER PDF
-    // ==========================================
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
         fab.style.display = 'none';
-
         const element = document.getElementById('export-area');
         element.classList.add('pdf-export-mode');
-        
-        radarChart.resize();
-        pieChart.resize();
+        radarChart.resize(); pieChart.resize();
 
         setTimeout(() => {
             const opt = {
-                margin: 0,
-                filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
+                margin: 0, filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true, logging: false },
                 jsPDF: { unit: 'px', format: [1400, 990], orientation: 'landscape' }
             };
-            
             html2pdf().set(opt).from(element).save().then(() => {
                 element.classList.remove('pdf-export-mode');
-                radarChart.resize();
-                pieChart.resize();
+                radarChart.resize(); pieChart.resize();
                 fab.style.display = 'flex'; 
             });
         }, 250);
