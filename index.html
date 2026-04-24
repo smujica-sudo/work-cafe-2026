@@ -4,159 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#141414">
-    <title>Work Café Santander | Ficha Técnica</title>
+    <title>Work Café Santander | Ficha Técnica de Especialidad</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD VISUAL SANTANDER --- */
-        @font-face { font-family: 'SantanderText'; src: url('SantanderText-Regular.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: 'SantanderHeadline'; src: url('SantanderHeadline-Bold.woff2') format('woff2'); font-weight: 600; }
+        /* --- TIPOGRAFÍA OFICIAL --- */
+        @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
+        @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
         :root {
-            --s-red: #EC0000;      --s-dark: #141414;     
-            --s-grey-border: #333333; --s-grey-text: #CCCCCC;   
-            --s-white: #FFFFFF;    --led-green: #248a3d;
+            --s-red: #EC0000;      
+            --s-dark: #141414;     
+            --s-grey-border: #333333; 
+            --s-grey-text: #CCCCCC;   
+            --s-white: #FFFFFF;    
+            --led-green: #248a3d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html, body { background-color: var(--s-dark); color: var(--s-white); font-family: 'SantanderText', Arial, sans-serif; width: 100%; height: 100%; }
+        html, body { background-color: var(--s-dark); color: var(--s-white); font-family: 'SantanderText', sans-serif; width: 100%; height: 100%; overflow-x: hidden; }
 
-        /* --- PRELOADER: GRANO DE CAFÉ REALISTA --- */
+        /* --- PANTALLA DE CARGA (GRANO DE CAFÉ) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease;
         }
-        .coffee-bean-loader {
-            width: 80px; height: 80px;
-            fill: var(--s-red);
-            animation: bean-spin 2s infinite ease-in-out;
+        .coffee-bean-svg {
+            width: 80px; height: 80px; fill: var(--s-red);
+            animation: spin-bean 2.5s infinite ease-in-out;
         }
-        @keyframes bean-spin {
+        @keyframes spin-bean {
             0% { transform: rotate(0deg) scale(1); }
             50% { transform: rotate(180deg) scale(1.1); }
             100% { transform: rotate(360deg) scale(1); }
         }
         #preloader p { margin-top: 20px; color: var(--s-white); font-family: 'SantanderHeadline'; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; opacity: 0.7; }
 
-        /* --- DASHBOARD: AJUSTE DE ESCALA DESKTOP --- */
+        /* --- DASHBOARD LAYOUT --- */
         .dashboard-container { 
-            width: 90%; 
-            max-width: 1300px; /* Tamaño equilibrado para Desktop */
-            margin: 0 auto; 
-            padding: 40px 0; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 40px; 
-            position: relative; 
+            width: 90%; max-width: 1300px; margin: 0 auto; padding: 40px 0; 
+            display: flex; flex-direction: column; gap: 40px; position: relative; 
         }
 
         .hero-section { display: flex; flex-direction: column; gap: 20px; text-align: center; border-bottom: 1px solid var(--s-grey-border); padding-bottom: 30px; }
-        .logo-container { margin: 0 auto; max-width: 130px; }
+        .logo-container { margin: 0 auto; max-width: 140px; }
         .logo-img { width: 100%; height: auto; }
-        .review-text { font-size: 1rem; line-height: 1.7; color: var(--s-grey-text); font-style: italic; max-width: 750px; margin: 0 auto; }
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
         
         .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
-        .score-box .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 600; color: var(--s-red); line-height: 1; }
-        .score-box .lbl { font-size: 0.75rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
+        .score-box .val { font-family: 'SantanderHeadline'; font-size: 3.5rem; font-weight: 700; color: var(--s-red); line-height: 1; }
+        .score-box .lbl { font-size: 0.85rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; letter-spacing: 2px; }
 
-        .section-container h2 { font-family: 'SantanderHeadline'; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--s-grey-border); }
-        .section-container h2::before { content: ''; width: 3px; height: 16px; background: var(--s-red); }
+        .section-container h2 { font-family: 'SantanderHeadline'; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--s-grey-border); }
+        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--s-red); }
         
-        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .data-table .label { color: var(--s-grey-text); font-size: 0.9rem; }
-        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1rem; }
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .data-table .label { color: var(--s-grey-text); font-size: 1rem; }
+        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; }
 
-        /* --- GRÁFICOS --- */
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 20px; height: 420px; }
-        .pie-wrapper { height: 280px; }
+        /* GRÁFICOS */
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; height: 500px; }
+        .pie-wrapper { height: 320px; }
 
-        /* --- UI ELEMENTS --- */
+        /* UI INDICADORES */
         .sync-led { position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-pulse 3s infinite; }
         @keyframes led-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         
-        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
+        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
         .fab-pdf:hover { background: var(--s-red); transform: scale(1.1); }
 
-        /* --- RESPONSIVE DESKTOP --- */
+        /* RESPONSIVE DESKTOP */
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 60px 0; gap: 50px; }
-            .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 40px; }
-            .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 30px; }
+            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 0; gap: 60px; }
+            .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
+            .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 40px; }
         }
-
-        /* CLASE ESPECIAL PARA PDF (FORZAR LLENADO DE PÁGINA) */
-        body.is-exporting .dashboard-container { 
-            width: 1600px !important; max-width: 1600px !important; 
-            padding: 60px !important; gap: 50px !important;
-            background: #141414 !important;
-        }
-        body.is-exporting .fab-pdf, body.is-exporting .sync-led { display: none !important; }
     </style>
 </head>
 <body>
 
 <div id="preloader">
-    <svg class="coffee-bean-loader" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z M50,82 C35,82 25,70 25,50 C25,30 35,18 50,18 C65,18 75,30 75,50 C75,70 65,82 50,82 Z" fill-opacity="0.2"/>
-        <path d="M50,18 C43,30 43,70 50,82" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <svg class="coffee-bean-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50,10 C30,10 15,25 15,50 C15,75 30,90 50,90 C70,90 85,75 85,50 C85,25 70,10 50,10 Z" fill-opacity="0.1"/>
+        <path d="M50,15 C42,30 42,70 50,82" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
         <path d="M35,50 Q50,42 65,50" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
     </svg>
-    <p>Sincronizando</p>
+    <p>Sincronizando Datos</p>
 </div>
 
 <div id="sync-led" class="sync-led"></div>
 
-<div id="capture-target">
-    <div id="export-area" class="dashboard-container">
-        <header class="section-container hero-section">
-            <div class="logo-container"><img src="logo-workcafe.png" alt="Work Café" class="logo-img"></div>
-            <div class="header-review">
-                <p class="review-text" id="val-review-text">---</p>
-                <div class="tags" id="val-tags"></div>
-            </div>
-            <div class="score-box">
-                <div class="lbl">SCA SCORE</div>
-                <div class="val" id="ui-sca">--.-</div>
-            </div>
-        </header>
+<div id="export-area" class="dashboard-container">
+    <header class="section-container hero-section">
+        <div class="logo-container"><img src="logo-workcafe.png" alt="Work Café" class="logo-img"></div>
+        <div class="header-review">
+            <p class="review-text" id="val-review-text">Cargando perfil sensorial...</p>
+            <div class="tags" id="val-tags"></div>
+        </div>
+        <div class="score-box">
+            <div class="lbl">SCA SCORE</div>
+            <div class="val" id="ui-sca">--.-</div>
+        </div>
+    </header>
 
-        <section class="section-container sensory-section">
-            <h2>Evaluación Sensorial</h2>
-            <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
-        </section>
+    <section class="section-container sensory-section">
+        <h2>Evaluación Sensorial</h2>
+        <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
+    </section>
 
-        <section class="section-container trace-section">
-            <h2>Trazabilidad</h2>
-            <div class="data-table">
-                <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">---</div></div>
-                <div class="row"><div class="label">Origen</div><div class="value" id="val-ori">---</div></div>
-                <div class="row"><div class="label">Región</div><div class="value" id="val-reg">---</div></div>
-                <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">---</div></div>
-                <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">---</div></div>
-                <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">---</div></div>
-                <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color:var(--s-red)">---</div></div>
-            </div>
-        </section>
+    <section class="section-container trace-section">
+        <h2>Trazabilidad</h2>
+        <div class="data-table">
+            <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">---</div></div>
+            <div class="row"><div class="label">Origen</div><div class="value" id="val-ori">---</div></div>
+            <div class="row"><div class="label">Región</div><div class="value" id="val-reg">---</div></div>
+            <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">---</div></div>
+            <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">---</div></div>
+            <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">---</div></div>
+            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color:var(--s-red)">---</div></div>
+        </div>
+    </section>
 
-        <section class="section-container physic-section">
-            <h2>Análisis Físico</h2>
-            <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
-            <div class="data-table">
-                <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">--%</div></div>
-                <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">-.-- g/ml</div></div>
-                <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">--</div></div>
-            </div>
-        </section>
-    </div>
+    <section class="section-container physic-section">
+        <h2>Análisis Físico</h2>
+        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
+        <div class="data-table">
+            <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">--%</div></div>
+            <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">-.-- g/ml</div></div>
+            <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">--</div></div>
+        </div>
+    </section>
 </div>
 
-<button class="fab-pdf" onclick="exportPDF()" title="Descargar PDF">
+<button class="fab-pdf" onclick="exportPDF()" title="Descargar Ficha Completa">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
@@ -164,26 +150,29 @@
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
     Chart.defaults.color = '#888';
-    Chart.defaults.font.family = 'SantanderText, Arial';
+    Chart.defaults.font.family = 'SantanderText, Arial, sans-serif';
 
-    // Inicializar Gráficos
-    const radarChart = new Chart(document.getElementById('radarChart'), {
+    // Gráfico de Radar
+    const ctxRadar = document.getElementById('radarChart').getContext('2d');
+    const radarChart = new Chart(ctxRadar, {
         type: 'radar',
         data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#EC0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#141414' }] },
-        options: { animation:false, responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:16, weight:600}, padding:20}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
+        options: { animation:false, responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:18, weight:700}, padding:25}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
     });
 
-    const pieChart = new Chart(document.getElementById('pieChart'), {
+    // Gráfico de Criba (Degradado de opacidad)
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
         data: { labels:['Malla 17','Malla 16','Malla 15'], datasets:[{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#141414', borderWidth:4 }] },
-        options: { animation:false, responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#888', font:{size:12}}} } }
+        options: { animation:false, responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#CCC', font:{size:14}}} } }
     });
 
     function updateUI(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('val-lote').innerText = data.lote;
-        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil...";
+        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         const tagsContainer = document.getElementById('val-tags'); tagsContainer.innerHTML = '';
         if(data.review.notas !== "—") {
             data.review.notas.split(',').forEach(nota => {
@@ -207,77 +196,58 @@
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v_final_cache');
-        if (cached) { updateUI(JSON.parse(cached)); document.getElementById('preloader').style.display='none'; }
+        const cached = localStorage.getItem('cafe_final_v10');
+        if (cached) { updateUI(JSON.parse(cached)); document.getElementById('preloader').style.opacity='0'; setTimeout(()=>document.getElementById('preloader').style.display='none', 500); }
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            updateUI(data); localStorage.setItem('cafe_v_final_cache', JSON.stringify(data));
+            updateUI(data); localStorage.setItem('cafe_final_v10', JSON.stringify(data));
             document.getElementById('sync-led').style.backgroundColor = '#248a3d';
             document.getElementById('preloader').style.display='none';
         } catch (e) { document.getElementById('sync-led').style.backgroundColor = '#EC0000'; document.getElementById('preloader').style.display='none'; }
     }
 
-    // --- NUEVA FUNCIÓN DE EXPORTACIÓN ROBUSTA ---
+    // --- FUNCIÓN DE EXPORTACIÓN MAESTRA (SIN FALLOS) ---
     async function exportPDF() {
-        const preloader = document.getElementById('preloader');
-        preloader.style.display = 'flex';
-        preloader.querySelector('p').innerText = "Generando PDF...";
+        const loader = document.getElementById('preloader');
+        loader.style.display = 'flex';
+        loader.style.opacity = '1';
+        loader.querySelector('p').innerText = "Generando PDF de alta calidad...";
 
         const originalArea = document.getElementById('export-area');
-        const radarCanvas = document.getElementById('radarChart');
-        const pieCanvas = document.getElementById('pieChart');
-
-        // Paso 1: Convertir gráficos vivos en imágenes estáticas temporales
-        const radarImgUrl = radarCanvas.toDataURL('image/png', 1.0);
-        const pieImgUrl = pieCanvas.toDataURL('image/png', 1.0);
-
-        const radarPlaceholder = document.createElement('img');
-        radarPlaceholder.src = radarImgUrl;
-        radarPlaceholder.style.width = "100%";
         
-        const piePlaceholder = document.createElement('img');
-        piePlaceholder.src = pieImgUrl;
-        piePlaceholder.style.width = "100%";
+        // Crear clon invisible con tamaño fijo de escritorio para evitar cortes
+        const worker = document.createElement('div');
+        worker.style.cssText = "position:absolute; left:-9999px; top:-9999px; width:1600px; height:1100px; background:#141414; padding:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:50px; color:white; align-content: start;";
+        worker.innerHTML = originalArea.innerHTML;
+        document.body.appendChild(worker);
 
-        // Paso 2: Activar modo de exportación en el body
-        document.body.classList.add('is-exporting');
-        
-        // Reemplazar temporalmente los canvas por las imágenes
-        const radarParent = radarCanvas.parentNode;
-        const pieParent = pieCanvas.parentNode;
-        radarParent.appendChild(radarPlaceholder);
-        pieParent.appendChild(piePlaceholder);
-        radarCanvas.style.display = 'none';
-        pieCanvas.style.display = 'none';
+        // Convertir gráficos vivos a imágenes estáticas para asegurar que no salgan vacíos
+        const radarImg = document.createElement('img');
+        radarImg.src = radarChart.toDataURL('image/png', 1.0);
+        radarImg.style.width = "100%";
+        worker.querySelector('#radarChart').replaceWith(radarImg);
+
+        const pieImg = document.createElement('img');
+        pieImg.src = pieChart.toDataURL('image/png', 1.0);
+        pieImg.style.width = "100%";
+        worker.querySelector('#pieChart').replaceWith(pieImg);
 
         const opt = {
             margin: 0,
             filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
             image: { type: 'jpeg', quality: 1.0 },
-            html2canvas: { 
-                scale: 1, 
-                backgroundColor: '#141414', 
-                useCORS: true,
-                width: 1600,
-                height: 1100,
-                windowWidth: 1600
-            },
+            html2canvas: { scale: 1, backgroundColor: '#141414', useCORS: true, width: 1600, height: 1100 },
             jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
         };
 
         try {
-            await html2pdf().set(opt).from(originalArea).save();
-        } catch (error) {
-            console.error("Error al generar PDF:", error);
+            await html2pdf().set(opt).from(worker).save();
+        } catch (err) {
+            console.error("Error PDF:", err);
         } finally {
-            // Paso 3: Restaurar estado original
-            document.body.classList.remove('is-exporting');
-            radarCanvas.style.display = 'block';
-            pieCanvas.style.display = 'block';
-            radarParent.removeChild(radarPlaceholder);
-            pieParent.removeChild(piePlaceholder);
-            preloader.style.display = 'none';
+            document.body.removeChild(worker);
+            loader.style.display = 'none';
         }
     }
 
