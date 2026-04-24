@@ -232,7 +232,7 @@
     });
 
     const pieChart = new Chart(document.getElementById('pieChart'), {
-        type: 'pie', // Convertido a gráfico de torta rellenado
+        type: 'pie',
         data: {
             labels: ['Malla 17', 'Malla 16', 'Malla 15'],
             datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:2 }]
@@ -245,26 +245,32 @@
                 legend: {display:false}, 
                 datalabels: {
                     color: '#ffffff', 
-                    font: { size: 12, weight: 600 }, // Fuente un poco más grande
+                    font: { size: 12, weight: 600 },
                     textAlign: 'center',
-                    formatter: function(value, context) {
+                    formatter: function(value) {
                         if (value <= 0) return null;
-                        // Solo retorna el porcentaje sin el nombre de la malla
-                        return value + '%';
+                        // Forzamos 1 decimal si no es entero, cambiamos punto por coma para que se vea como 25,6%
+                        let formatted = Number.isInteger(value) ? value : value.toFixed(1);
+                        return formatted.toString().replace('.', ',') + '%';
                     }
                 }
             } 
         }
     });
 
+    // Función optimizada para evitar decimales infinitos
     function cleanPercentage(val) {
-        if (typeof val === 'number') return val <= 1 && val > 0 ? val * 100 : val;
-        if (typeof val === 'string') {
+        let num = 0;
+        if (typeof val === 'number') {
+            num = val <= 1 && val > 0 ? val * 100 : val;
+        } else if (typeof val === 'string') {
             let parsed = parseFloat(val.replace('%', '').replace(',', '.'));
-            if (isNaN(parsed)) return 0;
-            return parsed <= 1 && parsed > 0 ? parsed * 100 : parsed;
+            if (!isNaN(parsed)) {
+                num = parsed <= 1 && parsed > 0 ? parsed * 100 : parsed;
+            }
         }
-        return 0;
+        // Redondea a un máximo de 1 decimal exacto
+        return Math.round(num * 10) / 10;
     }
 
     function render(data) {
@@ -306,7 +312,7 @@
         let humValue = "—";
         if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
             let humNum = cleanPercentage(data.fisico.humedad);
-            humValue = humNum.toFixed(1).replace('.', ',') + '%';
+            humValue = Number.isInteger(humNum) ? humNum + '%' : humNum.toFixed(1).replace('.', ',') + '%';
         }
         document.getElementById('ui-humedad').innerText = humValue;
 
@@ -324,7 +330,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v22');
+        const cache = localStorage.getItem('santander_cafe_light_v23');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -338,7 +344,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v22', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v23', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
