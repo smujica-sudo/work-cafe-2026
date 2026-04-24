@@ -197,7 +197,6 @@
 </div>
 
 <script>
-    // Registrar el Plugin de Etiquetas de Datos globalmente
     Chart.register(ChartDataLabels);
 
     const API_URL = "https://script.google.com/macros/s/AKfycbzdfpYXW65GyMLnwCS90P9Kc6dEhBSE-pp-pAYcLoNiiMp6ET8sE_WWTgrk8I9i0aBPXQ/exec";
@@ -208,7 +207,8 @@
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
-            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
+            // Etiquetas multilínea de marcador de posición (se actualizarán en render)
+            labels: [['0', 'Fragancia'], ['0', 'Sabor'], ['0', 'Residual'], ['0', 'Acidez'], ['0', 'Cuerpo'], ['0', 'Balance'], ['0', 'Dulzor']],
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
         options: { 
@@ -227,7 +227,7 @@
             }, 
             plugins: { 
                 legend: {display:false},
-                datalabels: {display: false} // Desactiva las etiquetas de valores numéricos en el radar
+                datalabels: {display: false} 
             } 
         }
     });
@@ -242,17 +242,15 @@
             animation: false, 
             responsive: true, 
             maintainAspectRatio: false, 
-            cutout: '60%', // Engrosado para que quepan bien los textos
+            cutout: '60%', 
             plugins: { 
-                legend: {display:false}, // Leyenda clásica inferior oculta
+                legend: {display:false}, 
                 datalabels: {
-                    color: '#ffffff', // Texto blanco sobre fondo rojo
+                    color: '#ffffff', 
                     font: { size: 10, weight: 600 },
                     textAlign: 'center',
                     formatter: function(value, context) {
-                        // Oculta los que tienen valor 0 para no encimar textos
                         if (value <= 0) return null;
-                        // Formato: Malla XX \n 15%
                         return context.chart.data.labels[context.dataIndex] + '\n' + value + '%';
                     }
                 }
@@ -285,7 +283,18 @@
             });
         }
 
-        radarChart.data.datasets[0].data = data.sensorial || [0,0,0,0,0,0,0];
+        // Actualización dinámica de etiquetas multilínea para el gráfico de radar
+        const s = data.sensorial || [0,0,0,0,0,0,0];
+        radarChart.data.labels = [
+            [s[0], 'Fragancia'],
+            [s[1], 'Sabor'],
+            [s[2], 'Residual'],
+            [s[3], 'Acidez'],
+            [s[4], 'Cuerpo'],
+            [s[5], 'Balance'],
+            [s[6], 'Dulzor']
+        ];
+        radarChart.data.datasets[0].data = s;
         radarChart.update();
         
         document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
@@ -317,7 +326,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v20');
+        const cache = localStorage.getItem('santander_cafe_light_v21');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -331,7 +340,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v20', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v21', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
