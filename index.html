@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#141414">
+    <meta name="theme-color" content="#ffffff">
+    
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+    
     <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA --- */
+        /* --- IDENTIDAD CORPORATIVA (TEMA CLARO) --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -19,16 +25,16 @@
             --s-red: #ec0000;      
             --s-dark: #141414;     
             --s-white: #ffffff;    
-            --s-accent: #deedf2;   
-            --s-border: #333333;
+            --s-grey-text: #666666;   
+            --s-border: #eaeaea;
             --led-green: #248a3d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
-            background-color: var(--s-dark); 
-            color: var(--s-white); 
+            background-color: var(--s-white); 
+            color: var(--s-dark); 
             font-family: 'SantanderText', Arial, sans-serif;
             width: 100%; height: 100vh;
             overflow: hidden; 
@@ -38,7 +44,7 @@
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--s-dark);
+            background-color: var(--s-white);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
         }
@@ -53,7 +59,7 @@
         #status-text { 
             font-family: 'SantanderHeadline'; font-size: 0.8rem; 
             letter-spacing: 3px; text-transform: uppercase; 
-            color: var(--s-white); opacity: 0.8; 
+            color: var(--s-dark); opacity: 0.8; 
         }
 
         /* --- DASHBOARD COMPACTO --- */
@@ -67,37 +73,39 @@
             display: grid; grid-template-columns: 140px 1fr auto; align-items: center;
             border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px;
         }
-        .logo-box img { width: 100%; height: auto; }
+        .logo-box img { width: 100%; height: auto; filter: invert(1); }
+        
         .profile-box { text-align: center; }
-        .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-white); font-style: italic; max-width: 800px; margin: 0 auto; }
+        .review-text { font-size: 1rem; line-height: 1.6; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
         .tags-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
         .score-box { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
         .score-info { text-align: right; }
         .score-info .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 700; color: var(--s-red); line-height: 1; }
-        .score-info .lbl { font-size: 0.75rem; color: var(--s-accent); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .score-info .lbl { font-size: 0.75rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         
         .btn-pdf { 
-            background: #222; color: #FFF; width: 55px; height: 55px; border-radius: 50%; 
+            background: var(--s-white); color: var(--s-red); width: 55px; height: 55px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid var(--s-border); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--s-red); 
             cursor: pointer; transition: 0.3s; flex-shrink: 0;
         }
-        .btn-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
+        .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-3px); }
 
         /* --- CUERPO TÉCNICO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { 
             font-family: 'SantanderHeadline'; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; 
             letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; 
-            padding-bottom: 8px; border-bottom: 1px solid var(--s-border);
+            padding-bottom: 8px; border-bottom: 1px solid var(--s-border); color: var(--s-dark);
         }
         .col h2::before { content: ''; width: 4px; height: 16px; background: var(--s-red); }
         
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .data-list .label { color: var(--s-accent); font-size: 0.85rem; }
-        .data-list .value { font-weight: 600; color: var(--s-white); font-size: 0.95rem; text-align: right; }
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 5px; border-bottom: 1px solid var(--s-border); }
+        .data-list .item:last-child { border-bottom: none; }
+        .data-list .label { color: var(--s-grey-text); font-size: 0.85rem; }
+        .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.95rem; text-align: right; }
 
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; height: 320px; }
         .pie-box { height: 210px; } 
@@ -125,12 +133,13 @@
             overflow: visible !important; 
             height: 1100px !important;
             width: 1600px !important;
+            background-color: var(--s-white) !important;
         }
         body.pdf-export-mode .dashboard-container {
             width: 1600px !important; max-width: 1600px !important;
             height: 1100px !important;
             padding: 60px !important;
-            background-color: var(--s-dark) !important;
+            background-color: var(--s-white) !important;
             justify-content: flex-start !important;
             gap: 50px !important;
         }
@@ -216,21 +225,20 @@
 </div>
 
 <script>
-    // NUEVA URL INTEGRADA
     const API_URL = "https://script.google.com/macros/s/AKfycbxO2p5XsPlWcWN6V3IKF8AjDfH-5n-N88i_s9d4DCVgE96fOwxvmZ6-tZ46Qnog1orMkw/exec";
 
-    Chart.defaults.color = '#888';
+    Chart.defaults.color = '#666666'; 
     Chart.defaults.font.family = 'SantanderText, Arial';
 
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.12)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#141414' }]
+            datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
         options: { 
             animation: false, responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: {color:'#333'}, grid: {color:'#333'}, pointLabels: {color:'#FFF', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } },
+            scales: { r: { angleLines: {color:'#eaeaea'}, grid: {color:'#eaeaea'}, pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, ticks: {display:false}, min:6, max:10 } },
             plugins: { legend: {display:false} }
         }
     });
@@ -239,9 +247,9 @@
         type: 'doughnut',
         data: {
             labels: ['Malla 17', 'Malla 16', 'Malla 15'],
-            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#141414', borderWidth:4 }]
+            datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:4 }]
         },
-        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#888', font:{size:11}}} } }
+        options: { animation: false, responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: {position:'bottom', labels:{padding:15, color:'#666666', font:{size:11}}} } }
     });
 
     function render(data) {
@@ -277,7 +285,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_final_v3');
+        const cache = localStorage.getItem('santander_cafe_light_v2');
         if(cache) {
             render(JSON.parse(cache));
             document.getElementById('preloader').style.display = 'none';
@@ -287,7 +295,7 @@
             const res = await fetch(API_URL);
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_final_v3', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v2', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             document.getElementById('preloader').style.opacity = '0';
             setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
@@ -340,7 +348,7 @@
                 image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: { 
                     scale: 2, 
-                    backgroundColor: '#141414', 
+                    backgroundColor: '#ffffff', 
                     useCORS: true,
                     width: 1600,
                     height: 1100,
