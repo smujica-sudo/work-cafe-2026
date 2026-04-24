@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#141414">
-    <title>Work Café Santander | Ficha Técnica de Especialidad</title>
+    <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- FUENTES OFICIALES SANTANDER --- */
+        /* --- IDENTIDAD VISUAL SANTANDER --- */
         @font-face {
             font-family: 'SantanderText';
             src: url('SantanderText-Regular.woff2') format('woff2');
@@ -23,189 +23,137 @@
         }
 
         :root {
-            --s-red: #EC0000;      /* Rojo Santander Matte */
-            --s-dark: #141414;     /* Negro Plano */
+            --s-red: #EC0000;      
+            --s-dark: #141414;     
             --s-grey-border: #333333; 
             --s-grey-text: #CCCCCC;   
             --s-white: #FFFFFF;    
             --led-green: #248a3d;
-            --led-red: #EC0000;
         }
 
-        /* --- RESET Y BASE --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
             background-color: var(--s-dark); 
             color: var(--s-white); 
             font-family: 'SantanderText', Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
         }
 
-        /* --- PRELOADER (PANTALLA DE CARGA) --- */
+        /* --- PRELOADER MEJORADO (GRANO DE CAFÉ REAL) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-dark);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s;
+            z-index: 9999; transition: opacity 0.5s ease;
         }
-        .coffee-loader {
-            width: 70px; height: 70px; margin-bottom: 20px;
+        .coffee-bean {
+            width: 60px; height: 80px;
             fill: var(--s-red);
-            animation: coffee-spin 1.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            animation: spin-bean 2s infinite ease-in-out;
+        }
+        @keyframes spin-bean {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
         }
         #preloader p {
-            color: var(--s-white); font-family: 'SantanderHeadline', sans-serif;
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7;
+            margin-top: 20px; color: var(--s-white); font-family: 'SantanderHeadline';
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8;
         }
-        @keyframes coffee-spin { 100% { transform: rotate(360deg); } }
 
-        /* --- DASHBOARD PRINCIPAL --- */
+        /* --- LAYOUT DASHBOARD --- */
         .dashboard-container {
             width: 95%; max-width: 1600px; margin: 0 auto;
-            padding: 50px 10px; display: flex; flex-direction: column; gap: 50px; 
-            position: relative; z-index: 1;
+            padding: 40px 10px; display: flex; flex-direction: column; gap: 40px; 
         }
 
-        /* --- HEADER (HERO) --- */
         .hero-section {
-            display: flex; flex-direction: column; gap: 30px; 
+            display: flex; flex-direction: column; gap: 25px; 
             text-align: center; border-bottom: 1px solid var(--s-grey-border); 
-            padding-bottom: 40px;
+            padding-bottom: 30px;
         }
         .logo-container { margin: 0 auto; max-width: 140px; }
-        .logo-img { width: 100%; height: auto; }
-
         .header-review { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .review-text { 
-            font-size: 1.15rem; line-height: 1.8; color: var(--s-grey-text); 
-            font-style: italic; max-width: 850px; text-wrap: balance; 
-        }
-        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-        .tag { 
-            border: 1px solid var(--s-red); color: var(--s-white); 
-            padding: 6px 16px; border-radius: 2px; font-size: 0.75rem; 
-            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-        }
+        .review-text { font-size: 1.1rem; line-height: 1.8; color: var(--s-grey-text); font-style: italic; max-width: 850px; }
+        .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-white); padding: 5px 15px; border-radius: 2px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
 
-        /* --- SCA SCORE --- */
-        .score-box { text-align: center; }
-        .score-box .val { 
-            font-family: 'SantanderHeadline', sans-serif; 
-            font-size: 3rem; font-weight: 600; color: var(--s-red); 
-            line-height: 1; letter-spacing: -1px;
-        }
+        .score-box .val { font-family: 'SantanderHeadline'; font-size: 3.2rem; font-weight: 600; color: var(--s-red); line-height: 1; }
         .score-box .lbl { font-size: 0.8rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
 
-        /* --- SECCIONES E INTERACTIVIDAD --- */
-        .section-container h2 { 
-            font-family: 'SantanderHeadline', sans-serif;
-            font-size: 1.1rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); 
-            display: flex; align-items: center; gap: 12px; padding-bottom: 15px;
-            border-bottom: 1px solid var(--s-grey-border);
-        }
+        .section-container h2 { font-family: 'SantanderHeadline'; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--s-white); display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--s-grey-border); }
         .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--s-red); }
-
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table .row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: background 0.2s ease;
-        }
-        .data-table .row:hover { background: rgba(255, 255, 255, 0.03); }
+        
+        .data-table .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .data-table .label { color: var(--s-grey-text); font-size: 1rem; }
-        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; text-align: right; }
+        .data-table .value { font-weight: 600; color: var(--s-white); font-size: 1.1rem; }
 
-        /* --- GRÁFICOS --- */
-        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; }
-        .radar-wrapper { height: 480px; } 
-        .pie-wrapper { height: 320px; }
+        .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 30px; height: 450px; }
+        .pie-wrapper { height: 300px; }
 
-        /* --- INDICADORES Y BOTONES --- */
-        .sync-led {
-            position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px;
-            border-radius: 50%; background-color: var(--led-green); z-index: 1000;
-            animation: led-pulse 3s infinite;
-        }
-        @keyframes led-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
+        /* --- UI --- */
+        .sync-led { position: fixed; bottom: 25px; left: 25px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: pulse 3s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #222; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); border: 1px solid var(--s-grey-border); z-index: 1000; cursor: pointer; transition: 0.3s; }
+        .fab-pdf:hover { background: var(--s-red); transform: scale(1.1); }
 
-        .fab-pdf { 
-            position: fixed; bottom: 30px; right: 30px; background: #222; 
-            color: #FFF; width: 60px; height: 60px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4); border: 1px solid var(--s-grey-border); 
-            z-index: 1000; cursor: pointer; transition: 0.3s;
-        }
-        .fab-pdf:hover { background: var(--s-red); transform: translateY(-3px); border-color: transparent; }
-
-        /* --- ANIMACIONES DE SCROLL --- */
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- DESKTOP LAYOUT --- */
         @media (min-width: 1024px) {
-            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 70px; }
+            .dashboard-container { display: grid; grid-template-columns: repeat(3, 1fr); padding: 80px 40px; gap: 60px; }
             .hero-section { grid-column: 1 / 4; display: grid; grid-template-columns: 1fr 2.5fr 1fr; align-items: center; text-align: left; gap: 50px; }
-            .logo-container { margin: 0; } 
-            .header-review { align-items: flex-start; } 
-            .tags { justify-content: flex-start; }
             .score-box { text-align: right; border-left: 1px solid var(--s-grey-border); padding-left: 40px; }
-            .sensory-section { grid-column: 1 / 2; } 
-            .trace-section { grid-column: 2 / 3; } 
-            .physic-section { grid-column: 3 / 4; }
         }
 
-        /* --- CLON PARA EXPORTACIÓN PDF (Invisible) --- */
-        #pdf-render-box {
-            position: absolute; left: -9999px; top: -9999px;
-            width: 1600px; height: 1100px;
-            background-color: #141414;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            padding: 60px; gap: 50px; align-content: start;
+        /* --- ESTILO DE IMPRESIÓN PDF --- */
+        .pdf-export-content {
+            background-color: #141414 !important;
+            width: 1500px !important;
+            height: 1000px !important;
+            padding: 50px !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 40px !important;
+            color: white !important;
         }
     </style>
 </head>
 <body>
 
 <div id="preloader">
-    <svg class="coffee-loader" viewBox="0 0 24 24">
-        <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
+    <svg class="coffee-bean" viewBox="0 0 100 100">
+        <path d="M50,10 C25,10 10,30 10,55 C10,80 25,90 50,90 C75,90 90,80 90,55 C90,30 75,10 50,10 Z M50,80 C50,80 35,70 35,50 C35,30 50,20 50,20 C50,20 65,30 65,50 C65,70 50,80 50,80 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M50,20 C40,35 40,65 50,80 M50,20 C60,35 60,65 50,80" fill="none" stroke="currentColor" stroke-width="1" />
+        <path d="M30,55 Q50,45 70,55" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
     </svg>
-    <p>Analizando Lote...</p>
+    <p>Cargando Lote...</p>
 </div>
 
-<div id="sync-led" class="sync-led" title="Estado de la conexión"></div>
+<div id="sync-led" class="sync-led"></div>
 
 <div id="export-area" class="dashboard-container">
-    
     <header class="section-container hero-section reveal active">
-        <div class="logo-container">
-            <img src="logo-workcafe.png" alt="Work Café Santander" class="logo-img">
-        </div>
-
+        <div class="logo-container"><img src="logo-workcafe.png" alt="Work Café" style="width:100%"></div>
         <div class="header-review">
             <p class="review-text" id="val-review-text">---</p>
             <div class="tags" id="val-tags"></div>
         </div>
-
         <div class="score-box">
             <div class="lbl">SCA SCORE</div>
             <div class="val" id="ui-sca">--.-</div>
         </div>
     </header>
 
-    <section class="section-container sensory-section reveal">
+    <section class="section-container reveal">
         <h2>Evaluación Sensorial</h2>
-        <div class="chart-wrapper radar-wrapper">
-            <canvas id="radarChart"></canvas>
-        </div>
+        <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
     </section>
 
-    <section class="section-container trace-section reveal">
+    <section class="section-container reveal">
         <h2>Trazabilidad</h2>
         <div class="data-table">
             <div class="row"><div class="label">Lote</div><div class="value" id="val-lote">---</div></div>
@@ -214,73 +162,50 @@
             <div class="row"><div class="label">Productor</div><div class="value" id="val-pro">---</div></div>
             <div class="row"><div class="label">Altitud</div><div class="value" id="val-alt">---</div></div>
             <div class="row"><div class="label">Varietales</div><div class="value" id="val-var">---</div></div>
-            <div class="row"><div class="label">Proceso</div><div class="value" id="val-proc">---</div></div>
-            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color:var(--s-red);">---</div></div>
+            <div class="row"><div class="label">Certificaciones</div><div class="value" id="val-cert" style="color:var(--s-red)">---</div></div>
         </div>
     </section>
 
-    <section class="section-container physic-section reveal">
+    <section class="section-container reveal">
         <h2>Análisis Físico</h2>
-        <div class="chart-wrapper pie-wrapper">
-            <canvas id="pieChart"></canvas>
-        </div>
+        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
         <div class="data-table">
             <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">--%</div></div>
             <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">-.-- g/ml</div></div>
             <div class="row"><div class="label">Agtron Gourmet</div><div class="value" id="val-agt">--</div></div>
         </div>
     </section>
-
 </div>
 
-<button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar Ficha PDF">
+<button class="fab-pdf reveal" onclick="exportPDF()">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
 </button>
 
 <script>
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
-    Chart.defaults.color = '#777777';
+    Chart.defaults.color = '#888';
     Chart.defaults.font.family = 'SantanderText, Arial';
 
-    // Gráfico Radar
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
-        data: {
-            labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ 
-                data: [0,0,0,0,0,0,0],
-                backgroundColor: 'rgba(236, 0, 0, 0.1)', borderColor: '#EC0000', borderWidth: 2, pointRadius: 4, pointBackgroundColor: '#141414'
-            }]
-        },
-        options: { 
-            animation: { duration: 1500 }, responsive: true, maintainAspectRatio: false,
-            scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#CCC', font: { size: 12, weight: 600 }, padding: 20 }, ticks: { display: false }, min: 6, max: 10 } },
-            plugins: { legend: { display: false } }
-        }
+        data: { labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'], datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236,0,0,0.1)', borderColor:'#EC0000', borderWidth:2, pointRadius:4 }] },
+        options: { animation:false, responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{color:'#333'}, grid:{color:'#333'}, pointLabels:{color:'#FFF', font:{size:12, weight:600}, padding:20}, ticks:{display:false}, min:6, max:10 } }, plugins:{ legend:{display:false} } }
     });
 
-    // Gráfico Dona
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { labels: ['Malla 17', 'Malla 16', 'Malla 15'], datasets: [{ data: [1, 1, 1], backgroundColor: ['#EC0000', '#333', '#222'], borderColor: '#141414', borderWidth: 4 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 20, color: '#888' } } } }
+        data: { labels:['Malla 17','Malla 16','Malla 15'], datasets:[{ data:[1,1,1], backgroundColor:['#EC0000','#333','#222'], borderColor:'#141414', borderWidth:4 }] },
+        options: { animation:false, responsive:true, maintainAspectRatio:false, cutout:'70%', plugins:{ legend:{position:'bottom', labels:{padding:20, color:'#888'}} } }
     });
-
-    function hideLoader() {
-        const loader = document.getElementById('preloader');
-        loader.style.opacity = '0';
-        setTimeout(() => { loader.style.visibility = 'hidden'; }, 600);
-    }
 
     function updateUI(data) {
         if(!data) return;
         document.getElementById('ui-sca').innerText = data.sca_total;
         document.getElementById('val-lote').innerText = data.lote;
-        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil...";
-        
+        document.getElementById('val-review-text').innerText = data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         const tagsContainer = document.getElementById('val-tags');
         tagsContainer.innerHTML = '';
         if(data.review.notas !== "—") {
@@ -288,44 +213,32 @@
                 const span = document.createElement('span'); span.className = 'tag'; span.innerText = nota.trim(); tagsContainer.appendChild(span);
             });
         }
-
         radarChart.data.datasets[0].data = data.sensorial; radarChart.update();
         document.getElementById('val-ori').innerText = data.trazabilidad.origen;
         document.getElementById('val-reg').innerText = data.trazabilidad.region;
         document.getElementById('val-pro').innerText = data.trazabilidad.productor;
         document.getElementById('val-alt').innerText = data.trazabilidad.altitud;
         document.getElementById('val-var').innerText = data.trazabilidad.varietales;
-        document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
         document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
-
         document.getElementById('val-hum').innerText = String(data.fisico.humedad).replace('%','') + '%';
         document.getElementById('val-den').innerText = String(data.fisico.densidad).replace('g/ml','').trim() + ' g/ml';
         document.getElementById('val-agt').innerText = data.fisico.agtron;
-
         let m17 = parseFloat(data.fisico.malla17) || 0; if (m17 > 0 && m17 <= 1) m17 *= 100;
         let m16 = parseFloat(data.fisico.malla16) || 0; if (m16 > 0 && m16 <= 1) m16 *= 100;
         let m15 = parseFloat(data.fisico.malla15) || 0; if (m15 > 0 && m15 <= 1) m15 *= 100;
-        pieChart.data.datasets[0].data = [m17.toFixed(1), m16.toFixed(1), m15.toFixed(1)]; pieChart.update();
+        pieChart.data.datasets[0].data = [m17, m16, m15]; pieChart.update();
     }
 
     async function syncData() {
-        const cached = localStorage.getItem('cafe_v_final_cache');
-        if (cached) {
-            updateUI(JSON.parse(cached));
-            hideLoader();
-        }
-
+        const cached = localStorage.getItem('cafe_v_cache_final');
+        if (cached) { updateUI(JSON.parse(cached)); document.getElementById('preloader').style.display='none'; }
         try {
             const response = await fetch(SHEET_API_URL);
             const data = await response.json();
-            updateUI(data);
-            localStorage.setItem('cafe_v_final_cache', JSON.stringify(data));
-            document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            if (!cached) hideLoader();
-        } catch (e) { 
-            document.getElementById('sync-led').style.backgroundColor = 'var(--led-red)';
-            if (!cached) hideLoader();
-        }
+            updateUI(data); localStorage.setItem('cafe_v_cache_final', JSON.stringify(data));
+            document.getElementById('sync-led').style.backgroundColor = '#248a3d';
+            document.getElementById('preloader').style.display='none';
+        } catch (e) { document.getElementById('sync-led').style.backgroundColor = '#EC0000'; document.getElementById('preloader').style.display='none'; }
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -335,42 +248,35 @@
 
     // --- EXPORTACIÓN PDF REPARADA ---
     function exportPDF() {
-        const fab = document.querySelector('.fab-pdf');
-        const led = document.getElementById('sync-led');
-        const originalArea = document.getElementById('export-area');
+        const element = document.getElementById('export-area');
         
-        fab.style.display = 'none';
-        led.style.display = 'none';
+        // Crear un contenedor de clonación visible temporalmente para la librería
+        const worker = document.createElement('div');
+        worker.style.cssText = "position:absolute; left:0; top:0; width:1500px; background:#141414; z-index:-1000;";
+        worker.innerHTML = element.innerHTML;
+        document.body.appendChild(worker);
 
-        const tempContainer = document.createElement('div');
-        tempContainer.id = 'pdf-render-box';
-        tempContainer.style.cssText = `
-            position: absolute; left: -9999px; top: -9999px;
-            width: 1600px; height: 1100px;
-            background-color: #141414;
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            padding: 60px; gap: 50px; align-content: start;
-        `;
-        tempContainer.innerHTML = originalArea.innerHTML;
-        document.body.appendChild(tempContainer);
+        // Reemplazar los canvas en el clon con imágenes reales para evitar el PDF vacío
+        const radarImg = document.createElement('img');
+        radarImg.src = radarChart.toBase64Image();
+        radarImg.style.width = "100%";
+        worker.querySelector('#radarChart').replaceWith(radarImg);
 
-        // Convertir Canvas a Imagen para PDF
-        const radarCanvas = tempContainer.querySelector('#radarChart');
-        const pieCanvas = tempContainer.querySelector('#pieChart');
-        const radarImg = document.createElement('img'); radarImg.src = radarChart.toBase64Image(); radarImg.style.width = '100%'; radarCanvas.parentNode.replaceChild(radarImg, radarCanvas);
-        const pieImg = document.createElement('img'); pieImg.src = pieChart.toBase64Image(); pieImg.style.width = '100%'; pieCanvas.parentNode.replaceChild(pieImg, pieCanvas);
+        const pieImg = document.createElement('img');
+        pieImg.src = pieChart.toBase64Image();
+        pieImg.style.width = "100%";
+        worker.querySelector('#pieChart').replaceWith(pieImg);
 
         const opt = {
-            margin: 0, filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf',
+            margin: 0,
+            filename: 'Ficha_Tecnica_Santander.pdf',
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true, width: 1600, height: 1100 },
-            jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
+            html2canvas: { scale: 2, backgroundColor: '#141414', useCORS: true },
+            jsPDF: { unit: 'px', format: [1500, 1100], orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(tempContainer).save().then(() => {
-            document.body.removeChild(tempContainer);
-            fab.style.display = 'flex'; 
-            led.style.display = 'block';
+        html2pdf().set(opt).from(worker).save().then(() => {
+            document.body.removeChild(worker);
         });
     }
 
