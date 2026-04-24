@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0F0F0F">
-    <title>Work Café Santander | Ficha Técnica</title>
+    <title>Work Café Santander | Ficha Técnica Especialidad</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,54 +20,259 @@
             --border-color: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; width: 100%; height: 100%; overflow-x: hidden; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-dark); color: var(--text-light); line-height: 1.5; -webkit-font-smoothing: antialiased; position: relative; overflow-x: hidden; }
+        /* --- RESET ESTRICTO Y SMOOTH SCROLLING --- */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
 
-        .parallax-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 15% 15%, rgba(179, 0, 0, 0.04) 0%, transparent 35%), radial-gradient(circle at 85% 85%, rgba(179, 0, 0, 0.02) 0%, transparent 35%); z-index: -1; }
+        html {
+            scroll-behavior: smooth; 
+            width: 100%; 
+            height: 100%; 
+            overflow-x: hidden;
+        }
 
-        .dashboard-container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; gap: 30px; }
-        .section-container { width: 100%; min-width: 0; padding: 10px 0; }
-        .section-container h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-light); display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
-        .section-container h2::before { content: ''; width: 4px; height: 18px; background: var(--santander-red); flex-shrink: 0; box-shadow: 0 0 12px var(--santander-red-glow); }
+        body {
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: var(--text-light); 
+            line-height: 1.5; 
+            -webkit-font-smoothing: antialiased; 
+            -webkit-text-size-adjust: 100%; 
+            position: relative; 
+            overflow-x: hidden;
+        }
 
-        .hero-section { padding: 20px 5px; border-bottom: 1px solid var(--border-color); display: grid; grid-template-columns: 1fr auto; grid-template-areas: "logo score" "review review"; gap: 20px; align-items: center; }
-        .logo-container { grid-area: logo; max-width: 110px; }
-        .logo-img { width: 100%; height: auto; }
-        .header-review { grid-area: review; display: flex; flex-direction: column; gap: 12px; }
-        .review-text { font-size: 0.95rem; line-height: 1.7; color: #CCC; font-style: italic; max-width: 800px; }
-        .tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag { border: 1px solid var(--santander-red); color: #FFFFFF; background-color: rgba(179, 0, 0, 0.05); padding: 5px 14px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        /* --- FONDO PARALLAX --- */
+        .parallax-bg {
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(179, 0, 0, 0.04) 0%, transparent 35%),
+                radial-gradient(circle at 85% 85%, rgba(179, 0, 0, 0.02) 0%, transparent 35%);
+            z-index: -1; 
+            transform: translateZ(0); 
+        }
+
+        /* --- DIAGRAMACIÓN BASE (FLAT LAYOUT - MOBILE FIRST) --- */
+        .dashboard-container {
+            width: 100%; 
+            max-width: 1400px; 
+            margin: 0 auto;
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+
+        .section-container { 
+            width: 100%; 
+            min-width: 0; 
+            padding: 10px 0; 
+        }
+
+        .section-container h2 { 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 15px; 
+            color: var(--text-light); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-container h2::before { 
+            content: ''; 
+            width: 4px; height: 18px; 
+            background: var(--santander-red); 
+            flex-shrink: 0; 
+            box-shadow: 0 0 12px var(--santander-red-glow);
+        }
+
+        /* --- HEADER INTEGRADO (Logo + Reseña + Score) --- */
+        .hero-section { 
+            padding: 15px 5px; 
+            border-bottom: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-areas: 
+                "logo score"
+                "review review";
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .logo-container { 
+            grid-area: logo; 
+            max-width: 120px; 
+            display: flex; 
+            align-items: center; 
+        }
+        .logo-img { width: 100%; height: auto; display: block; filter: brightness(1.1); }
+        .logo-text { font-weight: 800; font-size: 1rem; color: var(--text-light); letter-spacing: -0.5px; }
+        .logo-text span { color: var(--santander-red); }
+
+        .header-review { 
+            grid-area: review; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        .review-text { 
+            font-size: 0.95rem; line-height: 1.7; color: #CCC; 
+            font-style: italic; font-weight: 400; text-align: left; max-width: 800px;
+        }
+        .tags { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; }
+        .tag { 
+            border: 1px solid var(--santander-red); color: #FFFFFF; 
+            background-color: rgba(179, 0, 0, 0.05); padding: 5px 14px; 
+            border-radius: 4px; font-size: 0.75rem; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
 
         .score-box { grid-area: score; text-align: right; }
-        .score-box .val { font-size: 3.5rem; font-weight: 800; color: var(--santander-red); text-shadow: 0 0 20px var(--santander-red-glow); }
-        .score-box .lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-top: 5px; }
+        .score-box .val { 
+            font-size: 3.5rem; font-weight: 800; color: var(--santander-red); 
+            line-height: 1; text-shadow: 0 0 20px var(--santander-red-glow); 
+        }
+        .score-box .lbl { 
+            font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; 
+            letter-spacing: 1px; margin-top: 5px; 
+        }
+        .sync-indicator { font-size: 0.65rem; color: #555; text-align: right; margin-top: 6px; }
 
+        /* --- TABLAS PLANAS ANTI-DESBORDE --- */
         .data-table { width: 100%; display: flex; flex-direction: column; }
-        .data-table .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); gap: 10px; }
+        .data-table .row { 
+            display: flex; flex-wrap: wrap; justify-content: space-between; 
+            align-items: center; padding: 14px 0; 
+            border-bottom: 1px solid var(--border-color); gap: 10px; 
+        }
         .data-table .row:last-child { border-bottom: none; }
-        .data-table .label { color: var(--text-muted); font-size: 0.85rem; flex: 1 1 40%; }
-        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.95rem; text-align: right; flex: 1 1 50%; }
+        .data-table .label { color: var(--text-muted); font-size: 0.85rem; flex: 1 1 40%; min-width: 100px; }
+        .data-table .value { font-weight: 600; color: var(--text-light); font-size: 0.95rem; text-align: right; flex: 1 1 50%; word-wrap: break-word; }
 
+        /* --- GRÁFICOS --- */
         .chart-wrapper { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 15px; }
-        .radar-wrapper { height: 350px; } 
-        .pie-wrapper { height: 220px; }
+        .radar-wrapper { height: 320px; max-width: 100%; } 
+        .pie-wrapper { height: 220px; max-width: 100%; }
 
-        .fab-pdf { position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; color: #FFF; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 25px rgba(0,0,0,0.6); border: 1px solid var(--border-color); z-index: 1000; cursor: pointer; }
-        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); }
+        /* --- BOTÓN FLOTANTE --- */
+        .fab-pdf { 
+            position: fixed; bottom: 30px; right: 30px; background: #1A1A1A; 
+            color: #FFF; width: 60px; height: 60px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.6); border: 1px solid var(--border-color); 
+            z-index: 1000; cursor: pointer; transition: all 0.3s ease;
+        }
+        .fab-pdf:hover { background: var(--santander-red); transform: scale(1.1); border-color: transparent; }
 
-        .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        /* --- ANIMACIONES --- */
+        .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, transform; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* =========================================
+           MEDIA QUERIES (DESKTOP DASHBOARD)
+           ========================================= */
         @media (min-width: 768px) {
-            .dashboard-container { padding: 40px; gap: 40px; display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "hero hero" "sensory trace" "physic physic"; }
-            .hero-section { grid-template-columns: auto 1fr auto; grid-template-areas: "logo review score"; gap: 50px; }
+            .dashboard-container { 
+                padding: 40px; 
+                gap: 40px; 
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                grid-template-areas: 
+                    "hero hero" 
+                    "sensory trace" 
+                    "physic physic";
+            }
+            .section-container { padding: 0; }
+            
+            .hero-section { 
+                grid-area: hero; 
+                display: grid;
+                grid-template-columns: auto 1fr auto; 
+                grid-template-areas: "logo review score"; 
+                gap: 50px; 
+                padding: 20px 10px; 
+            }
+            .logo-container { max-width: 150px; }
             .score-box { border-left: 1px solid var(--border-color); padding-left: 40px; }
+            .score-box .val { font-size: 4.5rem; }
+            
+            .sensory-section { grid-area: sensory; }
+            .trace-section { grid-area: trace; }
+            .physic-section { grid-area: physic; }
+            
+            .radar-wrapper { height: 380px; } 
+            .pie-wrapper { height: 240px; }
         }
 
         @media (min-width: 1024px) {
-            .dashboard-container { grid-template-columns: repeat(3, 1fr); padding: 60px; grid-template-areas: "hero hero hero" "sensory trace physic"; }
+            .dashboard-container { 
+                grid-template-columns: repeat(3, 1fr); 
+                padding: 60px; 
+                gap: 50px;
+                grid-template-areas: 
+                    "hero hero hero" 
+                    "sensory trace physic";
+            }
+            .hero-section { padding: 30px 0; }
+            .radar-wrapper { height: 400px; }
         }
+
+        /* =========================================
+           MODO EXPORTACIÓN "ONE-PAGER" (PDF)
+           ========================================= */
+        .pdf-export-mode {
+            width: 1400px !important; 
+            height: 990px !important; 
+            padding: 40px 60px !important; 
+            gap: 30px !important;
+            background: var(--bg-dark) !important; 
+            display: grid !important; 
+            grid-template-columns: repeat(3, 1fr) !important;
+            grid-template-areas: 
+                "hero hero hero" 
+                "sensory trace physic" !important;
+            grid-template-rows: max-content 1fr !important; 
+            box-sizing: border-box !important; 
+            overflow: hidden !important; 
+        }
+        .pdf-export-mode .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        .pdf-export-mode .parallax-bg { display: none !important; }
+        
+        .pdf-export-mode .section-container { padding: 10px 0 !important; }
+        
+        .pdf-export-mode .hero-section { 
+            grid-area: hero !important; 
+            display: grid !important; 
+            grid-template-columns: auto 1fr auto !important; 
+            grid-template-areas: "logo review score" !important;
+            gap: 50px !important; 
+            padding: 20px 0 !important;
+        }
+        .pdf-export-mode .logo-container { max-width: 150px !important; }
+        .pdf-export-mode .score-box { border-left: 1px solid var(--border-color) !important; padding-left: 40px !important;}
+        
+        .pdf-export-mode .sensory-section { grid-area: sensory !important; }
+        .pdf-export-mode .trace-section { grid-area: trace !important; }
+        .pdf-export-mode .physic-section { grid-area: physic !important; }
+        
+        .pdf-export-mode .radar-wrapper { height: 320px !important; }
+        .pdf-export-mode .pie-wrapper { height: 180px !important; }
+        
+        .pdf-export-mode .data-table .row { padding: 8px 0 !important; }
+        .pdf-export-mode .data-table .label { font-size: 0.8rem !important; }
+        .pdf-export-mode .data-table .value { font-size: 0.85rem !important; }
+        .pdf-export-mode .score-box .val { font-size: 4rem !important; }
     </style>
 </head>
 <body>
@@ -78,23 +283,34 @@
     
     <header class="section-container hero-section reveal active">
         <div class="logo-container">
-            <img src="logo-workcafe.png" alt="Work Café" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display: none; font-weight: 800;">WORK CAFÉ</div>
+            <img src="logo-workcafe.png" alt="Work Café Santander" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo-text" style="display: none;">WORK <span>CAFÉ</span> SANTANDER</div>
         </div>
+
         <div class="header-review">
-            <p class="review-text">"Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida y reconfortante."</p>
-            <div class="tags"><span class="tag">Chocolate</span><span class="tag">Frutos Secos</span><span class="tag">Caramelo</span><span class="tag">Cajú</span></div>
+            <p class="review-text">
+                "Perfil redondo, meloso y de buen cuerpo, con notas a chocolate, suave frutal, dulce a caña de azúcar, y cajú. Taza cálida y reconfortante."
+            </p>
+            <div class="tags">
+                <span class="tag">Chocolate</span>
+                <span class="tag">Frutos Secos</span>
+                <span class="tag">Caramelo</span>
+                <span class="tag">Cajú</span>
+            </div>
         </div>
+
         <div class="score-box">
             <div class="lbl">Puntaje SCA</div>
             <div class="val" id="ui-sca">—</div>
-            <div id="sync-status" style="font-size: 0.6rem; color: #444; margin-top: 5px;">Sincronizando...</div>
+            <div id="sync-status" class="sync-indicator">Sincronizando...</div>
         </div>
     </header>
 
     <section class="section-container sensory-section reveal">
         <h2>Evaluación Sensorial</h2>
-        <div class="chart-wrapper radar-wrapper"><canvas id="radarChart"></canvas></div>
+        <div class="chart-wrapper radar-wrapper">
+            <canvas id="radarChart"></canvas>
+        </div>
         <div class="data-table">
             <div class="row"><div class="label">Fragancia / Aroma</div><div class="value" id="val-fra">—</div></div>
             <div class="row"><div class="label">Sabor</div><div class="value" id="val-sab">—</div></div>
@@ -122,65 +338,100 @@
 
     <section class="section-container physic-section reveal">
         <h2>Análisis Físico</h2>
-        <div class="chart-wrapper pie-wrapper"><canvas id="pieChart"></canvas></div>
+        <div class="chart-wrapper pie-wrapper">
+            <canvas id="pieChart"></canvas>
+        </div>
         <div class="data-table">
             <div class="row"><div class="label">Humedad</div><div class="value" id="val-hum">—</div></div>
             <div class="row"><div class="label">Densidad</div><div class="value" id="val-den">—</div></div>
             <div class="row"><div class="label">Malla 17+ (Zaranda)</div><div class="value" id="val-mal">—</div></div>
+            <div class="row"><div class="label">Tueste</div><div class="value">Agtron 50</div></div>
         </div>
     </section>
 </div>
 
-<button class="fab-pdf reveal" onclick="exportPDF()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+<button class="fab-pdf reveal" onclick="exportPDF()" aria-label="Descargar PDF">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+</button>
 
 <script>
+    // ==========================================
+    // URL DEL GOOGLE APPS SCRIPT
+    // ==========================================
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzKdYQ52XHZt5o7iph5yKK0iB4SwHW6ICElOleMIuI-xF47G4stD1V4ypKSFdHCgZvd6g/exec";
 
     Chart.defaults.color = '#AAAAAA';
     Chart.defaults.font.family = 'Montserrat';
 
+    // Gráfico Radar (Araña)
     const ctxRadar = document.getElementById('radarChart').getContext('2d');
     const radarChart = new Chart(ctxRadar, {
         type: 'radar',
         data: {
             labels: ['Fragancia', 'Sabor', 'Residual', 'Acidez', 'Cuerpo', 'Balance', 'Dulzor'],
-            datasets: [{ data: [0,0,0,0,0,0,0], backgroundColor: 'rgba(179, 0, 0, 0.1)', borderColor: '#B30000', borderWidth: 2, pointBackgroundColor: '#FFF', pointRadius: 3 }]
+            datasets: [{ 
+                data: [0,0,0,0,0,0,0], 
+                backgroundColor: 'rgba(179, 0, 0, 0.1)', borderColor: '#B30000', borderWidth: 2, 
+                pointBackgroundColor: '#FFF', pointBorderColor: '#B30000', pointRadius: 3 
+            }]
         },
-        options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#333' }, grid: { color: '#333' }, pointLabels: { color: '#FFF', font: { size: 11, weight: 700 }, padding: 12 }, ticks: { display: false }, min: 6, max: 10 } }, plugins: { legend: { display: false } } }
+        options: { 
+            responsive: true, maintainAspectRatio: false, 
+            scales: { 
+                r: { 
+                    angleLines: { color: '#333' }, grid: { color: '#333' }, 
+                    pointLabels: { color: '#FFF', font: { size: 11, weight: 700, family: 'Montserrat' }, padding: 12 }, 
+                    ticks: { display: false }, min: 6, max: 10 
+                } 
+            }, 
+            plugins: { legend: { display: false } } 
+        }
     });
 
+    // Gráfico Pie (Criba)
     const ctxPie = document.getElementById('pieChart').getContext('2d');
     const pieChart = new Chart(ctxPie, {
         type: 'doughnut',
-        data: { labels: ['Malla 17', 'Otros'], datasets: [{ data: [0, 100], backgroundColor: ['#B30000', '#222'], borderColor: '#0F0F0F', borderWidth: 3 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { color: '#AAA' } } } }
+        data: { 
+            labels: ['Malla 17', 'Otros'], 
+            datasets: [{ 
+                data: [0, 100], 
+                backgroundColor: ['#B30000', '#222'], borderColor: '#0F0F0F', borderWidth: 3 
+            }] 
+        },
+        options: { 
+            responsive: true, maintainAspectRatio: false, cutout: '75%', 
+            plugins: { legend: { position: 'bottom', labels: { color: '#AAA', font: {size: 11, family: 'Montserrat'} } } } 
+        }
     });
 
+    // Sincronización de Datos con Google Sheets
     async function syncData() {
         try {
             const response = await fetch(SHEET_API_URL);
+            if (!response.ok) throw new Error('Error de red');
             const data = await response.json();
             
-            // Llenar UI
+            // Inyectar UI
             document.getElementById('ui-sca').innerText = data.sca_total;
-            document.getElementById('val-lote').innerText = data.lote;
             
-            // Sensorial
-            const idsSens = ['val-fra','val-sab','val-res','val-aci','val-cue','val-bal','val-dul'];
-            idsSens.forEach((id, i) => document.getElementById(id).innerText = data.sensorial[i]);
-            radarChart.data.datasets[0].data = data.sensorial;
-            radarChart.update();
-
-            // Trazabilidad (DINÁMICO)
+            // Inyectar Trazabilidad
             document.getElementById('val-ori').innerText = data.trazabilidad.origen;
             document.getElementById('val-reg').innerText = data.trazabilidad.region;
+            document.getElementById('val-lote').innerText = data.lote;
             document.getElementById('val-pro').innerText = data.trazabilidad.productor;
             document.getElementById('val-alt').innerText = data.trazabilidad.altitud;
             document.getElementById('val-var').innerText = data.trazabilidad.varietales;
             document.getElementById('val-proc').innerText = data.trazabilidad.proceso;
             document.getElementById('val-cert').innerText = data.trazabilidad.certificaciones;
+            
+            // Inyectar Sensorial
+            const idsSens = ['val-fra','val-sab','val-res','val-aci','val-cue','val-bal','val-dul'];
+            idsSens.forEach((id, i) => document.getElementById(id).innerText = data.sensorial[i]);
+            radarChart.data.datasets[0].data = data.sensorial;
+            radarChart.update();
 
-            // Físico
+            // Inyectar Físico
             document.getElementById('val-hum').innerText = data.fisico.humedad;
             document.getElementById('val-den').innerText = data.fisico.densidad;
             const m17 = parseFloat(data.fisico.malla17) * 100 || 0;
@@ -189,30 +440,57 @@
             pieChart.update();
 
             document.getElementById('sync-status').innerHTML = '<span style="color: #28a745;">● Sincronizado</span>';
-        } catch (e) { document.getElementById('sync-status').innerText = '○ Offline'; }
+        } catch (e) { 
+            document.getElementById('sync-status').innerText = '○ Offline (Sin datos)'; 
+        }
     }
 
+    // Intersection Observer para animaciones "Reveal"
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) entry.target.classList.add('active'); 
+        });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    // Efecto Parallax
+    window.addEventListener('scroll', () => {
+        document.getElementById('parallax-bg').style.transform = `translateY(${window.pageYOffset * 0.25}px) translateZ(0)`;
+    });
+
+    // Exportación ONE-PAGER PDF
     function exportPDF() {
         const fab = document.querySelector('.fab-pdf');
         fab.style.display = 'none';
+        
         const element = document.getElementById('export-area');
         element.classList.add('pdf-export-mode');
-        radarChart.resize(); pieChart.resize();
+        
+        radarChart.resize(); 
+        pieChart.resize();
+
         setTimeout(() => {
-            html2pdf().set({ margin: 0, filename: 'Ficha_Tecnica_Santander.pdf', image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true }, jsPDF: { unit: 'px', format: [1400, 990], orientation: 'landscape' } }).from(element).save().then(() => {
+            const opt = {
+                margin: 0, 
+                filename: 'Ficha_Tecnica_WorkCafe_Santander.pdf', 
+                image: { type: 'jpeg', quality: 1 }, 
+                html2canvas: { scale: 2, backgroundColor: '#0F0F0F', useCORS: true, logging: false }, 
+                jsPDF: { unit: 'px', format: [1400, 990], orientation: 'landscape' } 
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
                 element.classList.remove('pdf-export-mode');
-                radarChart.resize(); pieChart.resize();
+                radarChart.resize(); 
+                pieChart.resize();
                 fab.style.display = 'flex'; 
             });
         }, 300);
     }
 
-    window.onload = syncData;
+    window.onload = () => {
+        syncData();
+        document.querySelector('.hero-section').classList.add('active'); // Forzar render del hero
+    };
 </script>
 </body>
 </html>
