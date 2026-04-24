@@ -151,7 +151,7 @@
 
     <main class="main-content">
         <section class="col">
-            <h2>Evaluación Sensorial: Especialidad</h2>
+            <h2>Evaluación Sensorial</h2>
             <div class="chart-box"><canvas id="radarChart"></canvas></div>
         </section>
 
@@ -196,15 +196,17 @@
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
         options: { 
-            animation: false, responsive: true, maintainAspectRatio: false, 
+            animation: false, 
+            responsive: true, 
+            maintainAspectRatio: false, 
             scales: { 
                 r: { 
                     angleLines: {color:'#eaeaea'}, 
                     grid: {color:'#eaeaea'}, 
                     pointLabels: {color:'#141414', font:{size:13, weight:600}, padding:15}, 
-                    ticks: {display:false, stepSize: 1}, // stepSize 1 dibuja todos los anillos
-                    min: 0, // Inicia desde 0
-                    max: 10 // Termina en 10
+                    ticks: {display:false, stepSize: 1}, 
+                    min: 3, // <--- Escala ajustada para arrancar desde el 3
+                    max: 10 
                 } 
             }, 
             plugins: { legend: {display:false} } 
@@ -256,7 +258,6 @@
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
 
-        // Formateo de humedad
         let humValue = "—";
         if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
             let humNum = cleanPercentage(data.fisico.humedad);
@@ -278,7 +279,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v15');
+        const cache = localStorage.getItem('santander_cafe_light_v16');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -292,7 +293,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v15', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v16', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
