@@ -399,7 +399,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v35');
+        const cache = localStorage.getItem('santander_cafe_light_v36');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -413,7 +413,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v35', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v36', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
