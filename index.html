@@ -65,9 +65,10 @@
         .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
-        .review-text { font-size: 1rem; line-height: 1.4; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
         
-        /* NUEVO: Etiquetas alineadas a la izquierda para su nueva posición */
+        /* Modificado: Texto justificado y limitado a ~10 palabras por línea (50 caracteres) */
+        .review-text { font-size: 1rem; line-height: 1.5; color: var(--s-grey-text); font-style: italic; max-width: 50ch; margin: 0 auto; text-align: justify; }
+        
         .tags-box { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 5px; margin-bottom: 15px; }
         .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
@@ -110,7 +111,7 @@
             .col { width: 100%; overflow: hidden; }
             .col h2 { justify-content: center; padding-left: 0; text-align: center; }
             .col h2::before { display: none; }
-            .tags-box { justify-content: center; } /* Centrado en móviles */
+            .tags-box { justify-content: center; } 
             .chart-box { height: 320px; width: 100%; max-width: 100%; margin: 0 auto; }
             .pie-box { height: 260px; width: 100%; max-width: 100%; margin: 0 auto; }
             .data-list { width: 100%; }
@@ -394,7 +395,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v32');
+        const cache = localStorage.getItem('santander_cafe_light_v33');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -408,7 +409,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v32', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v33', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
