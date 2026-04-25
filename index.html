@@ -228,7 +228,7 @@
                 r: { 
                     angleLines: {color:'#eaeaea'}, 
                     grid: {color:'#eaeaea'}, 
-                    // Ponemos el color en transparente para ocultar el defecto, reservando el espacio para nuestro plugin
+                    // Ocultamos las etiquetas estándar para dibujarlas nosotros
                     pointLabels: {color:'transparent', font:{size:13, weight:700}, padding:15}, 
                     ticks: {display:false, stepSize: 1}, 
                     min: 5, 
@@ -240,7 +240,7 @@
                 datalabels: {display: false} 
             } 
         },
-        // NUEVO: Plugin a medida para dibujar textos con dos colores
+        // Plugin a medida para textos bicolores y tamaños ajustados
         plugins: [{
             id: 'customRadarLabels',
             afterDraw: chart => {
@@ -250,9 +250,12 @@
                 
                 scale._pointLabelItems.forEach((item, index) => {
                     const val = chart.data.labels[index][0]; // Numero
-                    const desc = chart.data.labels[index][1]; // Texto
+                    let desc = chart.data.labels[index][1]; // Texto
                     
-                    // Calculamos el centro de la caja invisible
+                    // Aseguramos que solo tenga la primera letra mayúscula ("Title Case")
+                    desc = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
+
+                    // Centro de la caja invisible
                     const centerX = (item.left + item.right) / 2;
                     const centerY = (item.top + item.bottom) / 2;
 
@@ -260,15 +263,15 @@
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    // Valor Numérico (Gris)
+                    // Valor Numérico (Gris, 13px)
                     ctx.font = '700 13px Arial';
                     ctx.fillStyle = '#666666'; 
-                    ctx.fillText(val, centerX, centerY - 8);
+                    ctx.fillText(val, centerX, centerY - 7);
                     
-                    // Descriptor (Rojo)
-                    ctx.font = '700 13px Arial';
+                    // Descriptor (Rojo, más pequeño: 10px)
+                    ctx.font = '700 10px Arial';
                     ctx.fillStyle = '#ec0000';
-                    ctx.fillText(desc.toUpperCase(), centerX, centerY + 8);
+                    ctx.fillText(desc, centerX, centerY + 7);
                     
                     ctx.restore();
                 });
@@ -391,7 +394,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v30');
+        const cache = localStorage.getItem('santander_cafe_light_v31');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -405,7 +408,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v30', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v31', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
