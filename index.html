@@ -182,14 +182,15 @@
         <section class="col">
             <h2>Trazabilidad</h2>
             <div class="data-list">
-                <div class="item"><div class="label">Cosecha</div><div class="value" id="ui-cosecha">---</div></div>
                 <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
                 <div class="item"><div class="label">Región</div><div class="value" id="ui-region">---</div></div>
-                <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
                 <div class="item"><div class="label">Productor</div><div class="value" id="ui-productor">---</div></div>
+                <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
                 <div class="item"><div class="label">Varietales</div><div class="value" id="ui-varietales">---</div></div>
                 <div class="item"><div class="label">Proceso</div><div class="value" id="ui-proceso">---</div></div>
+                <div class="item"><div class="label">Cosecha</div><div class="value" id="ui-cosecha">---</div></div>
                 <div class="item"><div class="label">Certificaciones</div><div class="value" id="ui-cert" style="color:var(--s-red)">---</div></div>
+                <div class="item"><div class="label">ID</div><div class="value" id="ui-id">---</div></div>
             </div>
 
             <h2>Parámetros de tostado</h2>
@@ -233,7 +234,7 @@
             animation: false, 
             responsive: true, 
             maintainAspectRatio: false,
-            devicePixelRatio: 4, // FORZAR SUPER HD EN CANVAS
+            devicePixelRatio: 4, 
             scales: { 
                 r: { 
                     angleLines: {color:'#eaeaea'}, 
@@ -293,7 +294,7 @@
             animation: false, 
             responsive: true, 
             maintainAspectRatio: false,
-            devicePixelRatio: 4, // FORZAR SUPER HD EN CANVAS
+            devicePixelRatio: 4, 
             plugins: { 
                 legend: {
                     display: true, 
@@ -367,14 +368,18 @@
         radarChart.data.datasets[0].data = s;
         radarChart.update();
         
-        document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
+        // ORDEN ACTUALIZADO DE TRAZABILIDAD
         document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
         document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
-        document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud || "—";
         document.getElementById('ui-productor').innerText = data.trazabilidad.productor || "—";
+        document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud || "—";
         document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales || "—";
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
+        document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
+        
+        // Rescatamos el dato 'lote' para usarlo en el ID
+        document.getElementById('ui-id').innerText = data.lote || data.trazabilidad.id || "—";
 
         if(data.roasting) {
             document.getElementById('ui-roast-agtron').innerText = data.roasting.agtron || "—";
@@ -399,7 +404,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v36');
+        const cache = localStorage.getItem('santander_cafe_light_v41');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -413,7 +418,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v36', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v41', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
@@ -458,7 +463,6 @@
 
             const opt = {
                 margin: 0, filename: 'WorkCafe_Santander_Ficha.pdf', image: { type: 'jpeg', quality: 1.0 },
-                // ESCALA 4 = RESOLUCIÓN 4K PARA EXPORTACIÓN SUPER HD
                 html2canvas: { scale: 4, backgroundColor: '#ffffff', useCORS: true, width: 1600, height: 1100, windowWidth: 1600, windowHeight: 1100 },
                 jsPDF: { unit: 'px', format: [1600, 1100], orientation: 'landscape' }
             };
