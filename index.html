@@ -51,7 +51,7 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-white);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
+            z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s;
         }
         .coffee-loader {
             width: 80px; height: 80px; margin-bottom: 20px;
@@ -59,14 +59,16 @@
             animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; }
+        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; animation: pulseText 1.5s infinite; }
+        @keyframes pulseText { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         /* --- DASHBOARD --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; height: 100vh; justify-content: center; }
 
         /* CABECERA */
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
-        .logo-box img { width: 100%; height: auto; }
+        .logo-box img { width: 100%; height: auto; transition: transform 0.3s ease; }
+        .logo-box img:hover { transform: scale(1.05); }
         
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.5; color: var(--s-grey-text); font-style: italic; max-width: 50ch; margin: 0 auto; text-align: justify; }
@@ -76,29 +78,45 @@
         .score-info .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 700; color: var(--s-red); line-height: 1; }
         .score-info .lbl { font-size: 0.75rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
         
-        .btn-pdf { background: var(--s-white); color: var(--s-red); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--s-red); cursor: pointer; transition: 0.3s; flex-shrink: 0; }
-        .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-3px); border-color: transparent; }
+        .btn-pdf { background: var(--s-white); color: var(--s-red); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 2px solid var(--s-red); cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0; }
+        .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px rgba(236,0,0,0.2); border-color: transparent; }
 
         /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { font-family: 'SantanderHeadline'; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
         .col h2::before { content: ''; width: 4px; height: 14px; background: var(--s-red); }
         
+        /* Efectos Hover en Tablas */
         .data-list { margin-bottom: 15px; }
-        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 6px 5px; border-bottom: 1px solid var(--s-border); }
+        .data-list .item { display: flex; justify-content: space-between; align-items: center; padding: 8px 6px; border-bottom: 1px solid var(--s-border); transition: all 0.3s ease; border-radius: 4px; }
         .data-list .item:last-child { border-bottom: none; }
-        .data-list .label { color: var(--s-grey-text); font-size: 0.8rem; }
+        .data-list .item:hover { background-color: #fafafa; transform: translateX(5px); box-shadow: -2px 2px 8px rgba(0,0,0,0.02); border-bottom-color: transparent; }
+        .data-list .label { color: var(--s-grey-text); font-size: 0.8rem; transition: color 0.3s; }
         .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.9rem; text-align: right; }
+        .data-list .item:hover .label { color: var(--s-dark); font-weight: 600; }
 
+        /* Efectos Hover en Etiquetas */
         .tags-box { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 5px; margin-bottom: 15px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: default; }
+        .tag:hover { background-color: var(--s-red); color: var(--s-white); transform: translateY(-3px); box-shadow: 0 4px 10px rgba(236,0,0,0.25); }
 
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; height: 310px; }
         .pie-box { height: 210px; } 
         .chart-sublabel { text-align: center; font-size: 0.7rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px; }
 
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
-        @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
+        
+        /* --- ANIMACIONES DE ENTRADA ESCALONADA --- */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .animate-up { opacity: 0; }
+        /* La clase .loaded la inyectamos por JS cuando la PWA termina de cargar */
+        .loaded .animate-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        
+        .delay-0 { animation-delay: 0.1s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.35s; }
+        .delay-3 { animation-delay: 0.5s; }
 
         /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 1024px) {
@@ -119,10 +137,10 @@
             .data-list { width: 100%; }
             .data-list .item { flex-direction: column; justify-content: center; align-items: center; padding: 12px 0; gap: 5px; text-align: center; }
             .data-list .label { width: 100%; text-align: center; font-size: 0.8rem; }
-            .data-list .value { width: 100%; text-align: center; font-size: 1rem; justify-content: center; word-break: break-word; }
+            .data-list .item:hover { transform: none; background-color: transparent; box-shadow: none; } /* Desactiva hover deslizable en móvil */
         }
 
-        /* --- MODO EXPORTACIÓN PDF --- */
+        /* --- MODO EXPORTACIÓN PDF (Desactiva animaciones y hovers) --- */
         body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-white) !important; }
         body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; }
         body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; padding-bottom: 2vh !important; }
@@ -138,6 +156,7 @@
         body.pdf-export-mode .chart-box { height: 420px !important; }
         body.pdf-export-mode .pie-box { height: 260px !important; } 
         body.pdf-export-mode .btn-pdf, body.pdf-export-mode .sync-led { display: none !important; }
+        body.pdf-export-mode .animate-up { animation: none !important; opacity: 1 !important; transform: none !important; }
     </style>
 </head>
 <body>
@@ -152,7 +171,7 @@
 <div class="sync-led" id="sync-led" title="Estado de API"></div>
 
 <div id="export-area" class="dashboard-container">
-    <header class="header-section">
+    <header class="header-section animate-up delay-0">
         <div class="logo-box"><img src="logo-WC-blanco.png" alt="Santander Work Café" onerror="this.style.display='none'"></div>
         
         <div class="profile-box">
@@ -171,7 +190,7 @@
     </header>
 
     <main class="main-content">
-        <section class="col">
+        <section class="col animate-up delay-1">
             <h2>Evaluación Sensorial</h2>
             <div class="chart-box"><canvas id="radarChart"></canvas></div>
 
@@ -179,7 +198,7 @@
             <div class="tags-box" id="ui-tags"></div>
         </section>
 
-        <section class="col">
+        <section class="col animate-up delay-2">
             <h2>Trazabilidad</h2>
             <div class="data-list">
                 <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
@@ -201,7 +220,7 @@
             </div>
         </section>
 
-        <section class="col">
+        <section class="col animate-up delay-3">
             <h2>Análisis Físico Café Verde</h2>
             <div class="chart-sublabel">Distribución de tamaño</div>
             <div class="chart-box pie-box"><canvas id="pieChart"></canvas></div>
@@ -231,7 +250,8 @@
             datasets: [{ data:[0,0,0,0,0,0,0], backgroundColor:'rgba(236, 0, 0, 0.1)', borderColor:'#ec0000', borderWidth:2, pointRadius:4, pointBackgroundColor: '#ffffff' }]
         },
         options: { 
-            animation: false, 
+            // ANIMACIÓN REACTIVADA
+            animation: { duration: 2000, easing: 'easeOutExpo' }, 
             responsive: true, 
             maintainAspectRatio: false,
             devicePixelRatio: 4, 
@@ -291,7 +311,8 @@
             datasets: [{ data:[1,1,1], backgroundColor:['rgba(236, 0, 0, 1.0)', 'rgba(236, 0, 0, 0.6)', 'rgba(236, 0, 0, 0.3)'], borderColor:'#ffffff', borderWidth:2 }]
         },
         options: { 
-            animation: false, 
+            // ANIMACIÓN REACTIVADA
+            animation: { duration: 1800, easing: 'easeOutQuart' }, 
             responsive: true, 
             maintainAspectRatio: false,
             devicePixelRatio: 4, 
@@ -357,18 +378,11 @@
 
         const s = data.sensorial || [0,0,0,0,0,0,0];
         radarChart.data.labels = [
-            [s[0], 'Fragancia'],
-            [s[1], 'Sabor'],
-            [s[2], 'Residual'],
-            [s[3], 'Acidez'],
-            [s[4], 'Cuerpo'],
-            [s[5], 'Balance'],
-            [s[6], 'Dulzor']
+            [s[0], 'Fragancia'], [s[1], 'Sabor'], [s[2], 'Residual'], [s[3], 'Acidez'], [s[4], 'Cuerpo'], [s[5], 'Balance'], [s[6], 'Dulzor']
         ];
         radarChart.data.datasets[0].data = s;
         radarChart.update();
         
-        // ORDEN ACTUALIZADO DE TRAZABILIDAD
         document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
         document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
         document.getElementById('ui-productor').innerText = data.trazabilidad.productor || "—";
@@ -377,8 +391,6 @@
         document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
         document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
         document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
-        
-        // Rescatamos el dato 'lote' para usarlo en el ID
         document.getElementById('ui-id').innerText = data.lote || data.trazabilidad.id || "—";
 
         if(data.roasting) {
@@ -404,12 +416,17 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v41');
+        const cache = localStorage.getItem('santander_cafe_light_v42');
         const preloader = document.getElementById('preloader');
+        const exportArea = document.getElementById('export-area');
 
         if(cache) {
             render(JSON.parse(cache));
-            preloader.style.display = 'none';
+            preloader.style.opacity = '0';
+            setTimeout(() => { 
+                preloader.style.display = 'none'; 
+                exportArea.classList.add('loaded'); // Dispara la animación CSS
+            }, 800);
         }
 
         try {
@@ -418,11 +435,17 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v41', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v42', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.display = 'none', 500);
+            
+            if(!cache) {
+                preloader.style.opacity = '0';
+                setTimeout(() => { 
+                    preloader.style.display = 'none'; 
+                    exportArea.classList.add('loaded'); // Dispara la animación CSS
+                }, 800);
+            }
             
         } catch (e) {
             console.error("Error de conexión:", e);
@@ -430,7 +453,10 @@
             
             if(!cache) {
                 document.getElementById('status-text').innerText = "Revisa tu conexión";
-                setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => preloader.style.display = 'none', 500); }, 3000);
+                setTimeout(() => { 
+                    preloader.style.opacity = '0'; 
+                    setTimeout(() => { preloader.style.display = 'none'; exportArea.classList.add('loaded'); }, 800); 
+                }, 3000);
             }
         }
     }
@@ -445,7 +471,11 @@
             loader.style.display = 'flex'; loader.style.opacity = '1';
             await new Promise(resolve => setTimeout(resolve, 200));
 
+            // IMPORTANTE: Esto apaga las animaciones para que el PDF salga fijo y perfecto
             document.body.classList.add('pdf-export-mode');
+            
+            // Forzamos el redibujado de los gráficos sin animación para capturarlos
+            radarChart.options.animation = false; pieChart.options.animation = false;
             radarChart.resize(); pieChart.resize();
             await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -477,6 +507,8 @@
             alert("Ocurrió un error al generar el PDF. Verifica tu conexión o intenta recargar la página.");
         } finally {
             document.body.classList.remove('pdf-export-mode');
+            radarChart.options.animation = { duration: 2000, easing: 'easeOutExpo' };
+            pieChart.options.animation = { duration: 1800, easing: 'easeOutQuart' };
             radarChart.resize(); pieChart.resize();
             loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500);
         }
