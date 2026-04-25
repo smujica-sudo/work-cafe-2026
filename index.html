@@ -65,13 +65,8 @@
         .logo-box img { width: 100%; height: auto; }
         
         .profile-box { text-align: center; }
-        
-        /* Modificado: Texto justificado y limitado a ~10 palabras por línea (50 caracteres) */
         .review-text { font-size: 1rem; line-height: 1.5; color: var(--s-grey-text); font-style: italic; max-width: 50ch; margin: 0 auto; text-align: justify; }
         
-        .tags-box { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 5px; margin-bottom: 15px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
-
         .score-box { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
         .score-info { text-align: right; }
         .score-info .val { font-family: 'SantanderHeadline'; font-size: 2.8rem; font-weight: 700; color: var(--s-red); line-height: 1; }
@@ -90,6 +85,9 @@
         .data-list .item:last-child { border-bottom: none; }
         .data-list .label { color: var(--s-grey-text); font-size: 0.8rem; }
         .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.9rem; text-align: right; }
+
+        .tags-box { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 5px; margin-bottom: 15px; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; height: 310px; }
         .pie-box { height: 210px; } 
@@ -192,9 +190,9 @@
 
             <h2>Parámetros de tostado</h2>
             <div class="data-list">
-                <div class="item"><div class="label">Agtron Gourmet</div><div class="value" id="ui-roast-agtron">--</div></div>
-                <div class="item"><div class="label">Fecha de tostado</div><div class="value" id="ui-roast-fecha">--/--/--</div></div>
+                <div class="item"><div class="label">Fecha de tueste</div><div class="value" id="ui-roast-fecha">--/--/--</div></div>
                 <div class="item"><div class="label">Perfil de tueste</div><div class="value" id="ui-roast-perfil">---</div></div>
+                <div class="item"><div class="label">Agtron M-Basic</div><div class="value" id="ui-roast-agtron">--</div></div>
             </div>
         </section>
 
@@ -395,7 +393,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v33');
+        const cache = localStorage.getItem('santander_cafe_light_v34');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -409,7 +407,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v33', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v34', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
