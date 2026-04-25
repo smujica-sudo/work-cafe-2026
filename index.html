@@ -18,7 +18,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        /* --- IDENTIDAD CORPORATIVA (TEMA CLARO) --- */
         @font-face { font-family: 'SantanderText'; src: local('Arial'); font-weight: 400; }
         @font-face { font-family: 'SantanderHeadline'; src: local('Arial Black'); font-weight: 700; }
 
@@ -42,25 +41,18 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-white);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s;
         }
-        .coffee-loader {
-            width: 80px; height: 80px; margin-bottom: 20px;
-            fill: var(--s-red);
-            animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-        }
+        .coffee-loader { width: 80px; height: 80px; margin-bottom: 20px; fill: var(--s-red); animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; }
 
-        /* --- DASHBOARD --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 2vh 0; display: flex; flex-direction: column; gap: 2vh; height: 100vh; justify-content: center; }
 
-        /* CABECERA */
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
         .logo-box img { width: 100%; height: auto; }
         
@@ -77,7 +69,6 @@
         .btn-pdf { background: var(--s-white); color: var(--s-red); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 2px solid var(--s-red); cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .btn-pdf:hover { background: var(--s-red); color: var(--s-white); transform: translateY(-3px); border-color: transparent; }
 
-        /* --- CUERPO --- */
         .main-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; align-items: start; }
         .col h2 { font-family: 'SantanderHeadline'; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--s-border); color: var(--s-dark); }
         .col h2::before { content: ''; width: 4px; height: 14px; background: var(--s-red); }
@@ -88,7 +79,6 @@
         .data-list .label { color: var(--s-grey-text); font-size: 0.8rem; }
         .data-list .value { font-weight: 600; color: var(--s-dark); font-size: 0.9rem; text-align: right; }
 
-        /* Aumentamos un poquito el pie-box para que la leyenda entre cómoda */
         .chart-box { position: relative; width: 100%; display: flex; justify-content: center; margin-bottom: 10px; height: 310px; }
         .pie-box { height: 210px; } 
         .chart-sublabel { text-align: center; font-size: 0.7rem; color: var(--s-grey-text); text-transform: uppercase; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px; }
@@ -96,7 +86,6 @@
         .sync-led { position: fixed; bottom: 20px; left: 20px; width: 10px; height: 10px; border-radius: 50%; background-color: var(--led-green); z-index: 1000; animation: led-breathe 3s infinite; }
         @keyframes led-breathe { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } }
 
-        /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 1024px) {
             html, body { overflow-x: hidden; overflow-y: auto; height: auto; -webkit-overflow-scrolling: touch; }
             .dashboard-container { width: 100%; max-width: 100vw; height: auto; padding: 30px 15px; gap: 30px; box-sizing: border-box; }
@@ -117,7 +106,6 @@
             .data-list .value { width: 100%; text-align: center; font-size: 1rem; justify-content: center; word-break: break-word; }
         }
 
-        /* --- MODO EXPORTACIÓN PDF --- */
         body.pdf-export-mode { overflow: visible !important; height: 1100px !important; width: 1600px !important; background-color: var(--s-white) !important; }
         body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; }
         body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; padding-bottom: 2vh !important; }
@@ -174,7 +162,7 @@
         <section class="col">
             <h2>Trazabilidad</h2>
             <div class="data-list">
-                <div class="item"><div class="label">Lote</div><div class="value" id="ui-lote">---</div></div>
+                <div class="item"><div class="label">Cosecha</div><div class="value" id="ui-cosecha">---</div></div>
                 <div class="item"><div class="label">Origen</div><div class="value" id="ui-origen">---</div></div>
                 <div class="item"><div class="label">Región</div><div class="value" id="ui-region">---</div></div>
                 <div class="item"><div class="label">Altitud</div><div class="value" id="ui-altitud">---</div></div>
@@ -253,16 +241,10 @@
             responsive: true, 
             maintainAspectRatio: false, 
             plugins: { 
-                // Leyenda ACTIVADA en la parte inferior
                 legend: {
                     display: true, 
                     position: 'bottom',
-                    labels: {
-                        boxWidth: 12, // Cajita de color más discreta
-                        font: { size: 10, family: 'SantanderText, Arial' },
-                        color: '#666666',
-                        padding: 15
-                    }
+                    labels: { boxWidth: 12, font: { size: 10, family: 'SantanderText, Arial' }, color: '#666666', padding: 15 }
                 }, 
                 datalabels: {
                     color: '#ffffff', 
@@ -291,7 +273,6 @@
         return Math.round(num * 10) / 10;
     }
 
-    // Limpiador estricto de fechas
     function cleanDate(dateString) {
         if (!dateString || dateString === "—") return "—";
         if (typeof dateString === 'string' && dateString.includes('T')) {
@@ -309,7 +290,7 @@
         if(!data) return;
         
         document.getElementById('ui-sca').innerText = data.sca_total || "—";
-        document.getElementById('ui-lote').innerText = data.lote || "—";
+        // Ya no renderizamos ui-lote en la tabla, pero se mantiene el dato en la base
         document.getElementById('ui-review-text').innerText = data.review.texto && data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         
         const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
@@ -333,6 +314,8 @@
         radarChart.data.datasets[0].data = s;
         radarChart.update();
         
+        // Asignamos la nueva variable Cosecha
+        document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
         document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
         document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
         document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud || "—";
@@ -364,7 +347,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v28');
+        const cache = localStorage.getItem('santander_cafe_light_v29');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -378,7 +361,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v28', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v29', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
