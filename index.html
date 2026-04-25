@@ -66,8 +66,10 @@
         
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.4; color: var(--s-grey-text); font-style: italic; max-width: 800px; margin: 0 auto; }
-        .tags-box { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 4px 12px; border-radius: 2px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
+        
+        /* NUEVO: Etiquetas alineadas a la izquierda para su nueva posición */
+        .tags-box { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 5px; margin-bottom: 15px; }
+        .tag { border: 1px solid var(--s-red); color: var(--s-red); padding: 5px 12px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; background: transparent; }
 
         .score-box { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
         .score-info { text-align: right; }
@@ -108,6 +110,7 @@
             .col { width: 100%; overflow: hidden; }
             .col h2 { justify-content: center; padding-left: 0; text-align: center; }
             .col h2::before { display: none; }
+            .tags-box { justify-content: center; } /* Centrado en móviles */
             .chart-box { height: 320px; width: 100%; max-width: 100%; margin: 0 auto; }
             .pie-box { height: 260px; width: 100%; max-width: 100%; margin: 0 auto; }
             .data-list { width: 100%; }
@@ -124,6 +127,7 @@
         body.pdf-export-mode .score-info { text-align: right !important; }
         body.pdf-export-mode .col h2 { justify-content: flex-start !important; text-align: left !important; }
         body.pdf-export-mode .col h2::before { display: block !important; }
+        body.pdf-export-mode .tags-box { justify-content: flex-start !important; }
         body.pdf-export-mode .data-list .item { flex-direction: row !important; justify-content: space-between !important; padding: 6px 5px !important; text-align: left !important; }
         body.pdf-export-mode .data-list .label { text-align: left !important; width: auto !important; }
         body.pdf-export-mode .data-list .value { text-align: right !important; width: auto !important; justify-content: flex-end !important; }
@@ -150,7 +154,6 @@
         
         <div class="profile-box">
             <p class="review-text" id="ui-review-text">---</p>
-            <div class="tags-box" id="ui-tags"></div>
         </div>
         
         <div class="score-box">
@@ -168,6 +171,9 @@
         <section class="col">
             <h2>Evaluación Sensorial</h2>
             <div class="chart-box"><canvas id="radarChart"></canvas></div>
+
+            <h2>Descriptores</h2>
+            <div class="tags-box" id="ui-tags"></div>
         </section>
 
         <section class="col">
@@ -228,8 +234,7 @@
                 r: { 
                     angleLines: {color:'#eaeaea'}, 
                     grid: {color:'#eaeaea'}, 
-                    // Ocultamos las etiquetas estándar para dibujarlas nosotros
-                    pointLabels: {color:'transparent', font:{size:13, weight:700}, padding:15}, 
+                    pointLabels: {color:'transparent', font:{size:12, weight:600}, padding:15}, 
                     ticks: {display:false, stepSize: 1}, 
                     min: 5, 
                     max: 10 
@@ -240,7 +245,6 @@
                 datalabels: {display: false} 
             } 
         },
-        // Plugin a medida para textos bicolores y tamaños ajustados
         plugins: [{
             id: 'customRadarLabels',
             afterDraw: chart => {
@@ -249,13 +253,11 @@
                 if (!scale._pointLabelItems) return;
                 
                 scale._pointLabelItems.forEach((item, index) => {
-                    const val = chart.data.labels[index][0]; // Numero
-                    let desc = chart.data.labels[index][1]; // Texto
+                    const val = chart.data.labels[index][0]; 
+                    let desc = chart.data.labels[index][1]; 
                     
-                    // Aseguramos que solo tenga la primera letra mayúscula ("Title Case")
                     desc = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
 
-                    // Centro de la caja invisible
                     const centerX = (item.left + item.right) / 2;
                     const centerY = (item.top + item.bottom) / 2;
 
@@ -263,12 +265,10 @@
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     
-                    // Valor Numérico (Gris, 13px)
                     ctx.font = '700 13px Arial';
                     ctx.fillStyle = '#666666'; 
                     ctx.fillText(val, centerX, centerY - 7);
                     
-                    // Descriptor (Rojo, más pequeño: 10px)
                     ctx.font = '700 10px Arial';
                     ctx.fillStyle = '#ec0000';
                     ctx.fillText(desc, centerX, centerY + 7);
@@ -394,7 +394,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v31');
+        const cache = localStorage.getItem('santander_cafe_light_v32');
         const preloader = document.getElementById('preloader');
 
         if(cache) {
@@ -408,7 +408,7 @@
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v31', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v32', JSON.stringify(fresh));
             
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             preloader.style.opacity = '0';
