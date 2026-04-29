@@ -9,6 +9,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
+    <link rel="icon" href="santander-favicon.ico" type="image/x-icon">
+    
     <title>Work Café Santander | Ficha Técnica</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -46,12 +48,11 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: var(--s-white);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 99999; transition: opacity 0.8s ease, visibility 0.8s;
+            z-index: 99999; transition: opacity 0.5s ease, visibility 0.5s;
         }
         .coffee-loader { width: 80px; height: 80px; margin-bottom: 20px; fill: var(--s-red); animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; animation: pulseText 1.5s infinite; }
-        @keyframes pulseText { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        #status-text { font-family: 'SantanderHeadline'; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: var(--s-dark); opacity: 0.8; }
 
         /* --- APP VIEWS --- */
         .view-container {
@@ -65,7 +66,6 @@
 
         /* --- LANDING PAGE --- */
         #landing-view {
-            /* AQUÍ LEE LA IMAGEN DE FONDO */
             background: url('landing_bg.jpg') center center / cover no-repeat;
             background-attachment: fixed;
         }
@@ -118,6 +118,7 @@
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 5vh 0 2vh 0; display: flex; flex-direction: column; gap: 2vh; min-height: 100vh; justify-content: center; }
 
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
+        .logo-box img { width: 100%; height: auto; filter: invert(1); }
         
         .profile-box { text-align: center; }
         .review-text { font-size: 1rem; line-height: 1.5; color: var(--s-grey-text); font-style: italic; max-width: 50ch; margin: 0 auto; text-align: justify; }
@@ -200,7 +201,7 @@
     <svg class="coffee-loader" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12,2C15.31,2 18,4.69 18,8C18,11.31 15.31,14 12,14C8.69,14 6,11.31 6,8C6,4.69 8.69,2 12,2M12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4M12,15C15.31,15 21,16.69 21,20V22H3V20C3,16.69 8.69,15 12,15M12,16.9C9.97,16.9 6.15,17.75 5.07,18.89L4.9,20.1H19.1L18.93,18.89C17.85,17.75 14.03,16.9 12,16.9Z" />
     </svg>
-    <p id="status-text">Sincronizando</p>
+    <p id="status-text">Iniciando</p>
 </div>
 
 <div class="sync-led" id="sync-led" title="Estado de API"></div>
@@ -463,35 +464,33 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v51');
+        const cache = localStorage.getItem('santander_cafe_light_v52');
         const preloader = document.getElementById('preloader');
 
+        // 1. Mostrar contenido en caché si existe
         if(cache) {
             render(JSON.parse(cache));
-            preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 800);
         }
 
+        // 2. APAGAR EL PRELOADER INMEDIATAMENTE (No obligar al usuario a esperar para ver la portada)
+        setTimeout(() => { 
+            preloader.style.opacity = '0'; 
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        }, 150);
+
+        // 3. Sincronizar silenciosamente en segundo plano
         try {
             const res = await fetch(API_URL);
             if (!res.ok) throw new Error("Error HTTP: " + res.status);
             
             const fresh = await res.json();
             render(fresh);
-            localStorage.setItem('santander_cafe_light_v51', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v52', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             
-            if(!cache) {
-                preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 800);
-            }
         } catch (e) {
-            console.error("Error de conexión:", e);
+            console.error("Error de conexión silenciosa:", e);
             document.getElementById('sync-led').style.backgroundColor = 'var(--s-red)';
-            if(!cache) {
-                document.getElementById('status-text').innerText = "Revisa tu conexión";
-                setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => { preloader.style.display = 'none'; }, 800); }, 3000);
-            }
         }
     }
 
