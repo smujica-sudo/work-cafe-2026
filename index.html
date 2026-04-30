@@ -89,14 +89,14 @@
         }
         .view-container.active { opacity: 1; pointer-events: all; z-index: 20; }
 
-        /* --- LANDING PAGE (landing_bg.jpg) --- */
+        /* --- LANDING PAGE --- */
         #landing-view {
             background: url('landing_bg.jpg') center center / cover no-repeat;
             background-attachment: fixed;
             padding-top: 0;
         }
 
-        /* --- GALERÍA VISUAL (MASONRY / PURE IMAGE) --- */
+        /* --- GALERÍA DINÁMICA --- */
         .gallery-wrap { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 8vh 0; }
         .gallery-header { text-align: center; margin-bottom: 5vh; }
         .gallery-header h1 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 2rem; text-transform: uppercase; margin-bottom: 10px; }
@@ -124,7 +124,6 @@
         }
         .gallery-item:hover img { transform: scale(1.08); }
         
-        /* Capa oscura que aparece en hover */
         .gallery-overlay {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -167,7 +166,6 @@
         }
         .gallery-item:hover .gallery-text { transform: translateY(0); }
 
-        /* Adaptación Masonry */
         @media (max-width: 1024px) { .gallery-masonry { column-count: 2; } }
         @media (max-width: 600px) { 
             .gallery-masonry { column-count: 1; } 
@@ -183,7 +181,6 @@
         /* --- DASHBOARD (FICHA TÉCNICA) --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 2vh 0; display: flex; flex-direction: column; gap: 2vh; min-height: calc(100vh - var(--nav-height)); justify-content: center; }
 
-        /* CABECERA CON PROPORCIONES CORRECTAS (320px para el logo) */
         .header-section { display: grid; grid-template-columns: 320px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 40px; }
         .logo-box { width: 100%; display: flex; align-items: center; justify-content: flex-start; }
         .logo-box img { width: 100%; height: auto; max-height: 140px; object-fit: contain; transition: transform 0.3s ease; }
@@ -232,7 +229,7 @@
         /* --- RESPONSIVE MÓVIL --- */
         @media (max-width: 768px) {
             .top-navbar { padding: 0 15px; }
-            .top-navbar img { height: 20px; max-width: 100px; }
+            .top-navbar img { height: 24px; max-width: 140px; }
             .nav-menu { gap: 10px; }
             .nav-item { font-size: 0.7rem; }
             
@@ -303,60 +300,8 @@
             <p>Conoce de cerca las tierras, las manos y las tradiciones detrás de cada taza de café en Work Café Santander.</p>
         </div>
         
-        <div class="gallery-masonry">
-            <div class="gallery-item animate-up delay-1">
-                <img src="origen-brasil.jpg" alt="Alta Mogiana, Brasil">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Brasil</span>
-                    <h3 class="gallery-title">Alta Mogiana</h3>
-                    <p class="gallery-text">Reconocida mundialmente por sus cafés de dulzor excepcional, notas a chocolate y clima privilegiado para un cultivo tradicional impecable.</p>
-                </div>
-            </div>
-
-            <div class="gallery-item animate-up delay-2">
-                <img src="origen-peru.jpg" alt="San Martín de Pangoa, Perú">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Perú</span>
-                    <h3 class="gallery-title">San Martín de Pangoa</h3>
-                    <p class="gallery-text">Cultivos cooperativos bajo sombra en la rica biodiversidad de la selva central. Destaca por acidez brillante y notas a panela.</p>
-                </div>
-            </div>
-
-            <div class="gallery-item animate-up delay-3">
-                <img src="proceso-secado.jpg" alt="Proceso de Secado">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Proceso</span>
-                    <h3 class="gallery-title">Secado Lento</h3>
-                    <p class="gallery-text">Los granos se secan al sol pacientemente para asegurar una fermentación óptima, logrando un perfil limpio y de alta gama.</p>
-                </div>
-            </div>
-
-            <div class="gallery-item animate-up delay-1">
-                <img src="comunidad-productores.jpg" alt="Familias Caficultoras">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Comunidad</span>
-                    <h3 class="gallery-title">Familias Productoras</h3>
-                    <p class="gallery-text">Fomentamos el comercio justo y sostenible. Su esfuerzo artesanal generacional es el ingrediente principal de nuestra excelencia.</p>
-                </div>
-            </div>
-            
-            <div class="gallery-item animate-up delay-2">
-                <img src="proceso-cosecha.jpg" alt="Cosecha">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Cosecha</span>
-                    <h3 class="gallery-title">Selección Manual</h3>
-                    <p class="gallery-text">Cereza a cereza. Garantizamos que únicamente los frutos en su punto máximo de maduración pasen al beneficio.</p>
-                </div>
-            </div>
-
-            <div class="gallery-item animate-up delay-3">
-                <img src="arte-tueste.jpg" alt="Tueste">
-                <div class="gallery-overlay">
-                    <span class="gallery-tag">Arte</span>
-                    <h3 class="gallery-title">Tostado de Especialidad</h3>
-                    <p class="gallery-text">Curvas de tueste diseñadas meticulosamente para revelar y potenciar la identidad intrínrece de cada lote.</p>
-                </div>
-            </div>
+        <div class="gallery-masonry" id="dynamic-gallery">
+            <p style="text-align:center; color: #999; grid-column: 1/-1;">Sincronizando imágenes...</p>
         </div>
     </div>
 </div>
@@ -441,7 +386,6 @@
     Chart.defaults.color = '#666666';
     Chart.defaults.font.family = 'SantanderText, Arial';
 
-    // UI CONTROL LOGIC
     function switchView(viewId, navElement) {
         document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -451,7 +395,7 @@
         
         const activeContainer = document.querySelector(`#${viewId}-view`);
         activeContainer.classList.remove('loaded');
-        void activeContainer.offsetWidth; // Reflow
+        void activeContainer.offsetWidth; 
         activeContainer.classList.add('loaded');
 
         if (viewId === 'ficha') {
@@ -460,7 +404,6 @@
         }
     }
 
-    // CHARTS INIT
     const radarChart = new Chart(document.getElementById('radarChart'), {
         type: 'radar',
         data: {
@@ -546,11 +489,13 @@
 
     function render(data) {
         if(!data) return;
+        
+        // --- 1. RENDER FICHA TÉCNICA ---
         document.getElementById('ui-sca').innerText = data.sca_total || "—";
-        document.getElementById('ui-review-text').innerText = data.review.texto && data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
+        document.getElementById('ui-review-text').innerText = data.review && data.review.texto && data.review.texto !== "—" ? `"${data.review.texto}"` : "Cargando perfil técnico...";
         
         const tagContainer = document.getElementById('ui-tags'); tagContainer.innerHTML = '';
-        if(data.review.notas && String(data.review.notas).trim() !== "—") {
+        if(data.review && data.review.notas && String(data.review.notas).trim() !== "—") {
             String(data.review.notas).split(',').forEach(n => {
                 const el = document.createElement('span'); el.className = 'tag'; el.innerText = n.trim(); tagContainer.appendChild(el);
             });
@@ -560,15 +505,17 @@
         radarChart.data.labels = [[s[0], 'Fragancia'], [s[1], 'Sabor'], [s[2], 'Residual'], [s[3], 'Acidez'], [s[4], 'Cuerpo'], [s[5], 'Balance'], [s[6], 'Dulzor']];
         radarChart.data.datasets[0].data = s; radarChart.update();
         
-        document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
-        document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
-        document.getElementById('ui-productor').innerText = data.trazabilidad.productor || "—";
-        document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud || "—";
-        document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales || "—";
-        document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
-        document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
-        document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
-        document.getElementById('ui-id').innerText = data.lote || data.trazabilidad.id || "—";
+        if(data.trazabilidad) {
+            document.getElementById('ui-origen').innerText = data.trazabilidad.origen || "—";
+            document.getElementById('ui-region').innerText = data.trazabilidad.region || "—";
+            document.getElementById('ui-productor').innerText = data.trazabilidad.productor || "—";
+            document.getElementById('ui-altitud').innerText = data.trazabilidad.altitud || "—";
+            document.getElementById('ui-varietales').innerText = data.trazabilidad.varietales || "—";
+            document.getElementById('ui-proceso').innerText = data.trazabilidad.proceso || "—";
+            document.getElementById('ui-cosecha').innerText = data.trazabilidad.cosecha || "—";
+            document.getElementById('ui-cert').innerText = data.trazabilidad.certificaciones || "—";
+            document.getElementById('ui-id').innerText = data.lote || data.trazabilidad.id || "—";
+        }
 
         if(data.roasting) {
             document.getElementById('ui-roast-agtron').innerText = data.roasting.agtron || "—";
@@ -576,23 +523,48 @@
             document.getElementById('ui-roast-perfil').innerText = data.roasting.perfil || "—";
         }
 
-        let humValue = "—";
-        if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
-            let humNum = cleanPercentage(data.fisico.humedad);
-            humValue = Number.isInteger(humNum) ? humNum + '%' : humNum.toFixed(1).replace('.', ',') + '%';
-        }
-        document.getElementById('ui-humedad').innerText = humValue;
-        document.getElementById('ui-densidad').innerText = String(data.fisico.densidad || "—").replace('g/ml','').trim() + ' g/ml';
-        document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
-        document.getElementById('ui-grado').innerText = (data.fisico.grado !== undefined && data.fisico.grado !== "") ? data.fisico.grado : "—";
-        document.getElementById('ui-malla-desc').innerText = data.fisico.malla_desc || "—";
+        if(data.fisico) {
+            let humValue = "—";
+            if(data.fisico.humedad !== undefined && data.fisico.humedad !== "" && data.fisico.humedad !== "—") {
+                let humNum = cleanPercentage(data.fisico.humedad);
+                humValue = Number.isInteger(humNum) ? humNum + '%' : humNum.toFixed(1).replace('.', ',') + '%';
+            }
+            document.getElementById('ui-humedad').innerText = humValue;
+            document.getElementById('ui-densidad').innerText = String(data.fisico.densidad || "—").replace('g/ml','').trim() + ' g/ml';
+            document.getElementById('ui-defectos').innerText = (data.fisico.defectos !== undefined && data.fisico.defectos !== "") ? data.fisico.defectos : "—";
+            document.getElementById('ui-grado').innerText = (data.fisico.grado !== undefined && data.fisico.grado !== "") ? data.fisico.grado : "—";
+            document.getElementById('ui-malla-desc').innerText = data.fisico.malla_desc || "—";
 
-        pieChart.data.datasets[0].data = [cleanPercentage(data.fisico.malla17), cleanPercentage(data.fisico.malla16), cleanPercentage(data.fisico.malla15)];
-        pieChart.update();
+            pieChart.data.datasets[0].data = [cleanPercentage(data.fisico.malla17), cleanPercentage(data.fisico.malla16), cleanPercentage(data.fisico.malla15)];
+            pieChart.update();
+        }
+
+        // --- 2. RENDER GALERÍA DINÁMICA ---
+        const galleryContainer = document.getElementById('dynamic-gallery');
+        if(galleryContainer && data.galeria && data.galeria.length > 0) {
+            galleryContainer.innerHTML = ''; // Limpiamos
+            
+            data.galeria.forEach((item, index) => {
+                // Alternar delay para efecto de animación escalonada
+                const delayClass = `delay-${(index % 3) + 1}`; 
+                
+                const cardHTML = `
+                <div class="gallery-item animate-up ${delayClass}">
+                    <img src="${item.url}" alt="${item.titulo}">
+                    <div class="gallery-overlay">
+                        <span class="gallery-tag">${item.tag}</span>
+                        <h3 class="gallery-title">${item.titulo}</h3>
+                        <p class="gallery-text">${item.descripcion}</p>
+                    </div>
+                </div>
+                `;
+                galleryContainer.innerHTML += cardHTML;
+            });
+        }
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v63');
+        const cache = localStorage.getItem('santander_cafe_light_v66');
         const preloader = document.getElementById('preloader');
 
         const hideLoader = () => {
@@ -616,7 +588,7 @@
             
             const fresh = await res.json();
             try { render(fresh); } catch(e) {}
-            localStorage.setItem('santander_cafe_light_v63', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v66', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             
         } catch (e) {
