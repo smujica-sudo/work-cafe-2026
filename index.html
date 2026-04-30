@@ -94,25 +94,94 @@
             padding-top: 0;
         }
 
-        /* --- GALERÍA DE ORÍGENES Y PROCESOS --- */
-        .gallery-wrap { width: 95%; max-width: 1200px; margin: 0 auto; padding: 4vh 0 8vh 0; }
+        /* --- NUEVA GALERÍA (ESTILO MASONRY / PURE IMAGE) --- */
+        .gallery-wrap { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 8vh 0; }
         .gallery-header { text-align: center; margin-bottom: 5vh; }
         .gallery-header h1 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 2rem; text-transform: uppercase; margin-bottom: 10px; }
         .gallery-header p { color: var(--s-grey-text); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.5; }
         
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .gallery-card { background: var(--s-white); border-radius: 6px; overflow: hidden; border: 1px solid var(--s-border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .gallery-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
-        .gallery-card img { width: 100%; height: 220px; object-fit: cover; display: block; border-bottom: 3px solid var(--s-red); }
-        .gallery-info { padding: 25px; }
-        .gallery-info .tag { display: inline-block; background: rgba(236, 0, 0, 0.1); color: var(--s-red); font-size: 0.65rem; font-weight: bold; padding: 4px 10px; border-radius: 3px; text-transform: uppercase; margin-bottom: 12px; }
-        .gallery-info h3 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 1.3rem; margin-bottom: 10px; }
-        .gallery-info p { font-size: 0.95rem; color: var(--s-grey-text); line-height: 1.6; }
+        .gallery-masonry {
+            column-count: 3;
+            column-gap: 20px;
+            width: 100%;
+        }
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateZ(0); /* Evita parpadeos en navegadores */
+        }
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+        
+        /* Capa oscura que aparece en hover */
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100%;
+            background: linear-gradient(to top, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.5) 60%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px 25px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        
+        .gallery-tag {
+            align-self: flex-start;
+            background: var(--s-red);
+            color: var(--s-white);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .gallery-title {
+            font-family: 'SantanderHeadline';
+            color: var(--s-white);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .gallery-text {
+            font-size: 0.9rem;
+            color: #eaeaea;
+            line-height: 1.5;
+            transform: translateY(10px);
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover .gallery-text { transform: translateY(0); }
+
+        /* Adaptación a tablets y móviles para el Masonry */
+        @media (max-width: 1024px) { .gallery-masonry { column-count: 2; } }
+        @media (max-width: 600px) { 
+            .gallery-masonry { column-count: 1; } 
+            /* En móvil no hay hover, mostramos siempre la parte baja del overlay */
+            .gallery-overlay {
+                opacity: 1;
+                background: linear-gradient(to top, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.2) 100%);
+                height: auto;
+            }
+            .gallery-text { transform: translateY(0); display: none; /* Ocultamos texto largo en móvil para priorizar foto */ }
+            .gallery-item:active .gallery-text { display: block; }
+        }
 
         /* --- DASHBOARD (FICHA TÉCNICA) --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 2vh 0; display: flex; flex-direction: column; gap: 2vh; min-height: calc(100vh - var(--nav-height)); justify-content: center; }
 
-        /* CRECIMIENTO GIGANTE DEL CONTENEDOR DEL LOGO */
         .header-section { display: grid; grid-template-columns: 320px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 40px; }
         .logo-box { width: 100%; display: flex; align-items: center; justify-content: flex-start; }
         .logo-box img { width: 100%; height: auto; max-height: 140px; object-fit: contain; transition: transform 0.3s ease; }
@@ -232,40 +301,58 @@
             <p>Conoce de cerca las tierras, las manos y las tradiciones detrás de cada taza de café en Work Café Santander.</p>
         </div>
         
-        <div class="gallery-grid">
-            <div class="gallery-card animate-up delay-1">
-                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=800&q=80" alt="Alta Mogiana, Brasil">
-                <div class="gallery-info">
-                    <span class="tag">Origen: Brasil</span>
-                    <h3>Alta Mogiana</h3>
-                    <p>Ubicada en el estado de São Paulo, Alta Mogiana es mundialmente reconocida por sus cafés de dulzor excepcional, cuerpo denso y agradables notas a chocolate y caramelo. Sus altitudes medias y clima privilegiado permiten un cultivo tradicional impecable.</p>
+        <div class="gallery-masonry">
+            <div class="gallery-item animate-up delay-1">
+                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&w=800&q=80" alt="Alta Mogiana, Brasil">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Brasil</span>
+                    <h3 class="gallery-title">Alta Mogiana</h3>
+                    <p class="gallery-text">Reconocida mundialmente por sus cafés de dulzor excepcional, notas a chocolate y clima privilegiado para un cultivo tradicional impecable.</p>
                 </div>
             </div>
 
-            <div class="gallery-card animate-up delay-2">
-                <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=800&q=80" alt="San Martín de Pangoa, Perú">
-                <div class="gallery-info">
-                    <span class="tag">Origen: Perú</span>
-                    <h3>San Martín de Pangoa</h3>
-                    <p>En plena selva central peruana, dedicadas comunidades cooperativas cultivan bajo sombra en un entorno de rica biodiversidad. Destacan por sus procesos lavados bien ejecutados, que resaltan una acidez brillante, notas cítricas y dulces a panela.</p>
+            <div class="gallery-item animate-up delay-2">
+                <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&w=800&q=80" alt="San Martín de Pangoa, Perú">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Perú</span>
+                    <h3 class="gallery-title">San Martín de Pangoa</h3>
+                    <p class="gallery-text">Cultivos cooperativos bajo sombra en la rica biodiversidad de la selva central. Destaca por acidez brillante y notas a panela.</p>
                 </div>
             </div>
 
-            <div class="gallery-card animate-up delay-3">
-                <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&w=800&q=80" alt="Proceso de Secado">
-                <div class="gallery-info">
-                    <span class="tag">Proceso</span>
-                    <h3>Secado Controlado</h3>
-                    <p>Los granos son cuidadosamente seleccionados y sometidos a un secado lento al sol, muchas veces en camas africanas o patios de cemento. Este método asegura una fermentación óptima, logrando un perfil de taza limpio, estructurado y de alta gama.</p>
+            <div class="gallery-item animate-up delay-3">
+                <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&w=800&q=80" alt="Proceso de Secado">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Proceso</span>
+                    <h3 class="gallery-title">Secado Lento</h3>
+                    <p class="gallery-text">Los granos se secan al sol pacientemente para asegurar una fermentación óptima, logrando un perfil limpio y de alta gama.</p>
                 </div>
             </div>
 
-            <div class="gallery-card animate-up delay-1">
-                <img src="https://images.unsplash.com/photo-1582213768560-6072124119da?auto=format&fit=crop&w=800&q=80" alt="Comunidad Productora">
-                <div class="gallery-info">
-                    <span class="tag">Comunidad</span>
-                    <h3>Nuestros Productores</h3>
-                    <p>Trabajamos en sinergia directa con familias caficultoras, fomentando el comercio justo, la trazabilidad y el desarrollo sostenible de las fincas. Su esfuerzo artesanal y dedicación generacional es el ingrediente principal de nuestra excelencia.</p>
+            <div class="gallery-item animate-up delay-1">
+                <img src="https://images.unsplash.com/photo-1582213768560-6072124119da?auto=format&w=800&q=80" alt="Familias Caficultoras">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Comunidad</span>
+                    <h3 class="gallery-title">Familias Productoras</h3>
+                    <p class="gallery-text">Fomentamos el comercio justo y sostenible. Su esfuerzo artesanal generacional es el ingrediente principal de nuestra excelencia.</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item animate-up delay-2">
+                <img src="https://images.unsplash.com/photo-1501747315-124a0eaca060?auto=format&w=800&q=80" alt="Cosecha">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Cosecha</span>
+                    <h3 class="gallery-title">Selección Manual</h3>
+                    <p class="gallery-text">Cereza a cereza. Garantizamos que únicamente los frutos en su punto máximo de maduración pasen al beneficio.</p>
+                </div>
+            </div>
+
+            <div class="gallery-item animate-up delay-3">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&w=800&q=80" alt="Tueste">
+                <div class="gallery-overlay">
+                    <span class="gallery-tag">Arte</span>
+                    <h3 class="gallery-title">Tostado de Especialidad</h3>
+                    <p class="gallery-text">Curvas de tueste diseñadas meticulosamente para revelar y potenciar la identidad intrínseca de cada lote.</p>
                 </div>
             </div>
         </div>
@@ -503,7 +590,7 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v62');
+        const cache = localStorage.getItem('santander_cafe_light_v63');
         const preloader = document.getElementById('preloader');
 
         const hideLoader = () => {
@@ -527,7 +614,7 @@
             
             const fresh = await res.json();
             try { render(fresh); } catch(e) {}
-            localStorage.setItem('santander_cafe_light_v62', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v63', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             
         } catch (e) {
