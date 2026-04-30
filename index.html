@@ -62,11 +62,9 @@
             padding: 0 4%; z-index: 9000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        
-        /* CORRECCIÓN: Restricción estricta del tamaño del logo en la barra superior */
         .top-navbar img { height: 28px; width: auto; max-width: 150px; object-fit: contain; }
         
-        .nav-menu { display: flex; gap: 30px; height: 100%; }
+        .nav-menu { display: flex; gap: 20px; height: 100%; }
         .nav-item {
             color: var(--s-white); font-family: 'SantanderHeadline', Arial, sans-serif;
             font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
@@ -96,12 +94,25 @@
             padding-top: 0;
         }
 
-        /* --- DASHBOARD --- */
+        /* --- GALERÍA DE ORÍGENES Y PROCESOS --- */
+        .gallery-wrap { width: 95%; max-width: 1200px; margin: 0 auto; padding: 4vh 0 8vh 0; }
+        .gallery-header { text-align: center; margin-bottom: 5vh; }
+        .gallery-header h1 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 2rem; text-transform: uppercase; margin-bottom: 10px; }
+        .gallery-header p { color: var(--s-grey-text); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+        
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .gallery-card { background: var(--s-white); border-radius: 6px; overflow: hidden; border: 1px solid var(--s-border); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .gallery-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+        .gallery-card img { width: 100%; height: 220px; object-fit: cover; display: block; border-bottom: 3px solid var(--s-red); }
+        .gallery-info { padding: 25px; }
+        .gallery-info .tag { display: inline-block; background: rgba(236, 0, 0, 0.1); color: var(--s-red); font-size: 0.65rem; font-weight: bold; padding: 4px 10px; border-radius: 3px; text-transform: uppercase; margin-bottom: 12px; }
+        .gallery-info h3 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 1.3rem; margin-bottom: 10px; }
+        .gallery-info p { font-size: 0.95rem; color: var(--s-grey-text); line-height: 1.6; }
+
+        /* --- DASHBOARD (FICHA TÉCNICA) --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 2vh 0; display: flex; flex-direction: column; gap: 2vh; min-height: calc(100vh - var(--nav-height)); justify-content: center; }
 
         .header-section { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 30px; }
-        
-        /* CORRECCIÓN: Contenedor estricto para el logo en la ficha técnica */
         .logo-box { width: 140px; display: flex; align-items: center; justify-content: center; }
         .logo-box img { max-width: 100%; max-height: 60px; object-fit: contain; filter: invert(1); transition: transform 0.3s ease; }
         .logo-box img:hover { transform: scale(1.05); }
@@ -150,16 +161,13 @@
         @media (max-width: 768px) {
             .top-navbar { padding: 0 15px; }
             .top-navbar img { height: 20px; max-width: 100px; }
-            .nav-menu { gap: 15px; }
-            .nav-item { font-size: 0.75rem; }
+            .nav-menu { gap: 10px; }
+            .nav-item { font-size: 0.7rem; }
             
             .dashboard-container { padding: 30px 15px 30px; gap: 30px; }
             .header-section { grid-template-columns: 1fr; text-align: center; gap: 20px; border-bottom: none; padding-bottom: 0; }
-            
-            /* CORRECCIÓN MÓVIL: Logo centrado y restringido */
             .logo-box { max-width: 140px; margin: 0 auto 10px; display: block; }
             .logo-box img { max-height: 50px; }
-            
             .score-box { justify-content: center; flex-direction: column; order: -1; margin-bottom: 10px; gap: 15px; }
             .score-info { text-align: center; }
             .main-content { display: flex; flex-direction: column; gap: 40px; }
@@ -173,7 +181,7 @@
         /* --- MODO EXPORTACIÓN PDF --- */
         body.pdf-export-mode .top-navbar { display: none !important; }
         body.pdf-export-mode .view-container { overflow: visible !important; height: auto !important; position: relative !important; padding-top: 0 !important; }
-        body.pdf-export-mode #landing-view { display: none !important; }
+        body.pdf-export-mode #landing-view, body.pdf-export-mode #galeria-view { display: none !important; } /* Ocultar Landing y Galería en PDF */
         body.pdf-export-mode .sync-led { display: none !important; }
         body.pdf-export-mode .dashboard-container { width: 1600px !important; max-width: 1600px !important; height: 1100px !important; padding: 60px !important; background-color: var(--s-white) !important; justify-content: flex-start !important; gap: 50px !important; margin: 0 !important; }
         body.pdf-export-mode .header-section { display: grid !important; grid-template-columns: 140px 1fr auto !important; text-align: left !important; gap: 30px !important; border-bottom: 1px solid var(--s-border) !important; padding-bottom: 2vh !important; }
@@ -206,11 +214,59 @@
     <img src="logo-WC-blanco.png" alt="Santander">
     <div class="nav-menu">
         <div class="nav-item active" onclick="switchView('landing', this)">Inicio</div>
+        <div class="nav-item" onclick="switchView('galeria', this)">Galería</div>
         <div class="nav-item" onclick="switchView('ficha', this)">Ficha Técnica</div>
     </div>
 </nav>
 
 <div id="landing-view" class="view-container active">
+</div>
+
+<div id="galeria-view" class="view-container">
+    <div class="gallery-wrap">
+        <div class="gallery-header animate-up delay-0">
+            <h1>Orígenes y Procesos</h1>
+            <p>Conoce de cerca las tierras, las manos y las tradiciones detrás de cada taza de café en Work Café Santander.</p>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-card animate-up delay-1">
+                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=800&q=80" alt="Alta Mogiana, Brasil">
+                <div class="gallery-info">
+                    <span class="tag">Origen: Brasil</span>
+                    <h3>Alta Mogiana</h3>
+                    <p>Ubicada en el estado de São Paulo, Alta Mogiana es mundialmente reconocida por sus cafés de dulzor excepcional, cuerpo denso y agradables notas a chocolate y caramelo. Sus altitudes medias y clima privilegiado permiten un cultivo tradicional impecable.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card animate-up delay-2">
+                <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=800&q=80" alt="San Martín de Pangoa, Perú">
+                <div class="gallery-info">
+                    <span class="tag">Origen: Perú</span>
+                    <h3>San Martín de Pangoa</h3>
+                    <p>En plena selva central peruana, dedicadas comunidades cooperativas cultivan bajo sombra en un entorno de rica biodiversidad. Destacan por sus procesos lavados bien ejecutados, que resaltan una acidez brillante, notas cítricas y dulces a panela.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card animate-up delay-3">
+                <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&w=800&q=80" alt="Proceso de Secado">
+                <div class="gallery-info">
+                    <span class="tag">Proceso</span>
+                    <h3>Secado Controlado</h3>
+                    <p>Los granos son cuidadosamente seleccionados y sometidos a un secado lento al sol, muchas veces en camas africanas o patios de cemento. Este método asegura una fermentación óptima, logrando un perfil de taza limpio, estructurado y de alta gama.</p>
+                </div>
+            </div>
+
+            <div class="gallery-card animate-up delay-1">
+                <img src="https://images.unsplash.com/photo-1582213768560-6072124119da?auto=format&fit=crop&w=800&q=80" alt="Comunidad Productora">
+                <div class="gallery-info">
+                    <span class="tag">Comunidad</span>
+                    <h3>Nuestros Productores</h3>
+                    <p>Trabajamos en sinergia directa con familias caficultoras, fomentando el comercio justo, la trazabilidad y el desarrollo sostenible de las fincas. Su esfuerzo artesanal y dedicación generacional es el ingrediente principal de nuestra excelencia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="ficha-view" class="view-container">
@@ -301,12 +357,13 @@
         document.getElementById(viewId + '-view').classList.add('active');
         if(navElement) navElement.classList.add('active');
         
+        // Disparar las animaciones de la sección que se acaba de abrir
+        const activeContainer = document.querySelector(`#${viewId}-view`);
+        activeContainer.classList.remove('loaded');
+        void activeContainer.offsetWidth; // Reflow
+        activeContainer.classList.add('loaded');
+
         if (viewId === 'ficha') {
-            const exportArea = document.getElementById('export-area');
-            exportArea.classList.remove('loaded');
-            void exportArea.offsetWidth; // trigger reflow
-            exportArea.classList.add('loaded');
-            
             radarChart.reset(); radarChart.update();
             pieChart.reset(); pieChart.update();
         }
@@ -444,13 +501,16 @@
     }
 
     async function bootstrap() {
-        const cache = localStorage.getItem('santander_cafe_light_v57');
+        const cache = localStorage.getItem('santander_cafe_light_v58');
         const preloader = document.getElementById('preloader');
 
         const hideLoader = () => {
             if(preloader) {
                 preloader.style.opacity = '0';
-                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+                setTimeout(() => { 
+                    preloader.style.display = 'none'; 
+                    document.getElementById('landing-view').classList.add('loaded');
+                }, 500);
             }
         };
 
@@ -465,7 +525,7 @@
             
             const fresh = await res.json();
             try { render(fresh); } catch(e) {}
-            localStorage.setItem('santander_cafe_light_v57', JSON.stringify(fresh));
+            localStorage.setItem('santander_cafe_light_v58', JSON.stringify(fresh));
             document.getElementById('sync-led').style.backgroundColor = 'var(--led-green)';
             
         } catch (e) {
