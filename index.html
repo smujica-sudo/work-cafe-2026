@@ -11,6 +11,8 @@
     
     <title>Work Café Santander | Ficha Técnica</title>
     
+    <link rel="icon" href="santander-favicon.ico" type="image/x-icon">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -87,14 +89,14 @@
         }
         .view-container.active { opacity: 1; pointer-events: all; z-index: 20; }
 
-        /* --- LANDING PAGE --- */
+        /* --- LANDING PAGE (landing_bg.jpg) --- */
         #landing-view {
             background: url('landing_bg.jpg') center center / cover no-repeat;
             background-attachment: fixed;
             padding-top: 0;
         }
 
-        /* --- NUEVA GALERÍA (ESTILO MASONRY / PURE IMAGE) --- */
+        /* --- GALERÍA VISUAL (MASONRY / PURE IMAGE) --- */
         .gallery-wrap { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 8vh 0; }
         .gallery-header { text-align: center; margin-bottom: 5vh; }
         .gallery-header h1 { font-family: 'SantanderHeadline'; color: var(--s-dark); font-size: 2rem; text-transform: uppercase; margin-bottom: 10px; }
@@ -113,7 +115,7 @@
             overflow: hidden;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: translateZ(0); /* Evita parpadeos en navegadores */
+            transform: translateZ(0); 
         }
         .gallery-item img {
             width: 100%;
@@ -165,23 +167,23 @@
         }
         .gallery-item:hover .gallery-text { transform: translateY(0); }
 
-        /* Adaptación a tablets y móviles para el Masonry */
+        /* Adaptación Masonry */
         @media (max-width: 1024px) { .gallery-masonry { column-count: 2; } }
         @media (max-width: 600px) { 
             .gallery-masonry { column-count: 1; } 
-            /* En móvil no hay hover, mostramos siempre la parte baja del overlay */
             .gallery-overlay {
                 opacity: 1;
                 background: linear-gradient(to top, rgba(20,20,20,0.95) 0%, rgba(20,20,20,0.2) 100%);
                 height: auto;
             }
-            .gallery-text { transform: translateY(0); display: none; /* Ocultamos texto largo en móvil para priorizar foto */ }
+            .gallery-text { transform: translateY(0); display: none; }
             .gallery-item:active .gallery-text { display: block; }
         }
 
         /* --- DASHBOARD (FICHA TÉCNICA) --- */
         .dashboard-container { width: 95%; max-width: 1400px; margin: 0 auto; padding: 4vh 0 2vh 0; display: flex; flex-direction: column; gap: 2vh; min-height: calc(100vh - var(--nav-height)); justify-content: center; }
 
+        /* CABECERA CON PROPORCIONES CORRECTAS (320px para el logo) */
         .header-section { display: grid; grid-template-columns: 320px 1fr auto; align-items: center; border-bottom: 1px solid var(--s-border); padding-bottom: 2vh; gap: 40px; }
         .logo-box { width: 100%; display: flex; align-items: center; justify-content: flex-start; }
         .logo-box img { width: 100%; height: auto; max-height: 140px; object-fit: contain; transition: transform 0.3s ease; }
@@ -283,7 +285,7 @@
 <div class="sync-led" id="sync-led" title="Estado de API"></div>
 
 <nav class="top-navbar">
-    <img src="logo-WC-blanco.png" alt="Santander">
+    <img src="logo-WC-official.png" alt="Santander">
     <div class="nav-menu">
         <div class="nav-item active" onclick="switchView('landing', this)">Inicio</div>
         <div class="nav-item" onclick="switchView('galeria', this)">Galería</div>
@@ -303,7 +305,7 @@
         
         <div class="gallery-masonry">
             <div class="gallery-item animate-up delay-1">
-                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&w=800&q=80" alt="Alta Mogiana, Brasil">
+                <img src="origen-brasil.jpg" alt="Alta Mogiana, Brasil">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Brasil</span>
                     <h3 class="gallery-title">Alta Mogiana</h3>
@@ -312,7 +314,7 @@
             </div>
 
             <div class="gallery-item animate-up delay-2">
-                <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&w=800&q=80" alt="San Martín de Pangoa, Perú">
+                <img src="origen-peru.jpg" alt="San Martín de Pangoa, Perú">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Perú</span>
                     <h3 class="gallery-title">San Martín de Pangoa</h3>
@@ -321,7 +323,7 @@
             </div>
 
             <div class="gallery-item animate-up delay-3">
-                <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&w=800&q=80" alt="Proceso de Secado">
+                <img src="proceso-secado.jpg" alt="Proceso de Secado">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Proceso</span>
                     <h3 class="gallery-title">Secado Lento</h3>
@@ -330,7 +332,7 @@
             </div>
 
             <div class="gallery-item animate-up delay-1">
-                <img src="https://images.unsplash.com/photo-1582213768560-6072124119da?auto=format&w=800&q=80" alt="Familias Caficultoras">
+                <img src="comunidad-productores.jpg" alt="Familias Caficultoras">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Comunidad</span>
                     <h3 class="gallery-title">Familias Productoras</h3>
@@ -339,7 +341,7 @@
             </div>
             
             <div class="gallery-item animate-up delay-2">
-                <img src="https://images.unsplash.com/photo-1501747315-124a0eaca060?auto=format&w=800&q=80" alt="Cosecha">
+                <img src="proceso-cosecha.jpg" alt="Cosecha">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Cosecha</span>
                     <h3 class="gallery-title">Selección Manual</h3>
@@ -348,11 +350,11 @@
             </div>
 
             <div class="gallery-item animate-up delay-3">
-                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&w=800&q=80" alt="Tueste">
+                <img src="arte-tueste.jpg" alt="Tueste">
                 <div class="gallery-overlay">
                     <span class="gallery-tag">Arte</span>
                     <h3 class="gallery-title">Tostado de Especialidad</h3>
-                    <p class="gallery-text">Curvas de tueste diseñadas meticulosamente para revelar y potenciar la identidad intrínseca de cada lote.</p>
+                    <p class="gallery-text">Curvas de tueste diseñadas meticulosamente para revelar y potenciar la identidad intrínrece de cada lote.</p>
                 </div>
             </div>
         </div>
@@ -362,7 +364,7 @@
 <div id="ficha-view" class="view-container">
     <div id="export-area" class="dashboard-container">
         <header class="header-section animate-up delay-0">
-            <div class="logo-box"><img src="logo-WC-blanco.png" alt="Santander Work Café"></div>
+            <div class="logo-box"><img src="logo-WC-official.png" alt="Santander Work Café"></div>
             
             <div class="profile-box">
                 <p class="review-text" id="ui-review-text">---</p>
